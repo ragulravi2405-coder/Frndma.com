@@ -5,6 +5,8 @@ import { BottomNav } from '@/components/BottomNav';
 import { AgeGateModal } from '@/components/AgeGateModal';
 import { WhatsAppSupport } from '@/components/WhatsAppSupport';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Frndma — Real People • Genuine Connections ❤️ (18+ Dating Platform)',
   description:
