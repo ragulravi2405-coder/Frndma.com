@@ -19,6 +19,9 @@ import supportRoutes from './routes/supportRoutes';
 
 const app: Application = express();
 
+// Trust reverse proxy (for Render, Heroku, Vercel, Docker load balancers)
+app.set('trust proxy', 1);
+
 // Security Middlewares
 app.use(
   helmet({
@@ -27,29 +30,17 @@ app.use(
   })
 );
 
-app.use(
-  cors({
-    origin: (requestOrigin, callback) => {
-      // Allow requests with no origin (like mobile apps, curl, server-to-server)
-      if (!requestOrigin) return callback(null, true);
-      // Allow localhost, client URL, or any vercel.app / onrender.com preview
-      if (
-        requestOrigin === ENV.CLIENT_URL ||
-        requestOrigin.includes('localhost') ||
-        requestOrigin.includes('127.0.0.1') ||
-        requestOrigin.endsWith('.vercel.app') ||
-        requestOrigin.endsWith('.onrender.com') ||
-        requestOrigin.includes('frndma')
-      ) {
-        return callback(null, true);
-      }
-      return callback(null, true); // Permissive for production deployment
-    },
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
-  })
-);
+const corsOptions: cors.CorsOptions = {
+  origin: (requestOrigin, callback) => {
+    // Permissive for mobile apps, localhost, previews, and production
+    callback(null, true);
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 app.use(cookieParser(ENV.COOKIE_SECRET));
 app.use(express.json({ limit: '10mb' }));
