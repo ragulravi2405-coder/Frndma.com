@@ -29,7 +29,22 @@ app.use(
 
 app.use(
   cors({
-    origin: [ENV.CLIENT_URL, 'http://localhost:3000', 'http://127.0.0.1:3000'],
+    origin: (requestOrigin, callback) => {
+      // Allow requests with no origin (like mobile apps, curl, server-to-server)
+      if (!requestOrigin) return callback(null, true);
+      // Allow localhost, client URL, or any vercel.app / onrender.com preview
+      if (
+        requestOrigin === ENV.CLIENT_URL ||
+        requestOrigin.includes('localhost') ||
+        requestOrigin.includes('127.0.0.1') ||
+        requestOrigin.endsWith('.vercel.app') ||
+        requestOrigin.endsWith('.onrender.com') ||
+        requestOrigin.includes('frndma')
+      ) {
+        return callback(null, true);
+      }
+      return callback(null, true); // Permissive for production deployment
+    },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
