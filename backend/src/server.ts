@@ -29,7 +29,7 @@ const startServer = async () => {
     // Auto-seed default plans and configuration
     await seedDatabase();
 
-    server.listen(ENV.PORT, () => {
+    server.listen(ENV.PORT, '0.0.0.0', () => {
       console.log(`===============================================`);
       console.log(`❤️  Frndma API & Socket Server running on port ${ENV.PORT}`);
       console.log(`🚀 Mode: ${ENV.NODE_ENV}`);
