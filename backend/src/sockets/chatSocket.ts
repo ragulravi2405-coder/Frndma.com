@@ -5,7 +5,7 @@ import { Message } from '../models/Message';
 import { Match } from '../models/Match';
 import { User } from '../models/User';
 
-interface AuthSocket extends Socket {
+export interface AuthSocket extends Socket {
   userId?: string;
   username?: string;
 }
