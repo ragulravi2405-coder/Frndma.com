@@ -270,14 +270,14 @@ export default function PublicProfilePage() {
             ) : (
               <div>
                 <p className="text-xs text-zinc-300 mb-4 leading-relaxed">
-                  To view verified phone number and direct WhatsApp link for <strong>{profile.displayName}</strong>, complete the secure one-time unlock payment via Razorpay.
+                  To view verified phone number and direct WhatsApp link for <strong>{profile.displayName}</strong>, complete the secure one-time unlock payment (₹399) via UPI / Scanner.
                 </p>
                 <button
                   onClick={() => setShowPaymentModal(true)}
                   className="w-full py-3 px-6 rounded-2xl text-xs font-bold text-white bg-gradient-to-r from-primary to-rose-600 hover:from-primary-hover hover:to-rose-500 shadow-glow-sm transition-all flex items-center justify-center gap-2"
                 >
                   <Unlock className="w-4 h-4" />
-                  <span>Unlock Contact (₹399 via Razorpay)</span>
+                  <span>Unlock Contact (₹399 via UPI)</span>
                 </button>
               </div>
             )}

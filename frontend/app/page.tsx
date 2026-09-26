@@ -56,7 +56,7 @@ export default function HomePage() {
     {
       num: '3',
       title: 'Unlock Direct Contact',
-      desc: 'Instant, secure contact unlock via Razorpay (Phone & WhatsApp).',
+      desc: 'Instant, secure contact unlock via UPI & Scanner (Phone & WhatsApp).',
       icon: Unlock,
     },
     {
@@ -378,7 +378,7 @@ export default function HomePage() {
                   {
                     question: 'How do I unlock a contact on Frndma?',
                     answer:
-                      'Simply click on any profile and choose "Unlock Contact Details". Complete the payment of ₹399 via Razorpay (UPI, Google Pay, Cards), and the verified phone number and direct WhatsApp button will be revealed immediately.',
+                      'Simply click on any profile and choose "Unlock Contact Details". Complete the payment of ₹399 via UPI (Google Pay, PhonePe, Paytm, or QR Scanner), and the verified phone number and direct WhatsApp button will be revealed immediately.',
                   },
                   {
                     question: 'Can I see the contact details again after unlocking?',

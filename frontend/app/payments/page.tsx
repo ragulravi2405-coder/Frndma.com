@@ -100,7 +100,7 @@ export default function PaymentsHistoryPage() {
         <div>
           <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
             <CreditCard className="w-5 h-5 text-primary" />
-            <span>Razorpay Transaction History</span>
+            <span>Payment & Transaction History</span>
           </h2>
 
           {payments.length > 0 ? (
@@ -115,7 +115,7 @@ export default function PaymentsHistoryPage() {
                       {p.type.replace('_', ' ')}
                     </span>
                     <span className="text-[11px] text-zinc-500 font-mono">
-                      Order: {p.razorpayOrderId}
+                      Ref: {p.notes?.utr ? `UTR: ${p.notes.utr}` : p.razorpayOrderId}
                     </span>
                   </div>
 

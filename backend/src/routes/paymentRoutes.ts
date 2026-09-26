@@ -2,6 +2,7 @@ import { Router } from 'express';
 import {
   createOrder,
   verifyPayment,
+  verifyUpiPayment,
   handleWebhook,
   getPaymentHistory,
 } from '../controllers/paymentController';
@@ -11,6 +12,7 @@ const router = Router();
 
 router.post('/create-order', authenticate, createOrder);
 router.post('/verify', authenticate, verifyPayment);
+router.post('/verify-upi', authenticate, verifyUpiPayment);
 router.post('/webhook', handleWebhook);
 router.get('/history', authenticate, getPaymentHistory);
 

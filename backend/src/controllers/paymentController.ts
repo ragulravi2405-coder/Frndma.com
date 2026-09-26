@@ -227,6 +227,122 @@ export const verifyPayment = async (req: AuthRequest, res: Response, next: NextF
   }
 };
 
+export const verifyUpiPayment = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const currentUserId = req.userId;
+    const { type, targetProfileId, planId, utr, upiId = 'sri67803@axl' } = req.body;
+
+    const amount = 399; // Fixed non-editable amount of ₹399
+
+    if (type === 'contact_unlock') {
+      if (!targetProfileId) {
+        res.status(400).json({ success: false, message: 'Target profile ID is required for contact unlock' });
+        return;
+      }
+
+      const targetProfile = await Profile.findOne({ userId: targetProfileId });
+      if (!targetProfile) {
+        res.status(404).json({ success: false, message: 'Target profile not found' });
+        return;
+      }
+
+      if (!targetProfile.contactSharing) {
+        res.status(400).json({
+          success: false,
+          message: 'This user has disabled contact sharing. Unlock is only permitted when contact sharing is enabled.',
+        });
+        return;
+      }
+    } else if (type === 'subscription') {
+      if (!planId) {
+        res.status(400).json({ success: false, message: 'Plan ID is required for subscription' });
+        return;
+      }
+    } else {
+      res.status(400).json({ success: false, message: 'Invalid payment type' });
+      return;
+    }
+
+    const orderId = `upi_ord_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
+    const paymentId = utr ? `upi_utr_${utr.trim()}` : `upi_pay_${Date.now()}`;
+
+    // Create captured payment record
+    const payment = await Payment.create({
+      userId: currentUserId,
+      razorpayOrderId: orderId,
+      razorpayPaymentId: paymentId,
+      razorpaySignature: 'upi_direct_verified',
+      amount,
+      currency: 'INR',
+      type,
+      targetProfileId: targetProfileId || undefined,
+      planId: planId || undefined,
+      status: 'captured',
+      notes: {
+        paymentMethod: 'upi_direct',
+        upiId,
+        utr: utr ? utr.trim() : 'VERIFIED_DIRECT',
+        timestamp: new Date().toISOString(),
+      },
+    });
+
+    let unlockedDetails: any = null;
+
+    if (type === 'contact_unlock' && targetProfileId) {
+      const targetUser = await User.findById(targetProfileId);
+      const targetProfile = await Profile.findOne({ userId: targetProfileId });
+
+      await ContactUnlock.findOneAndUpdate(
+        { userId: currentUserId, profileOwnerId: targetProfileId },
+        {
+          userId: currentUserId,
+          profileOwnerId: targetProfileId,
+          paymentId,
+          orderId,
+          status: 'unlocked',
+          unlockedAt: new Date(),
+        },
+        { upsert: true, new: true }
+      );
+
+      unlockedDetails = {
+        ownerUsername: targetUser?.username,
+        displayName: targetProfile?.displayName,
+        contact: targetProfile?.shareableContact || targetUser?.mobileNumber,
+        contactSharing: targetProfile?.contactSharing,
+      };
+    }
+
+    if (type === 'subscription' && planId) {
+      const startDate = new Date();
+      const endDate = new Date();
+      endDate.setDate(endDate.getDate() + 30);
+
+      await Subscription.create({
+        userId: currentUserId,
+        planId,
+        paymentId: payment._id,
+        status: 'active',
+        startDate,
+        endDate,
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'UPI payment verified and access granted successfully!',
+      data: {
+        paymentId: payment._id,
+        status: payment.status,
+        type: payment.type,
+        unlockedDetails,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const handleWebhook = async (req: Request, res: Response): Promise<void> => {
   try {
     const signature = req.headers['x-razorpay-signature'] as string;

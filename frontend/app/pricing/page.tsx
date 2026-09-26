@@ -153,7 +153,7 @@ export default function PricingPage() {
           <div>
             <h4 className="text-base font-bold text-white">Bank-Grade 256-Bit Payment Security</h4>
             <p className="text-xs text-zinc-400 mt-1">
-              All transactions are encrypted and processed through <strong>Razorpay</strong>. We never store payment credentials.
+              All transactions are secured via instant UPI QR, PhonePe, Google Pay, and Cards.
             </p>
           </div>
         </div>
