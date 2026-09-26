@@ -378,7 +378,7 @@ export const forgotPassword = async (req: Request, res: Response): Promise<void>
   const { mobileNumber } = req.body;
   res.status(200).json({
     success: true,
-    message: `If an account with mobile ${mobileNumber} exists, password reset guidance has been sent. You can also reach our WhatsApp support at ${ENV.SUPPORT_WHATSAPP}.`,
+    message: `If an account with mobile ${mobileNumber} exists, password reset guidance has been sent. You can also reach our support via email at ${ENV.SUPPORT_EMAIL || 'catman2kai@gmail.com'}.`,
   });
 };
 

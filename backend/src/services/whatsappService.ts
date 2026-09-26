@@ -31,22 +31,25 @@ export const formatPaymentWhatsAppMessage = (data: PaymentAlertData): string => 
 };
 
 /**
- * Send WhatsApp notification to Admin (9087923641)
- * Supports WhatsApp Cloud API / webhook / direct api, with console & link fallback
+ * Send notification alert to Admin (catman2kai@gmail.com)
+ * Supports WhatsApp Cloud API / webhook / direct api, with console & email fallback
  */
 export const sendAdminWhatsAppPaymentAlert = async (data: PaymentAlertData): Promise<{ success: boolean; message: string; waLink: string }> => {
-  const adminNumber = ENV.SUPPORT_WHATSAPP || '9087923641';
+  const adminEmail = ENV.SUPPORT_EMAIL || 'catman2kai@gmail.com';
+  const adminNumber = ENV.SUPPORT_WHATSAPP || '';
   const cleanAdminNumber = adminNumber.replace(/\D/g, '').replace(/^91/, '');
-  const fullAdminNumber = `91${cleanAdminNumber}`;
+  const fullAdminNumber = cleanAdminNumber ? `91${cleanAdminNumber}` : '';
 
   const messageText = formatPaymentWhatsAppMessage(data);
-  const waLink = `https://api.whatsapp.com/send?phone=${fullAdminNumber}&text=${encodeURIComponent(messageText)}`;
+  const waLink = fullAdminNumber
+    ? `https://api.whatsapp.com/send?phone=${fullAdminNumber}&text=${encodeURIComponent(messageText)}`
+    : `mailto:${adminEmail}?subject=Frndma%20Payment%20Notification`;
 
   console.log('\n======================================================');
-  console.log('📲 [WHATSAPP PAYMENT NOTIFICATION TO ADMIN 9087923641]');
+  console.log(`📲 [PAYMENT NOTIFICATION TO ADMIN: ${adminEmail}]`);
   console.log('======================================================');
   console.log(messageText);
-  console.log('🔗 Direct WhatsApp Chat Link:', waLink);
+  console.log('🔗 Direct Notification Link:', waLink);
   console.log('======================================================\n');
 
   // If a 3rd party WhatsApp API gateway is configured in environment

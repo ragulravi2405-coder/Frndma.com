@@ -3,7 +3,6 @@ import './globals.css';
 import { Navbar } from '@/components/Navbar';
 import { BottomNav } from '@/components/BottomNav';
 import { AgeGateModal } from '@/components/AgeGateModal';
-import { WhatsAppSupport } from '@/components/WhatsAppSupport';
 
 export const dynamic = 'force-dynamic';
 
@@ -69,7 +68,6 @@ export default function RootLayout({
           <Navbar />
           <main className="flex-1 pb-20 md:pb-12 relative">{children}</main>
           <BottomNav />
-          <WhatsAppSupport variant="float" />
         </div>
       </body>
     </html>

@@ -503,7 +503,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                     </button>
                     <p className="text-[11px] text-zinc-400 text-center flex items-center justify-center gap-1.5">
                       <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                      <span>Admin (9087923641) receives instant WhatsApp notification upon payment</span>
+                      <span>Instant verification and contact unlock upon payment</span>
                     </p>
                   </div>
                 </div>
@@ -550,7 +550,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                     </button>
                     <p className="text-[11px] text-zinc-400 text-center flex items-center justify-center gap-1.5">
                       <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                      <span>Admin (9087923641) receives instant WhatsApp notification upon payment</span>
+                      <span>Instant verification and contact unlock upon payment</span>
                     </p>
                   </div>
                 </div>
@@ -570,7 +570,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
               </p>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[11px] font-semibold mb-5">
                 <CheckCircle2 className="w-3.5 h-3.5" />
-                <span>WhatsApp notification sent to Admin (9087923641)</span>
+                <span>Contact Unlocked & Verified</span>
               </div>
 
               {unlockedData && (

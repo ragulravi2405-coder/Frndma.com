@@ -34,7 +34,7 @@ export default function RefundPolicyPage() {
         <section>
           <h2 className="text-lg font-bold text-white mb-2">3. Technical Errors & Double Charges</h2>
           <p>
-            In the event of a duplicate charge or technical failure where payment was captured but access was not provisioned, please contact our WhatsApp support team at <strong>9087923641</strong> with your Razorpay payment ID. Legitimate claims will be resolved and refunded within 5-7 business days.
+            In the event of a duplicate charge or technical failure where payment was captured but access was not provisioned, legitimate claims with a valid Razorpay payment ID will be reviewed and refunded within 5-7 business days.
           </p>
         </section>
       </div>

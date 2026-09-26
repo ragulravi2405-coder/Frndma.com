@@ -33,8 +33,8 @@ services:
         sync: false
       - key: CLOUDINARY_API_SECRET
         sync: false
-      - key: SUPPORT_WHATSAPP
-        value: "9087923641"
+      - key: SUPPORT_EMAIL
+        value: "catman2kai@gmail.com"
       - key: ADMIN_USERNAME
         value: rahul2005
       - key: ADMIN_PASSWORD

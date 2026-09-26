@@ -213,7 +213,7 @@ export const verifyPayment = async (req: AuthRequest, res: Response, next: NextF
       });
     }
 
-    // Automatically send WhatsApp notification to Admin (9087923641)
+    // Automatically send WhatsApp notification to Admin (catman2kai@gmail.com)
     const user = await User.findById(currentUserId);
     const userProfile = await Profile.findOne({ userId: currentUserId });
     const userName = userProfile?.displayName || user?.username || 'Frndma Member';
@@ -350,7 +350,7 @@ export const verifyUpiPayment = async (req: AuthRequest, res: Response, next: Ne
       });
     }
 
-    // Automatically notify Admin (9087923641) on WhatsApp
+    // Automatically notify Admin (catman2kai@gmail.com) on WhatsApp
     const user = await User.findById(currentUserId);
     const userProfile = await Profile.findOne({ userId: currentUserId });
     const userName = userProfile?.displayName || user?.username || 'Frndma Member';
@@ -448,7 +448,7 @@ export const handleWebhook = async (req: Request, res: Response): Promise<void> 
         );
       }
 
-      // Automatically dispatch WhatsApp notification to Admin (9087923641)
+      // Automatically dispatch WhatsApp notification to Admin (catman2kai@gmail.com)
       await sendAdminWhatsAppPaymentAlert({
         userName,
         userMobile,
@@ -468,7 +468,7 @@ export const handleWebhook = async (req: Request, res: Response): Promise<void> 
 };
 
 /**
- * Direct success handler endpoint to automatically record payment & dispatch WhatsApp notification to Admin (9087923641)
+ * Direct success handler endpoint to automatically record payment & dispatch WhatsApp notification to Admin (catman2kai@gmail.com)
  */
 export const notifyPaymentSuccess = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -545,7 +545,7 @@ export const notifyPaymentSuccess = async (req: AuthRequest, res: Response, next
       },
     });
 
-    // Send WhatsApp notification to Admin (9087923641)
+    // Send WhatsApp notification to Admin (catman2kai@gmail.com)
     const waResult = await sendAdminWhatsAppPaymentAlert({
       userName,
       userMobile,

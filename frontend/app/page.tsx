@@ -11,12 +11,10 @@ import {
   ShieldCheck,
   ChevronDown,
   ArrowRight,
-  PhoneCall,
   Eye,
   Heart,
   UserCheck,
 } from 'lucide-react';
-import { WhatsAppSupport } from '@/components/WhatsAppSupport';
 import { fetchApi } from '@/lib/api';
 
 export default function HomePage() {
@@ -63,7 +61,7 @@ export default function HomePage() {
       num: '4',
       title: 'Connect Directly',
       desc: 'Reach out straight on WhatsApp or phone call without middleman delays.',
-      icon: PhoneCall,
+      icon: Heart,
     },
   ];
 
@@ -114,16 +112,6 @@ export default function HomePage() {
                   <span>Browse Girls Profiles</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
-
-                <a
-                  href="https://wa.me/919087923641?text=Hello%20Frndma%20Support"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-8 py-4 rounded-full text-base font-semibold text-zinc-200 hover:text-white glass-card hover:bg-white/10 transition-all flex items-center justify-center gap-2 border border-emerald-500/30"
-                >
-                  <PhoneCall className="w-4 h-4 text-emerald-400" />
-                  <span>WhatsApp Help</span>
-                </a>
               </div>
 
               {/* Social Proof */}
@@ -354,12 +342,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===================== DIRECT WHATSAPP SUPPORT ===================== */}
-      <section className="py-16 bg-black/40 backdrop-blur-md border-t border-white/10">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <WhatsAppSupport />
-        </div>
-      </section>
 
       {/* ===================== FAQS ===================== */}
       <section className="py-20 bg-black/30 backdrop-blur-md border-t border-white/10">
@@ -389,11 +371,6 @@ export default function HomePage() {
                     question: 'Is my exact home address ever shown?',
                     answer:
                       'Never. We only display broad city indicators. Exact home addresses and sensitive private IDs are never collected or shown.',
-                  },
-                  {
-                    question: 'How do I get help or report an issue?',
-                    answer:
-                      'Our dedicated WhatsApp support hotline is available 24/7 at 9087923641.',
                   },
                 ]
             ).map((faq, index) => (
@@ -426,7 +403,7 @@ export default function HomePage() {
       {/* ===================== FOOTER ===================== */}
       <footer className="bg-black/60 backdrop-blur-xl border-t border-white/10 py-12 text-zinc-400 text-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
             <div className="space-y-3">
               <div className="flex items-center gap-2">
                 <img src="/logo.png?v=6" alt="Frndma Logo" className="w-8 h-8 rounded-xl object-contain" />
@@ -459,22 +436,6 @@ export default function HomePage() {
                 <li><Link href="/safety" className="hover:text-white">Safety Tips</Link></li>
                 <li><Link href="/refund-policy" className="hover:text-white">Refund Policy</Link></li>
               </ul>
-            </div>
-
-            <div>
-              <h4 className="text-white font-semibold mb-3">Direct Support</h4>
-              <p className="text-zinc-500 mb-3">
-                Need immediate help? Reach our dedicated support team on WhatsApp.
-              </p>
-              <a
-                href="https://wa.me/919087923641?text=Hello%20Frndma%20Support"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-emerald-600/20 text-emerald-400 border border-emerald-500/30 text-xs font-semibold hover:bg-emerald-600/30 transition-colors"
-              >
-                <PhoneCall className="w-3.5 h-3.5" />
-                <span>9087923641</span>
-              </a>
             </div>
           </div>
 

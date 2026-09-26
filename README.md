@@ -1,7 +1,6 @@
 # Frndma — Modern 18+ Dating & Social Connection Platform ❤️
 
-> **Real People • Genuine Connections ❤️**  
-> Dedicated Official WhatsApp Support: **9087923641**
+> **Real People • Genuine Connections ❤️**
 
 ---
 
@@ -73,7 +72,7 @@ frndma/
     │   ├── safety/          # /safety
     │   ├── community-guidelines/
     │   └── refund-policy/
-    ├── components/          # Logo, Navbar, BottomNav, MatchModal, PaymentModal, WhatsAppSupport, etc.
+    ├── components/          # Logo, Navbar, BottomNav, MatchModal, PaymentModal, etc.
     ├── lib/                 # API client, Socket instance, utilities
     ├── types/               # TypeScript definitions
     └── package.json
@@ -114,4 +113,3 @@ npm run dev
 2. **Consent-Based Contact Unlock:** Phone number is NEVER exposed without explicit toggle by the profile owner.
 3. **No Exact Addresses:** Only city/state locations are stored and displayed.
 4. **Backend Payment Verification:** Payments verified through cryptographic HMAC SHA-256 signatures before provisioning unlocks.
-5. **Customer Support:** Verified WhatsApp assistance directly at **9087923641**.

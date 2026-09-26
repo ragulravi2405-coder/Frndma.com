@@ -37,13 +37,6 @@ export default function TermsPage() {
             You are responsible for maintaining the confidentiality of your login credentials. Do not share your password with anyone.
           </p>
         </section>
-
-        <section>
-          <h2 className="text-lg font-bold text-white mb-2">4. Support Contact</h2>
-          <p>
-            For official inquiries, contact Frndma Support via WhatsApp at <strong>9087923641</strong>.
-          </p>
-        </section>
       </div>
     </div>
   );

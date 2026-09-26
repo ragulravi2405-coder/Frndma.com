@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Phone, ArrowLeft, MessageSquare, CheckCircle2 } from 'lucide-react';
+import { Phone, ArrowLeft, CheckCircle2 } from 'lucide-react';
 import { fetchApi } from '@/lib/api';
 
 export default function ForgotPasswordPage() {
@@ -36,7 +36,7 @@ export default function ForgotPasswordPage() {
 
         <h2 className="text-2xl font-bold font-heading mb-2">Reset Password</h2>
         <p className="text-xs text-zinc-400 mb-6">
-          Enter your registered mobile number or contact WhatsApp support directly.
+          Enter your registered mobile number to reset your password.
         </p>
 
         {submitted ? (
@@ -45,16 +45,6 @@ export default function ForgotPasswordPage() {
               <CheckCircle2 className="w-5 h-5 shrink-0 text-emerald-400" />
               <span>{message}</span>
             </div>
-
-            <a
-              href="https://wa.me/919087923641?text=Hello%20Frndma%20Support%2C%20I%20need%20to%20reset%20my%20password."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center justify-center gap-2"
-            >
-              <MessageSquare className="w-4 h-4" />
-              <span>Connect on WhatsApp for Password Reset</span>
-            </a>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">

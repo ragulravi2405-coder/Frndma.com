@@ -59,7 +59,7 @@ export default function PricingPage() {
             '5 Contact Unlock credits included',
             'Read receipts & Message highlights',
             'VIP Profile Badge & Spotlight',
-            'Dedicated WhatsApp VIP Support',
+            'Exclusive VIP Profile Spotlight & Status',
           ],
           isPopular: false,
         },

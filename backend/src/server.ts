@@ -34,7 +34,7 @@ const startServer = async () => {
       console.log(`❤️  Frndma API & Socket Server running on port ${ENV.PORT}`);
       console.log(`🚀 Mode: ${ENV.NODE_ENV}`);
       console.log(`🌐 Allowed Client URL: ${ENV.CLIENT_URL}`);
-      console.log(`📞 Support WhatsApp: ${ENV.SUPPORT_WHATSAPP}`);
+      console.log(`📧 Support Email: ${ENV.SUPPORT_EMAIL}`);
       console.log(`===============================================`);
     });
   } catch (error) {

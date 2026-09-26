@@ -8,7 +8,6 @@ import {
   Compass,
   Unlock,
   LogOut,
-  PhoneCall,
   Menu,
   X,
   User,
@@ -75,19 +74,6 @@ export const Navbar: React.FC = () => {
 
         {/* Right: Actions / Auth */}
         <div className="hidden md:flex items-center gap-4">
-          {/* Quick WhatsApp Support Hotline */}
-          <a
-            href="https://wa.me/919087923641?text=Hello%20Frndma%20Support"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-medium text-emerald-400 bg-emerald-950/40 border border-emerald-500/20 hover:bg-emerald-900/40 transition-colors"
-            title="Chat with official WhatsApp Support"
-          >
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-            <PhoneCall className="w-3.5 h-3.5" />
-            <span>Support: 9087923641</span>
-          </a>
-
           {currentUser ? (
             <div className="flex items-center gap-3">
               <NextLink
@@ -152,15 +138,6 @@ export const Navbar: React.FC = () => {
             </NextLink>
           ))}
           <div className="pt-3 border-t border-white/10 flex flex-col gap-2">
-            <a
-              href="https://wa.me/919087923641?text=Hello%20Frndma%20Support"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="py-2.5 px-4 rounded-xl text-xs font-medium text-emerald-400 bg-emerald-950/40 border border-emerald-500/20 flex items-center justify-center gap-2"
-            >
-              <PhoneCall className="w-3.5 h-3.5" />
-              <span>WhatsApp Support: 9087923641</span>
-            </a>
             {!currentUser ? (
               <div className="grid grid-cols-2 gap-2 mt-2">
                 <NextLink

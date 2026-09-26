@@ -44,13 +44,6 @@ export default function PrivacyPolicyPage() {
             All payment transactions are handled through our certified payment gateway partner, <strong>Razorpay</strong>. Frndma does not store or process your credit/debit card numbers, UPI PINs, or bank passwords.
           </p>
         </section>
-
-        <section>
-          <h2 className="text-lg font-bold text-white mb-2">5. Dedicated Support Inquiries</h2>
-          <p>
-            For privacy requests, data deletion, or questions, you can reach out directly to our official WhatsApp support channel at <strong>9087923641</strong>.
-          </p>
-        </section>
       </div>
     </div>
   );
