@@ -36,11 +36,20 @@ export async function fetchApi<T = any>(
       ? `${baseUrl.replace(/\/api$/, '')}${endpoint}`
       : `${baseUrl}${endpoint.startsWith('/') ? '' : '/'}${endpoint}`;
 
+    const authHeaders: Record<string, string> = {};
+    if (typeof window !== 'undefined') {
+      const storedToken = localStorage.getItem('frndma_token');
+      if (storedToken) {
+        authHeaders['Authorization'] = `Bearer ${storedToken}`;
+      }
+    }
+
     const response = await fetch(url, {
       ...options,
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
+        ...authHeaders,
         ...(options.headers || {}),
       },
     });
@@ -56,7 +65,13 @@ export async function fetchApi<T = any>(
         message: text || `Server returned status ${response.status}`,
       };
     }
+
+    if (data && typeof data === 'object') {
+      data.status = response.status;
+    }
+
     return data;
+
   } catch (error) {
     console.error(`API Fetch Error [${endpoint}]:`, error);
     const isLocal =

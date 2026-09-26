@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ShieldCheck,
@@ -10,23 +10,15 @@ import {
   AlertCircle,
   X,
   CreditCard,
-  QrCode,
-  Smartphone,
-  Copy,
-  Check,
   ExternalLink,
   MessageCircle,
   Phone,
   RefreshCw,
+  ChevronDown,
+  ChevronUp,
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { fetchApi } from '@/lib/api';
-
-declare global {
-  interface Window {
-    Razorpay: any;
-  }
-}
 
 interface PaymentModalProps {
   isOpen: boolean;
@@ -40,10 +32,8 @@ interface PaymentModalProps {
   onSuccess?: (details: any) => void;
 }
 
-const UPI_ID = 'sri67803@axl';
 const LOCKED_AMOUNT = 399; // Fixed non-editable amount of ₹399
-const PAYEE_NAME = 'Frndma';
-const RAZORPAY_PAYMENT_LINK = 'https://rzp.io/rzp/GWx1fBU';
+const RAZORPAY_PAYMENT_LINK = 'https://razorpay.me/@ravirahul601';
 
 export const PaymentModal: React.FC<PaymentModalProps> = ({
   isOpen,
@@ -53,74 +43,84 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
   targetProfileName,
   planId,
   planName,
-  amount = LOCKED_AMOUNT,
   onSuccess,
 }) => {
-  // Always lock amount to 399 for contact unlock / standard tier as requested
   const payableAmount = LOCKED_AMOUNT;
 
-  const [activeTab, setActiveTab] = useState<'upi' | 'razorpay'>('upi');
-  const [copiedUpi, setCopiedUpi] = useState(false);
-  const [utrNumber, setUtrNumber] = useState('');
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
   const [unlockedData, setUnlockedData] = useState<any>(null);
 
+  // Auto-checking state
+  const [hasOpenedLink, setHasOpenedLink] = useState(false);
+  const [autoChecking, setAutoChecking] = useState(false);
+  const [showAdvanced, setShowAdvanced] = useState(false);
+
+  // Phone / Payment ID for matching
+  const [paymentPhone, setPaymentPhone] = useState(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const u = JSON.parse(localStorage.getItem('frndma_user') || '{}');
+        return u.mobileNumber || '';
+      } catch {
+        return '';
+      }
+    }
+    return '';
+  });
+  const [paymentIdInput, setPaymentIdInput] = useState('');
+
+  // Auto-poll to detect payment as soon as user pays on razorpay.me/@ravirahul601
+  useEffect(() => {
+    let interval: any = null;
+    if (autoChecking && isOpen && status === 'idle' && targetProfileId) {
+      interval = setInterval(async () => {
+        const ok = await checkPaymentVerification(true);
+        if (ok) {
+          clearInterval(interval);
+        }
+      }, 4000);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [autoChecking, isOpen, status, targetProfileId, paymentPhone, paymentIdInput]);
+
   if (!isOpen) return null;
 
-  // UPI Intent URL with pre-filled amount locked to 399
-  const transactionNote = encodeURIComponent(
-    type === 'contact_unlock'
-      ? `Frndma Contact Unlock ${targetProfileName || ''}`
-      : `Frndma Upgrade ${planName || ''}`
-  );
-  const standardUpiUrl = `upi://pay?pa=${UPI_ID}&pn=${encodeURIComponent(PAYEE_NAME)}&am=${payableAmount}&cu=INR&tn=${transactionNote}`;
-
-  const copyUpiId = () => {
-    navigator.clipboard.writeText(UPI_ID);
-    setCopiedUpi(true);
-    setTimeout(() => setCopiedUpi(false), 2500);
+  const handleOpenPaymentLink = () => {
+    window.open(RAZORPAY_PAYMENT_LINK, '_blank');
+    setHasOpenedLink(true);
+    setAutoChecking(true);
+    setErrorMessage('');
   };
 
-  const handleDirectUpiPay = (appProtocol?: string) => {
-    let targetUrl = standardUpiUrl;
-    if (appProtocol === 'phonepe') {
-      targetUrl = `phonepe://pay?pa=${UPI_ID}&pn=${encodeURIComponent(PAYEE_NAME)}&am=${payableAmount}&cu=INR&tn=${transactionNote}`;
-    } else if (appProtocol === 'gpay') {
-      targetUrl = `gpay://upi/pay?pa=${UPI_ID}&pn=${encodeURIComponent(PAYEE_NAME)}&am=${payableAmount}&cu=INR&tn=${transactionNote}`;
-    } else if (appProtocol === 'paytm') {
-      targetUrl = `paytmmp://pay?pa=${UPI_ID}&pn=${encodeURIComponent(PAYEE_NAME)}&am=${payableAmount}&cu=INR&tn=${transactionNote}`;
-    }
-
-    // Attempt to open deep link
-    window.location.href = targetUrl;
-  };
-
-  const handleVerifyUpiPayment = async () => {
+  const checkPaymentVerification = async (silent = false): Promise<boolean> => {
     try {
-      setLoading(true);
-      setErrorMessage('');
+      if (!silent) {
+        setLoading(true);
+        setErrorMessage('');
+      }
 
-      const res = await fetchApi('/payments/verify-upi', {
+      const res = await fetchApi('/payments/verify-link-payment', {
         method: 'POST',
         body: JSON.stringify({
           type,
           targetProfileId,
           planId,
-          amount: payableAmount,
-          upiId: UPI_ID,
-          utr: utrNumber.trim(),
+          phone: paymentPhone.trim(),
+          paymentId: paymentIdInput.trim(),
         }),
       });
 
-      setLoading(false);
+      if (!silent) setLoading(false);
 
-      if (res.success) {
+      if (res.success && res.data?.unlockedDetails) {
+        setAutoChecking(false);
         setStatus('success');
-        setUnlockedData(res.data?.unlockedDetails);
+        setUnlockedData(res.data.unlockedDetails);
 
-        // Celebration confetti effect
         try {
           confetti({
             particleCount: 80,
@@ -134,128 +134,24 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
         if (onSuccess) {
           onSuccess(res.data);
         }
+        return true;
       } else {
-        setStatus('error');
-        setErrorMessage(res.message || 'Payment verification failed. Please check UTR and retry.');
-      }
-    } catch (err) {
-      setLoading(false);
-      setStatus('error');
-      setErrorMessage((err as Error).message || 'Verification connection failed.');
-    }
-  };
-
-  const loadRazorpayScript = () => {
-    return new Promise((resolve) => {
-      if (window.Razorpay) {
-        resolve(true);
-        return;
-      }
-      const script = document.createElement('script');
-      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-      script.onload = () => resolve(true);
-      script.onerror = () => resolve(false);
-      document.body.appendChild(script);
-    });
-  };
-
-  const handleRazorpayPayment = async () => {
-    try {
-      setLoading(true);
-      setErrorMessage('');
-
-      const orderRes = await fetchApi('/payments/create-order', {
-        method: 'POST',
-        body: JSON.stringify({
-          type,
-          targetProfileId,
-          planId,
-        }),
-      });
-
-      if (!orderRes.success) {
-        setStatus('error');
-        setErrorMessage(orderRes.message || 'Could not initiate payment order.');
-        setLoading(false);
-        return;
-      }
-
-      const { orderId, amount: orderAmount, currency, keyId } = orderRes.data;
-
-      const isScriptLoaded = await loadRazorpayScript();
-      if (!isScriptLoaded || !window.Razorpay) {
-        setStatus('error');
-        setErrorMessage('Unable to load payment gateway. Please use Direct UPI / QR Scanner.');
-        setLoading(false);
-        return;
-      }
-
-      const options = {
-        key: keyId,
-        amount: orderAmount,
-        currency,
-        name: 'Frndma Connections',
-        description: type === 'contact_unlock' ? `Unlock contact for ${targetProfileName}` : `Plan: ${planName}`,
-        order_id: orderId,
-        theme: {
-          color: '#ff2d78',
-        },
-        handler: async (response: any) => {
-          await completeRazorpayVerification({
-            razorpayOrderId: response.razorpay_order_id,
-            razorpayPaymentId: response.razorpay_payment_id,
-            razorpaySignature: response.razorpay_signature,
-          });
-        },
-        modal: {
-          ondismiss: () => {
-            setLoading(false);
-          },
-        },
-      };
-
-      const rzp = new window.Razorpay(options);
-      rzp.open();
-    } catch (err) {
-      setStatus('error');
-      setErrorMessage((err as Error).message || 'Payment initialization failed.');
-      setLoading(false);
-    }
-  };
-
-  const completeRazorpayVerification = async (verifyPayload: any) => {
-    try {
-      const verifyRes = await fetchApi('/payments/verify', {
-        method: 'POST',
-        body: JSON.stringify(verifyPayload),
-      });
-
-      setLoading(false);
-      if (verifyRes.success) {
-        setStatus('success');
-        setUnlockedData(verifyRes.data?.unlockedDetails);
-
-        try {
-          confetti({
-            particleCount: 80,
-            spread: 70,
-            origin: { y: 0.6 },
-          });
-        } catch {
-          // ignore
+        if (!silent) {
+          setStatus('error');
+          setErrorMessage(
+            res.message ||
+              'No ₹399 payment detected on razorpay.me/@ravirahul601 yet. Please pay ₹399 and click Check again.'
+          );
         }
-
-        if (onSuccess) {
-          onSuccess(verifyRes.data);
-        }
-      } else {
-        setStatus('error');
-        setErrorMessage(verifyRes.message || 'Verification rejected.');
+        return false;
       }
     } catch (err) {
-      setLoading(false);
-      setStatus('error');
-      setErrorMessage('Verification failed.');
+      if (!silent) {
+        setLoading(false);
+        setStatus('error');
+        setErrorMessage((err as Error).message || 'Verification check failed.');
+      }
+      return false;
     }
   };
 
@@ -290,45 +186,19 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                       ? `Unlock ${targetProfileName || 'User'}'s Contact`
                       : `Upgrade to ${planName || 'Premium'}`}
                   </h3>
-                  <p className="text-xs text-zinc-400">Direct UPI & Scanner Payment • Instant Verification</p>
+                  <p className="text-xs text-zinc-400">Official Razorpay Payment • Instant Contact Reveal</p>
                 </div>
               </div>
 
-              {/* Tabs for UPI vs Cards */}
-              <div className="flex items-center gap-2 p-1 mb-4 rounded-2xl bg-white/5 border border-white/10">
-                <button
-                  onClick={() => setActiveTab('upi')}
-                  className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all ${
-                    activeTab === 'upi'
-                      ? 'bg-gradient-to-r from-primary to-rose-600 text-white shadow-glow-sm'
-                      : 'text-zinc-400 hover:text-white hover:bg-white/5'
-                  }`}
-                >
-                  <QrCode className="w-3.5 h-3.5" />
-                  <span>UPI & Scanner (Direct)</span>
-                </button>
-                <button
-                  onClick={() => setActiveTab('razorpay')}
-                  className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all ${
-                    activeTab === 'razorpay'
-                      ? 'bg-gradient-to-r from-primary to-rose-600 text-white shadow-glow-sm'
-                      : 'text-zinc-400 hover:text-white hover:bg-white/5'
-                  }`}
-                >
-                  <CreditCard className="w-3.5 h-3.5" />
-                  <span>Cards / NetBanking</span>
-                </button>
-              </div>
-
               {/* Fixed Locked Amount Display */}
-              <div className="flex items-center justify-between p-3.5 sm:p-4 mb-4 rounded-2xl bg-gradient-to-r from-primary/15 via-rose-500/10 to-transparent border border-primary/30">
-                <div className="flex items-center gap-2">
+              <div className="flex items-center justify-between p-4 mb-4 rounded-2xl bg-gradient-to-r from-primary/15 via-rose-500/10 to-transparent border border-primary/30">
+                <div className="flex items-center gap-2.5">
                   <div className="w-8 h-8 rounded-xl bg-primary/20 flex items-center justify-center text-primary">
                     <Lock className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="text-xs font-semibold text-zinc-300 block">Payable Amount</span>
-                    <span className="text-[10px] text-emerald-400 font-medium">Fixed & Verified • Non-editable</span>
+                    <span className="text-xs font-semibold text-zinc-300 block">Required Payment</span>
+                    <span className="text-[10px] text-emerald-400 font-medium">Exact Amount: ₹{payableAmount}</span>
                   </div>
                 </div>
                 <div className="text-right">
@@ -338,150 +208,111 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                 </div>
               </div>
 
-              {activeTab === 'upi' ? (
-                <div className="space-y-4">
-                  {/* UPI Scanner Image & ID Section */}
-                  <div className="p-4 rounded-2xl bg-white/5 border border-white/10 flex flex-col items-center text-center">
-                    <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 text-[11px] font-semibold mb-2.5">
-                      <Sparkles className="w-3 h-3 text-emerald-400" />
-                      <span>Scan with PhonePe, GPay, Paytm or any UPI App</span>
-                    </div>
-
-                    {/* QR Code Scanner Image */}
-                    <div className="relative group p-2 rounded-2xl bg-white shadow-2xl border-2 border-primary/40 my-1">
-                      <img
-                        src="/images/pay-scanner.jpeg"
-                        alt="UPI Payment Scanner"
-                        className="w-48 h-48 sm:w-52 sm:h-52 object-contain rounded-xl"
-                        onError={(e) => {
-                          // Fallback if needed
-                          (e.target as HTMLImageElement).src = '/images/pay scanenr.jpeg';
-                        }}
-                      />
-                      <div className="absolute inset-0 bg-primary/10 rounded-xl pointer-events-none group-hover:bg-transparent transition-colors" />
-                    </div>
-
-                    <p className="text-[11px] text-zinc-400 mt-2">
-                      Scan the QR code above or pay directly using the buttons below
-                    </p>
-
-                    {/* UPI ID Display with Copy Button */}
-                    <div className="w-full mt-3 p-2.5 rounded-xl bg-black/40 border border-white/10 flex items-center justify-between gap-2">
-                      <div className="text-left overflow-hidden">
-                        <span className="text-[10px] uppercase tracking-wider text-zinc-400 block font-semibold">
-                          UPI ID
-                        </span>
-                        <span className="text-xs sm:text-sm font-mono font-bold text-pink-300 truncate block">
-                          {UPI_ID}
-                        </span>
-                      </div>
-                      <button
-                        onClick={copyUpiId}
-                        className="px-3 py-1.5 rounded-lg bg-primary/20 hover:bg-primary/30 text-white text-xs font-semibold border border-primary/30 flex items-center gap-1 transition-all shrink-0 active:scale-95"
-                      >
-                        {copiedUpi ? (
-                          <>
-                            <Check className="w-3.5 h-3.5 text-emerald-400" />
-                            <span className="text-emerald-400">Copied!</span>
-                          </>
-                        ) : (
-                          <>
-                            <Copy className="w-3.5 h-3.5" />
-                            <span>Copy UPI</span>
-                          </>
-                        )}
-                      </button>
-                    </div>
+              {/* Razorpay.me Payment Instructions Card */}
+              <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-3 mb-4">
+                <div className="flex items-start gap-2.5">
+                  <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-400 shrink-0 mt-0.5">
+                    <CreditCard className="w-4 h-4" />
                   </div>
-
-                  {/* Direct Pay Action Buttons */}
-                  <div className="space-y-2.5">
-                    {/* Primary Secure Payment Button */}
-                    <button
-                      onClick={handleRazorpayPayment}
-                      disabled={loading}
-                      className="w-full py-3.5 px-6 rounded-2xl text-sm font-bold text-white bg-gradient-to-r from-primary via-rose-600 to-primary hover:opacity-95 shadow-glow-md hover:shadow-glow-lg transition-all flex items-center justify-center gap-2 transform active:scale-98 disabled:opacity-50"
-                    >
-                      {loading ? (
-                        <>
-                          <RefreshCw className="w-4 h-4 animate-spin" />
-                          <span>Opening Secure Payment...</span>
-                        </>
-                      ) : (
-                        <>
-                          <CreditCard className="w-4 h-4" />
-                          <span>⚡ Pay ₹{payableAmount} via PhonePe / GPay / Scanner</span>
-                        </>
-                      )}
-                    </button>
-
-                    {/* Quick Launch Buttons for Popular Apps */}
-                    <div className="grid grid-cols-3 gap-2">
-                      <button
-                        onClick={handleRazorpayPayment}
-                        className="py-2.5 px-2 rounded-xl bg-purple-950/40 hover:bg-purple-900/60 border border-purple-500/30 text-purple-200 text-xs font-semibold flex items-center justify-center gap-1 transition-all text-center"
-                      >
-                        <span>PhonePe</span>
-                      </button>
-                      <button
-                        onClick={handleRazorpayPayment}
-                        className="py-2.5 px-2 rounded-xl bg-blue-950/40 hover:bg-blue-900/60 border border-blue-500/30 text-blue-200 text-xs font-semibold flex items-center justify-center gap-1 transition-all text-center"
-                      >
-                        <span>Google Pay</span>
-                      </button>
-                      <button
-                        onClick={handleRazorpayPayment}
-                        className="py-2.5 px-2 rounded-xl bg-cyan-950/40 hover:bg-cyan-900/60 border border-cyan-500/30 text-cyan-200 text-xs font-semibold flex items-center justify-center gap-1 transition-all text-center"
-                      >
-                        <span>Paytm</span>
-                      </button>
-                    </div>
-
-                    <p className="text-[11px] text-zinc-400 text-center flex items-center justify-center gap-1.5 pt-2">
-                      <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                      <span>Contact will automatically unlock immediately after verified payment</span>
+                  <div className="text-xs space-y-1">
+                    <p className="font-semibold text-white">Payment via Official Razorpay Link:</p>
+                    <p className="text-zinc-300 text-[11px] leading-relaxed">
+                      Pay <strong className="text-emerald-400">₹{payableAmount}</strong> using PhonePe, Google Pay, Paytm, UPI, Cards, or NetBanking on our verified Razorpay handle:
                     </p>
+                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-black/40 border border-emerald-500/30 text-emerald-300 font-mono text-[11px] font-bold mt-1">
+                      <span>razorpay.me/@ravirahul601</span>
+                    </div>
                   </div>
                 </div>
-              ) : (
-                /* Razorpay Tab */
-                <div className="space-y-4">
-                  <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-xs text-zinc-300 space-y-2">
-                    <p>Pay securely via Razorpay with Cards, NetBanking, UPI or Wallets.</p>
-                    <div className="flex items-center gap-2 text-emerald-400 text-[11px]">
-                      <ShieldCheck className="w-4 h-4 shrink-0" />
-                      <span>Direct Official Link: <strong>rzp.io/rzp/GWx1fBU</strong></span>
-                    </div>
-                  </div>
+              </div>
 
+              {/* Main Action Buttons */}
+              <div className="space-y-3">
+                {/* 1. Open Razorpay Link */}
+                <button
+                  onClick={handleOpenPaymentLink}
+                  className="w-full py-4 px-6 rounded-2xl text-sm font-bold text-white bg-gradient-to-r from-primary via-rose-600 to-primary hover:opacity-95 shadow-glow-md hover:shadow-glow-lg transition-all flex items-center justify-center gap-2 transform active:scale-98"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  <span>⚡ Pay ₹{payableAmount} on razorpay.me/@ravirahul601</span>
+                </button>
+
+                {/* Auto Checking Indicator */}
+                {autoChecking && (
+                  <div className="p-2.5 rounded-xl bg-primary/10 border border-primary/30 flex items-center justify-center gap-2 text-xs text-pink-300 animate-pulse">
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin text-primary" />
+                    <span>Listening for your ₹{payableAmount} payment on Razorpay...</span>
+                  </div>
+                )}
+
+                {/* 2. Check & Reveal Contact Button */}
+                <button
+                  onClick={() => checkPaymentVerification(false)}
+                  disabled={loading}
+                  className="w-full py-3.5 px-6 rounded-2xl text-xs sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-500 border border-emerald-400/30 shadow-glow-sm transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                >
+                  {loading ? (
+                    <>
+                      <RefreshCw className="w-4 h-4 animate-spin" />
+                      <span>Checking Razorpay for ₹{payableAmount} Payment...</span>
+                    </>
+                  ) : (
+                    <>
+                      <CheckCircle2 className="w-4 h-4 text-white" />
+                      <span>✅ I Have Paid ₹{payableAmount} — Reveal Contact Now</span>
+                    </>
+                  )}
+                </button>
+
+                {/* Optional Expandable Details (Phone / Payment ID) */}
+                <div className="pt-1">
                   <button
-                    onClick={handleRazorpayPayment}
-                    disabled={loading}
-                    className="w-full py-3.5 px-6 rounded-2xl text-sm font-bold text-white bg-gradient-to-r from-primary to-rose-600 hover:from-primary-hover hover:to-rose-500 shadow-glow-sm hover:shadow-glow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                    onClick={() => setShowAdvanced(!showAdvanced)}
+                    className="text-[11px] text-zinc-400 hover:text-zinc-200 flex items-center justify-center gap-1 mx-auto transition-colors"
                   >
-                    {loading ? (
-                      <>
-                        <RefreshCw className="w-4 h-4 animate-spin" />
-                        <span>Opening Secure Payment Gateway...</span>
-                      </>
-                    ) : (
-                      <>
-                        <CreditCard className="w-4 h-4" />
-                        <span>⚡ Click to Pay ₹{payableAmount} via Razorpay</span>
-                      </>
-                    )}
+                    <span>Change phone number or enter Payment ID</span>
+                    {showAdvanced ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
                   </button>
 
-                  <p className="text-[11px] text-zinc-400 text-center flex items-center justify-center gap-1.5">
-                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                    <span>Contact will automatically unlock immediately after verified payment</span>
-                  </p>
+                  {showAdvanced && (
+                    <div className="mt-2.5 p-3 rounded-xl bg-black/40 border border-white/10 space-y-2 text-xs">
+                      <div>
+                        <label className="text-[10px] text-zinc-400 uppercase tracking-wider block mb-1">
+                          Phone Number Used on Razorpay
+                        </label>
+                        <input
+                          type="text"
+                          value={paymentPhone}
+                          onChange={(e) => setPaymentPhone(e.target.value)}
+                          placeholder="e.g. 9876543210"
+                          className="w-full bg-white/5 border border-white/15 rounded-lg px-2.5 py-1.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-primary font-mono"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[10px] text-zinc-400 uppercase tracking-wider block mb-1">
+                          Payment ID (Optional)
+                        </label>
+                        <input
+                          type="text"
+                          value={paymentIdInput}
+                          onChange={(e) => setPaymentIdInput(e.target.value)}
+                          placeholder="e.g. pay_..."
+                          className="w-full bg-white/5 border border-white/15 rounded-lg px-2.5 py-1.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-primary font-mono"
+                        />
+                      </div>
+                    </div>
+                  )}
                 </div>
-              )}
+
+                <p className="text-[11px] text-zinc-400 text-center flex items-center justify-center gap-1.5 pt-1">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Number is only revealed once ₹{payableAmount} payment is confirmed</span>
+                </p>
+              </div>
             </div>
           )}
 
-          {/* Success State */}
+          {/* Success State - Only shown when ₹399 payment is verified */}
           {status === 'success' && (
             <div className="text-center py-4">
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center shadow-glow-md animate-bounce">
@@ -489,7 +320,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
               </div>
               <h3 className="text-2xl font-bold font-heading mb-1 text-white">Payment Confirmed!</h3>
               <p className="text-xs sm:text-sm text-zinc-300 mb-2">
-                Your payment of <strong className="text-emerald-400">₹{payableAmount}</strong> was received successfully.
+                Your payment of <strong className="text-emerald-400">₹{payableAmount}</strong> was verified on Razorpay.
               </p>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[11px] font-semibold mb-5">
                 <CheckCircle2 className="w-3.5 h-3.5" />
@@ -510,7 +341,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                   <div>
                     <p className="text-base font-bold text-white">{unlockedData.displayName}</p>
                     <p className="text-xs text-zinc-400 font-mono mt-0.5">
-                      Phone: <span className="text-white font-semibold">{unlockedData.contact}</span>
+                      Phone: <span className="text-white font-semibold text-sm">{unlockedData.contact}</span>
                     </p>
                   </div>
 
@@ -547,20 +378,40 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
             </div>
           )}
 
-          {/* Error State */}
+          {/* Error State - When ₹399 payment is not detected */}
           {status === 'error' && (
             <div className="text-center py-4">
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/30 flex items-center justify-center">
                 <AlertCircle className="w-8 h-8" />
               </div>
-              <h3 className="text-xl font-bold font-heading mb-1 text-white">Payment Issue</h3>
-              <p className="text-xs sm:text-sm text-zinc-300 mb-6">{errorMessage || 'Something went wrong.'}</p>
-              <button
-                onClick={() => setStatus('idle')}
-                className="w-full py-3 px-6 rounded-2xl text-sm font-semibold text-white bg-white/10 hover:bg-white/20 transition-all"
-              >
-                Try Again
-              </button>
+              <h3 className="text-xl font-bold font-heading mb-1 text-white">Payment Required</h3>
+              <p className="text-xs sm:text-sm text-zinc-300 mb-5 leading-relaxed">{errorMessage}</p>
+
+              <div className="space-y-2.5">
+                <button
+                  onClick={handleOpenPaymentLink}
+                  className="w-full py-3 px-6 rounded-2xl text-xs font-bold text-white bg-gradient-to-r from-primary to-rose-600 hover:opacity-95 shadow-glow-sm flex items-center justify-center gap-2 text-center"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span>⚡ Pay ₹{payableAmount} on razorpay.me/@ravirahul601</span>
+                </button>
+
+                <button
+                  onClick={() => checkPaymentVerification(false)}
+                  disabled={loading}
+                  className="w-full py-2.5 px-6 rounded-2xl text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-500 transition-all flex items-center justify-center gap-1.5"
+                >
+                  {loading ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <CheckCircle2 className="w-3.5 h-3.5" />}
+                  <span>Check Payment Again</span>
+                </button>
+
+                <button
+                  onClick={() => setStatus('idle')}
+                  className="w-full py-2 px-6 rounded-2xl text-xs font-semibold text-zinc-400 hover:text-white bg-transparent transition-all"
+                >
+                  Back to Options
+                </button>
+              </div>
             </div>
           )}
         </motion.div>

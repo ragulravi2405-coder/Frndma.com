@@ -30,6 +30,13 @@ export default function LoginPage() {
 
     if (res.success) {
       localStorage.setItem('frndma_18_confirmed', 'true');
+      const token = res.data?.token || res.token;
+      if (token) {
+        localStorage.setItem('frndma_token', token);
+      }
+      if (res.data?.user) {
+        localStorage.setItem('frndma_user', JSON.stringify(res.data.user));
+      }
       if (res.isAdmin || res.redirectTo === '/admin' || res.data?.user?.role === 'admin') {
         router.push('/admin');
       } else {

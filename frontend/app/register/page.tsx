@@ -41,6 +41,13 @@ export default function RegisterPage() {
 
     if (res.success) {
       localStorage.setItem('frndma_18_confirmed', 'true');
+      const token = res.data?.token || res.token;
+      if (token) {
+        localStorage.setItem('frndma_token', token);
+      }
+      if (res.data?.user) {
+        localStorage.setItem('frndma_user', JSON.stringify(res.data.user));
+      }
       router.push('/profile/edit');
     } else {
       setError(res.message || 'Registration failed. Please check your information.');
