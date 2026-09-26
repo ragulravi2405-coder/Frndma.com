@@ -611,7 +611,7 @@ export default function DiscoverPage() {
                       className="w-full py-3 px-6 rounded-xl bg-gradient-to-r from-primary to-rose-600 text-white text-xs font-bold flex items-center justify-center gap-2 shadow-glow-sm"
                     >
                       <Lock className="w-4 h-4" />
-                      <span>Unlock Contact Details (₹399 via UPI)</span>
+                      <span>Unlock Contact Details (₹399 • Razorpay / UPI)</span>
                     </button>
                   </div>
                 )}
