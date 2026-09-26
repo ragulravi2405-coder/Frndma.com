@@ -1,4 +1,5 @@
-import express, { Application, Request, Response } from 'express';
+import http from 'http';
+import express, { Application, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
@@ -43,8 +44,8 @@ app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
 
 app.use(cookieParser(ENV.COOKIE_SECRET));
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use('/api', express.json({ limit: '10mb' }));
+app.use('/api', express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Health Check
 app.get('/health', (req: Request, res: Response) => {
@@ -67,6 +68,51 @@ app.use('/api/payments', paymentRoutes);
 app.use('/api/unlocks', unlockRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/support', supportRoutes);
+
+// Unified Mode: Proxy non-API requests to internal Next.js frontend
+if (ENV.FRONTEND_INTERNAL_URL) {
+  try {
+    const targetUrl = new URL(ENV.FRONTEND_INTERNAL_URL);
+    app.use((req: Request, res: Response, next: NextFunction) => {
+      if (req.path.startsWith('/api') || req.path === '/health' || req.path.startsWith('/socket.io')) {
+        return next();
+      }
+
+      const proxyReq = http.request(
+        {
+          hostname: targetUrl.hostname,
+          port: targetUrl.port,
+          path: req.originalUrl,
+          method: req.method,
+          headers: {
+            ...req.headers,
+            host: req.headers.host,
+            'x-forwarded-for': (req.headers['x-forwarded-for'] as string) || req.socket.remoteAddress,
+            'x-forwarded-proto': (req.headers['x-forwarded-proto'] as string) || (req.secure ? 'https' : 'http'),
+          },
+        },
+        (proxyRes) => {
+          res.writeHead(proxyRes.statusCode || 200, proxyRes.headers);
+          proxyRes.pipe(res, { end: true });
+        }
+      );
+
+      proxyReq.on('error', (err) => {
+        if (!res.headersSent) {
+          res.status(502).send('Frontend is initializing... Please refresh shortly.');
+        }
+      });
+
+      if (req.readable) {
+        req.pipe(proxyReq, { end: true });
+      } else {
+        proxyReq.end();
+      }
+    });
+  } catch (err) {
+    console.error('Failed to initialize FRONTEND_INTERNAL_URL proxy:', err);
+  }
+}
 
 // Global Error Handler
 app.use(errorHandler);

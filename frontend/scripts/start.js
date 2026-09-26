@@ -4,53 +4,28 @@ const { spawn } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 
-const webPort = process.env.PORT || 3000;
-const backendPort = 5000;
+// Render sets process.env.PORT for external incoming traffic
+const publicPort = process.env.PORT ? parseInt(process.env.PORT, 10) : 5000;
+
+// Internal Next.js port guaranteed never to collide with publicPort
+const internalFrontendPort = publicPort === 3000 ? 3001 : 3000;
 
 console.log('====================================================');
 console.log('❤️  Frndma - Starting Unified Production Server');
-console.log(`🌐 Frontend External Port: ${webPort}`);
-console.log(`🔌 Backend Internal Port: ${backendPort}`);
+console.log(`📡 Public Server Port (Express + Socket.IO): ${publicPort}`);
+console.log(`🔌 Internal Frontend Port (Next.js): ${internalFrontendPort}`);
 console.log('====================================================');
 
-// 1. Start Express Backend
-const backendDir = path.resolve(__dirname, '../../backend');
-const backendDist = path.join(backendDir, 'dist', 'server.js');
-
-if (fs.existsSync(backendDist)) {
-  console.log('🚀 [Backend] Launching Express & Socket.io server from:', backendDist);
-  const backend = spawn('node', [backendDist], {
-    cwd: backendDir,
-    env: {
-      ...process.env,
-      PORT: String(backendPort),
-      NODE_ENV: 'production',
-    },
-    stdio: 'inherit',
-  });
-
-  backend.on('error', (err) => {
-    console.error('❌ [Backend] Startup error:', err);
-  });
-
-  backend.on('exit', (code) => {
-    console.warn(`⚠️ [Backend] Process exited with code ${code}`);
-  });
-} else {
-  console.warn('⚠️ [Backend] server.js not found at:', backendDist);
-}
-
-// 2. Start Next.js Frontend
-console.log('⚡ [Frontend] Launching Next.js on port', webPort);
 const isWin = process.platform === 'win32';
 const npxCmd = isWin ? 'npx.cmd' : 'npx';
 
-const frontend = spawn(npxCmd, ['next', 'start', '-p', String(webPort)], {
+// 1. Start Next.js Frontend on internal port
+console.log(`⚡ [Frontend] Launching Next.js on internal port ${internalFrontendPort}...`);
+const frontend = spawn(npxCmd, ['next', 'start', '-p', String(internalFrontendPort), '-H', '127.0.0.1'], {
   cwd: path.resolve(__dirname, '..'),
   env: {
     ...process.env,
-    PORT: String(webPort),
-    BACKEND_URL: `http://127.0.0.1:${backendPort}`,
+    PORT: String(internalFrontendPort),
     NODE_ENV: 'production',
   },
   stdio: 'inherit',
@@ -63,8 +38,36 @@ frontend.on('error', (err) => {
 
 frontend.on('exit', (code) => {
   console.warn(`[Frontend] Exited with code ${code}`);
-  process.exit(code || 0);
 });
+
+// 2. Start Express Backend on public port
+const backendDir = path.resolve(__dirname, '../../backend');
+const backendDist = path.join(backendDir, 'dist', 'server.js');
+
+if (fs.existsSync(backendDist)) {
+  console.log(`🚀 [Backend] Launching Express & Socket.IO server on public port ${publicPort}...`);
+  const backend = spawn('node', [backendDist], {
+    cwd: backendDir,
+    env: {
+      ...process.env,
+      PORT: String(publicPort),
+      FRONTEND_INTERNAL_URL: `http://127.0.0.1:${internalFrontendPort}`,
+      NODE_ENV: 'production',
+    },
+    stdio: 'inherit',
+  });
+
+  backend.on('error', (err) => {
+    console.error('❌ [Backend] Startup error:', err);
+  });
+
+  backend.on('exit', (code) => {
+    console.warn(`⚠️ [Backend] Process exited with code ${code}`);
+    process.exit(code || 0);
+  });
+} else {
+  console.warn('⚠️ [Backend] server.js not found at:', backendDist);
+}
 
 process.on('SIGTERM', () => {
   process.exit(0);

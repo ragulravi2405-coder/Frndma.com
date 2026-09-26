@@ -22,4 +22,5 @@ export const ENV = {
   SUPPORT_WHATSAPP: process.env.SUPPORT_WHATSAPP || '9087923641',
   ADMIN_USERNAME: process.env.ADMIN_USERNAME || 'rahul2005',
   ADMIN_PASSWORD: process.env.ADMIN_PASSWORD || 'Abcd@1234',
+  FRONTEND_INTERNAL_URL: process.env.FRONTEND_INTERNAL_URL || '',
 };
