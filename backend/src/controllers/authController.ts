@@ -8,21 +8,31 @@ import { Admin } from '../models/Admin';
 import { ENV } from '../config/env';
 import { AuthRequest } from '../middleware/auth';
 
-export const registerSchema = z.object({
-  username: z
-    .string()
-    .min(3, 'Username must be at least 3 characters')
-    .max(30, 'Username cannot exceed 30 characters')
-    .regex(/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers, and underscores'),
-  mobileNumber: z
-    .string()
-    .min(10, 'Valid 10-digit mobile number required')
-    .max(15, 'Mobile number too long'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
-  isAgeConfirmed: z.boolean().refine((val) => val === true, {
-    message: 'You must confirm that you are at least 18 years old to join Frndma',
-  }),
-});
+export const registerSchema = z
+  .object({
+    username: z
+      .string({ required_error: 'Username is required' })
+      .trim()
+      .min(3, 'Username must be at least 3 characters')
+      .max(30, 'Username cannot exceed 30 characters')
+      .regex(/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers, and underscores'),
+    mobileNumber: z.string().optional(),
+    mobile: z.string().optional(),
+    password: z
+      .string({ required_error: 'Password is required' })
+      .min(6, 'Password must be at least 6 characters'),
+    isAgeConfirmed: z.boolean().optional().default(true),
+  })
+  .refine(
+    (data) => {
+      const phone = (data.mobileNumber || data.mobile || '').trim();
+      return phone.length >= 10 && phone.length <= 15;
+    },
+    {
+      message: 'Valid 10-digit mobile number required',
+      path: ['mobileNumber'],
+    }
+  );
 
 export const loginSchema = z.object({
   identifier: z.string().min(1, 'Username or mobile number is required'),
@@ -46,10 +56,25 @@ const sendTokenCookie = (res: Response, token: string) => {
 
 export const register = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const { username, mobileNumber, password, isAgeConfirmed } = req.body;
+    const rawUsername = req.body.username;
+    const rawMobile = req.body.mobileNumber || req.body.mobile || '';
+    const rawPassword = req.body.password;
+    const isAgeConfirmed = req.body.isAgeConfirmed !== undefined ? Boolean(req.body.isAgeConfirmed) : true;
+
+    if (!rawUsername || typeof rawUsername !== 'string') {
+      res.status(400).json({
+        success: false,
+        message: 'Username is required',
+      });
+      return;
+    }
+
+    const username = rawUsername.trim().toLowerCase();
+    const mobileNumber = String(rawMobile).trim();
+    const password = String(rawPassword);
 
     const reservedUsernames = [ENV.ADMIN_USERNAME.toLowerCase(), 'rahul2005', 'admin', 'administrator', 'root'];
-    if (reservedUsernames.includes(username.toLowerCase())) {
+    if (reservedUsernames.includes(username)) {
       res.status(400).json({
         success: false,
         message: 'This username is reserved and cannot be registered.',
@@ -57,21 +82,22 @@ export const register = async (req: Request, res: Response, next: NextFunction):
       return;
     }
 
-    const existingUser = await User.findOne({
-      $or: [{ username: username.toLowerCase() }, { mobileNumber }],
-    });
-
-    if (existingUser) {
-      if (existingUser.username === username.toLowerCase()) {
-        res.status(400).json({
-          success: false,
-          message: 'Username is already taken. Please choose another.',
-        });
-        return;
-      }
-      res.status(400).json({
+    // Check if username already exists
+    const existingUsername = await User.findOne({ username });
+    if (existingUsername) {
+      res.status(409).json({
         success: false,
-        message: 'An account with this mobile number already exists.',
+        message: 'Username already exists',
+      });
+      return;
+    }
+
+    // Check if mobile number already exists
+    const existingMobile = await User.findOne({ mobileNumber });
+    if (existingMobile) {
+      res.status(409).json({
+        success: false,
+        message: 'Mobile number already registered',
       });
       return;
     }
@@ -80,24 +106,35 @@ export const register = async (req: Request, res: Response, next: NextFunction):
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const newUser = await User.create({
-      username: username.toLowerCase(),
+      username,
       mobileNumber,
       password: hashedPassword,
       isAgeConfirmed,
       role: 'user',
     });
 
-    // Create initial draft profile
-    await Profile.create({
-      userId: newUser._id,
-      displayName: username,
-      age: 18,
-      city: 'Not Specified',
-      bio: '',
-      interests: [],
-      languages: ['English'],
-      isProfileComplete: false,
-    });
+    // Create or update initial draft profile safely
+    try {
+      await Profile.findOneAndUpdate(
+        { userId: newUser._id },
+        {
+          $setOnInsert: {
+            userId: newUser._id,
+            displayName: rawUsername.trim(),
+            age: 18,
+            gender: 'female',
+            city: 'Not Specified',
+            bio: '',
+            interests: [],
+            languages: ['English'],
+            isProfileComplete: false,
+          },
+        },
+        { upsert: true, new: true }
+      );
+    } catch (profileErr) {
+      console.warn('Initial profile creation warning:', profileErr);
+    }
 
     const token = generateToken(newUser._id.toString(), newUser.role);
     sendTokenCookie(res, token);
@@ -117,8 +154,49 @@ export const register = async (req: Request, res: Response, next: NextFunction):
         token,
       },
     });
-  } catch (error) {
-    next(error);
+  } catch (error: any) {
+    console.error('REGISTER ERROR:', error);
+
+    // MongoDB Duplicate Key Error (E11000)
+    if (error && error.code === 11000) {
+      const field = Object.keys(error.keyPattern || error.keyValue || {})[0] || '';
+      if (field === 'username' || error.message?.includes('username')) {
+        res.status(409).json({
+          success: false,
+          message: 'Username already exists',
+        });
+        return;
+      }
+      if (field === 'mobileNumber' || error.message?.includes('mobileNumber')) {
+        res.status(409).json({
+          success: false,
+          message: 'Mobile number already registered',
+        });
+        return;
+      }
+      res.status(409).json({
+        success: false,
+        message: 'Username or mobile number already exists',
+      });
+      return;
+    }
+
+    // Mongoose Validation Error
+    if (error && error.name === 'ValidationError') {
+      const messages = Object.values(error.errors || {}).map((e: any) => e.message);
+      res.status(400).json({
+        success: false,
+        message: messages[0] || 'Validation error',
+        errors: messages,
+      });
+      return;
+    }
+
+    res.status(500).json({
+      success: false,
+      message: 'Registration failed',
+    });
+    return;
   }
 };
 
@@ -189,10 +267,11 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
       }
     }
 
+    const trimmedId = (identifier || '').trim();
     const user = await User.findOne({
       $or: [
         { username: cleanId },
-        { mobileNumber: identifier },
+        { mobileNumber: trimmedId },
       ],
     }).select('+password');
 

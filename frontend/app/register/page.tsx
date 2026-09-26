@@ -31,7 +31,10 @@ export default function RegisterPage() {
 
     const res = await fetchApi('/auth/register', {
       method: 'POST',
-      body: JSON.stringify(formData),
+      body: JSON.stringify({
+        ...formData,
+        mobile: formData.mobileNumber,
+      }),
     });
 
     setLoading(false);
