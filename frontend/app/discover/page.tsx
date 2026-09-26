@@ -278,7 +278,128 @@ const DISCOVER_5_GIRLS_LIST = [
     unlockPrice: 999,
     contactSharing: true,
   },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [GIRL 14] - SOPHIA (Los Angeles, California, USA) - Tank Top & Curly Hair
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'girl_14',
+    userId: 'girl_user_14',
+    displayName: 'Sophia',
+    age: 24,
+    city: 'Los Angeles',
+    state: 'California, USA',
+    occupation: 'Fashion Model & Creator',
+    bio: 'California sunshine, beach jogs in Malibu, high fashion shoots & cozy rooftop dining. Looking for exciting connections! 🌴',
+    interests: ['Modelling', 'Beaches', 'Pilates', 'Wine Tasting'],
+    avatarUrl: 'https://plus.unsplash.com/premium_photo-1690587673708-d6ba8a1579a5?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '+13105550142',
+    unlockPrice: 1999,
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [GIRL 15] - JESSICA (Miami, Florida, USA) - Glamour Bikini Set (Super Hot VIP)
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'girl_15',
+    userId: 'girl_user_15',
+    displayName: 'Jessica',
+    age: 25,
+    city: 'Miami',
+    state: 'Florida, USA',
+    occupation: 'VIP Fitness Model & Influencer',
+    bio: 'South Beach glam, VIP yacht parties, luxury fitness and evening sunsets. Only genuine connections. 🏖️',
+    interests: ['Yacht Parties', 'Fitness', 'Travel', 'Luxury'],
+    avatarUrl: 'https://images.unsplash.com/photo-1582639590011-f5a8416d1101?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '+13055550189',
+    unlockPrice: 2999,
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [GIRL 16] - CHLOE (Vancouver, British Columbia, Canada) - Green Bikini Sunbathing
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'girl_16',
+    userId: 'girl_user_16',
+    displayName: 'Chloe',
+    age: 23,
+    city: 'Vancouver',
+    state: 'British Columbia, Canada',
+    occupation: 'Travel Vlogger & Model',
+    bio: 'Pacific ocean breezes, mountain skiing in Whistler, summer sunbathing and travel vlogging! 🌊',
+    interests: ['Travel', 'Skiing', 'Sunbathing', 'Nature'],
+    avatarUrl: 'https://images.unsplash.com/photo-1531469535976-c6fc3604014f?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '+16045550177',
+    unlockPrice: 2499,
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [GIRL 17] - EMMA (Toronto, Ontario, Canada) - Tattoo Artist & Sitting
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'girl_17',
+    userId: 'girl_user_17',
+    displayName: 'Emma',
+    age: 26,
+    city: 'Toronto',
+    state: 'Ontario, Canada',
+    occupation: 'Tattoo Artist & Creative Director',
+    bio: 'Creative rebel, custom tattoo artist, art gallery exhibitions and indie music shows. Love real conversations. 🖤',
+    interests: ['Tattoos', 'Art', 'Indie Rock', 'Coffee'],
+    avatarUrl: 'https://images.unsplash.com/photo-1589881787083-0fcfec1db918?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '+14165550134',
+    unlockPrice: 1999,
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [GIRL 18] - JI-WOO (Seoul, South Korea) - Crystal Water Bikini (Hot Korean Glam)
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'girl_18',
+    userId: 'girl_user_18',
+    displayName: 'Ji-woo',
+    age: 23,
+    city: 'Seoul',
+    state: 'Gangnam, South Korea',
+    occupation: 'K-Beauty Influencer & Model',
+    bio: 'Gangnam aesthetic, K-beauty ambassador, crystal water resorts and trendy cafes in Hongdae. Annyeong! ✨',
+    interests: ['K-Beauty', 'Fashion', 'Resorts', 'Photography'],
+    avatarUrl: 'https://images.unsplash.com/photo-1754751477999-821708330f79?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '+821055550198',
+    unlockPrice: 2999,
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [GIRL 19] - MIN-SEO (Busan, South Korea) - White Shirt Bed Aesthetic
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'girl_19',
+    userId: 'girl_user_19',
+    displayName: 'Min-seo',
+    age: 22,
+    city: 'Busan',
+    state: 'Haeundae, South Korea',
+    bio: 'Haeundae coastal girl, pilates trainer, cozy minimalist bedroom vibes, and night drives along the bridge. 🤍',
+    occupation: 'Pilates Trainer & Stylist',
+    education: 'B.Sc Health & Physical Ed',
+    interests: ['Pilates', 'Aesthetics', 'Ocean View', 'Music'],
+    avatarUrl: 'https://images.unsplash.com/photo-1628336358262-7a8c61ffcd01?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '+821055550164',
+    unlockPrice: 1999,
+    contactSharing: true,
+  },
 ];
+
+const getWhatsAppUrl = (contact: string, name: string) => {
+  const clean = String(contact || '').replace(/\D/g, '');
+  const finalNum = clean.length === 10 ? `91${clean}` : clean;
+  return `https://wa.me/${finalNum}?text=${encodeURIComponent(`Hi ${name}, saw your profile on Frndma!`)}`;
+};
 
 export default function DiscoverPage() {
   const [profiles, setProfiles] = useState<any[]>(DISCOVER_5_GIRLS_LIST);
@@ -506,9 +627,7 @@ export default function DiscoverPage() {
                           <span className="text-[10px] uppercase font-bold text-emerald-400">Unlocked</span>
                         </div>
                         <a
-                          href={`https://wa.me/91${unlockedNumber}?text=${encodeURIComponent(
-                            `Hi ${profile.displayName}, saw your profile on Frndma!`
-                          )}`}
+                          href={getWhatsAppUrl(unlockedNumber, profile.displayName)}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-sm"
@@ -643,9 +762,10 @@ export default function DiscoverPage() {
                         {unlockedIds[selectedProfile.userId]}
                       </span>
                       <a
-                        href={`https://wa.me/91${unlockedIds[selectedProfile.userId]}?text=Hi%20${encodeURIComponent(
+                        href={getWhatsAppUrl(
+                          unlockedIds[selectedProfile.userId] || selectedProfile.shareableContact,
                           selectedProfile.displayName
-                        )}`}
+                        )}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold"

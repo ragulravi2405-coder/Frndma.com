@@ -302,4 +302,118 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     shareableContact: '9876543223',
     unlockPrice: 999,
   },
+
+  // ==========================================================================
+  // PROFILE 14: SOPHIA (Los Angeles, California, USA) - Tank Top & Curly Hair
+  // ==========================================================================
+  {
+    username: 'sophia_usa',
+    displayName: 'Sophia',
+    age: 24,
+    city: 'Los Angeles',
+    state: 'California, USA',
+    bio: 'California sunshine, beach jogs in Malibu, high fashion shoots & cozy rooftop dining. Looking for exciting connections! 🌴',
+    occupation: 'Fashion Model & Creator',
+    education: 'B.A Fashion & Arts, UCLA',
+    languages: ['English', 'Spanish'],
+    interests: ['Modelling', 'Beaches', 'Pilates', 'Wine Tasting'],
+    avatarUrl: 'https://plus.unsplash.com/premium_photo-1690587673708-d6ba8a1579a5?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '+13105550142',
+    unlockPrice: 1999,
+  },
+
+  // ==========================================================================
+  // PROFILE 15: JESSICA (Miami, Florida, USA) - Glamour Bikini Set (Super Hot VIP)
+  // ==========================================================================
+  {
+    username: 'jessica_usa',
+    displayName: 'Jessica',
+    age: 25,
+    city: 'Miami',
+    state: 'Florida, USA',
+    bio: 'South Beach glam, VIP yacht parties, luxury fitness and evening sunsets. Only genuine connections. 🏖️',
+    occupation: 'VIP Fitness Model & Influencer',
+    education: 'B.S Sports Science, UM',
+    languages: ['English'],
+    interests: ['Yacht Parties', 'Fitness', 'Travel', 'Luxury'],
+    avatarUrl: 'https://images.unsplash.com/photo-1582639590011-f5a8416d1101?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '+13055550189',
+    unlockPrice: 2999,
+  },
+
+  // ==========================================================================
+  // PROFILE 16: CHLOE (Vancouver, British Columbia, Canada) - Green Bikini Sunbathing
+  // ==========================================================================
+  {
+    username: 'chloe_canada',
+    displayName: 'Chloe',
+    age: 23,
+    city: 'Vancouver',
+    state: 'British Columbia, Canada',
+    bio: 'Pacific ocean breezes, mountain skiing in Whistler, summer sunbathing and travel vlogging! 🌊',
+    occupation: 'Travel Vlogger & Model',
+    education: 'B.Com Marketing, UBC',
+    languages: ['English', 'French'],
+    interests: ['Travel', 'Skiing', 'Sunbathing', 'Nature'],
+    avatarUrl: 'https://images.unsplash.com/photo-1531469535976-c6fc3604014f?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '+16045550177',
+    unlockPrice: 2499,
+  },
+
+  // ==========================================================================
+  // PROFILE 17: EMMA (Toronto, Ontario, Canada) - Tattoo Artist & Sitting
+  // ==========================================================================
+  {
+    username: 'emma_canada',
+    displayName: 'Emma',
+    age: 26,
+    city: 'Toronto',
+    state: 'Ontario, Canada',
+    bio: 'Creative rebel, custom tattoo artist, art gallery exhibitions and indie music shows. Love real conversations. 🖤',
+    occupation: 'Tattoo Artist & Creative Director',
+    education: 'B.F.A Visual Arts, OCAD',
+    languages: ['English'],
+    interests: ['Tattoos', 'Art', 'Indie Rock', 'Coffee'],
+    avatarUrl: 'https://images.unsplash.com/photo-1589881787083-0fcfec1db918?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '+14165550134',
+    unlockPrice: 1999,
+  },
+
+  // ==========================================================================
+  // PROFILE 18: JI-WOO (Seoul, South Korea) - Crystal Water Bikini (Hot Korean Glam)
+  // ==========================================================================
+  {
+    username: 'jiwoo_korea',
+    displayName: 'Ji-woo',
+    age: 23,
+    city: 'Seoul',
+    state: 'Gangnam, South Korea',
+    bio: 'Gangnam aesthetic, K-beauty ambassador, crystal water resorts and trendy cafes in Hongdae. Annyeong! ✨',
+    occupation: 'K-Beauty Influencer & Model',
+    education: 'Media & Design, Yonsei Univ',
+    languages: ['Korean', 'English'],
+    interests: ['K-Beauty', 'Fashion', 'Resorts', 'Photography'],
+    avatarUrl: 'https://images.unsplash.com/photo-1754751477999-821708330f79?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '+821055550198',
+    unlockPrice: 2999,
+  },
+
+  // ==========================================================================
+  // PROFILE 19: MIN-SEO (Busan, South Korea) - White Shirt Bed Aesthetic
+  // ==========================================================================
+  {
+    username: 'minseo_korea',
+    displayName: 'Min-seo',
+    age: 22,
+    city: 'Busan',
+    state: 'Haeundae, South Korea',
+    bio: 'Haeundae coastal girl, pilates trainer, cozy minimalist bedroom vibes, and night drives along the bridge. 🤍',
+    occupation: 'Pilates Trainer & Stylist',
+    education: 'B.Sc Health & Physical Ed',
+    languages: ['Korean', 'English'],
+    interests: ['Pilates', 'Aesthetics', 'Ocean View', 'Music'],
+    avatarUrl: 'https://images.unsplash.com/photo-1628336358262-7a8c61ffcd01?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '+821055550164',
+    unlockPrice: 1999,
+  },
 ];

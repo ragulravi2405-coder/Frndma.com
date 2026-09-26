@@ -58,6 +58,12 @@ export const resolveTargetProfile = async (targetProfileId?: string | mongoose.T
       11: 'Malavika',
       12: 'Shalini',
       13: 'Keerthana',
+      14: 'Sophia',
+      15: 'Jessica',
+      16: 'Chloe',
+      17: 'Emma',
+      18: 'Ji-woo',
+      19: 'Min-seo',
     };
     const targetName = nameMap[index] || idStr;
 

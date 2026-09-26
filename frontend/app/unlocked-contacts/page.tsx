@@ -71,15 +71,21 @@ export default function UnlockedContactsPage() {
                 </div>
               </div>
 
-              <a
-                href={`https://wa.me/91${u.contactNumber}?text=Hi%20${encodeURIComponent(u.displayName)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center gap-1.5 transition-colors shadow-sm"
-              >
-                <MessageSquare className="w-4 h-4" />
-                <span>WhatsApp</span>
-              </a>
+              {(() => {
+                const clean = String(u.contactNumber || '').replace(/\D/g, '');
+                const finalNum = clean.length === 10 ? `91${clean}` : clean;
+                return (
+                  <a
+                    href={`https://wa.me/${finalNum}?text=${encodeURIComponent(`Hi ${u.displayName}, saw your profile on Frndma!`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center gap-1.5 transition-colors shadow-sm"
+                  >
+                    <MessageSquare className="w-4 h-4" />
+                    <span>WhatsApp</span>
+                  </a>
+                );
+              })()}
             </div>
           ))}
         </div>
