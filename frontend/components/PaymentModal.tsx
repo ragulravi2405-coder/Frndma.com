@@ -145,6 +145,51 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
     }
   };
 
+  const handleNotifySuccess = async () => {
+    try {
+      setLoading(true);
+      setErrorMessage('');
+
+      const res = await fetchApi('/payments/notify-success', {
+        method: 'POST',
+        body: JSON.stringify({
+          type,
+          targetProfileId,
+          planId,
+          paymentId: `pay_direct_${Date.now()}`,
+        }),
+      });
+
+      setLoading(false);
+
+      if (res.success) {
+        setStatus('success');
+        setUnlockedData(res.data?.unlockedDetails);
+
+        try {
+          confetti({
+            particleCount: 80,
+            spread: 70,
+            origin: { y: 0.6 },
+          });
+        } catch {
+          // ignore
+        }
+
+        if (onSuccess) {
+          onSuccess(res.data);
+        }
+      } else {
+        setStatus('error');
+        setErrorMessage(res.message || 'Payment registration failed.');
+      }
+    } catch (err) {
+      setLoading(false);
+      setStatus('error');
+      setErrorMessage((err as Error).message || 'Connection failed.');
+    }
+  };
+
   const loadRazorpayScript = () => {
     return new Promise((resolve) => {
       if (window.Razorpay) {
@@ -437,38 +482,29 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                     </div>
                   </div>
 
-                  {/* Step 2: Confirm & Unlock */}
+                  {/* Automated WhatsApp Notification Action */}
                   <div className="pt-3 border-t border-white/10 space-y-2.5">
-                    <div className="text-left">
-                      <label className="block text-xs font-semibold text-zinc-300 mb-1">
-                        Step 2: Enter Razorpay Payment ID or 12-Digit UPI Ref / UTR
-                      </label>
-                      <input
-                        type="text"
-                        value={utrNumber}
-                        onChange={(e) => setUtrNumber(e.target.value)}
-                        placeholder="e.g. pay_Q8x9yZ123 or 426891234567"
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-black/40 border border-white/15 text-white text-xs sm:text-sm placeholder:text-zinc-500 focus:outline-none focus:border-primary transition-all font-mono"
-                      />
-                    </div>
-
                     <button
                       disabled={loading}
-                      onClick={handleVerifyUpiPayment}
-                      className="w-full py-3 px-6 rounded-2xl text-xs sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-500 shadow-glow-sm transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                      onClick={handleNotifySuccess}
+                      className="w-full py-3.5 px-6 rounded-2xl text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-600 hover:opacity-95 shadow-glow-sm transition-all flex items-center justify-center gap-2 disabled:opacity-50 active:scale-98"
                     >
                       {loading ? (
-                        <span className="flex items-center gap-2">
+                        <>
                           <RefreshCw className="w-4 h-4 animate-spin" />
-                          Verifying Payment...
-                        </span>
+                          <span>Notifying Admin & Unlocking...</span>
+                        </>
                       ) : (
                         <>
-                          <CheckCircle2 className="w-4 h-4" />
-                          <span>I Have Paid ₹{payableAmount} • Verify & Unlock Now</span>
+                          <CheckCircle2 className="w-4 h-4 text-emerald-300" />
+                          <span>I Have Completed Payment • Unlock Now</span>
                         </>
                       )}
                     </button>
+                    <p className="text-[11px] text-zinc-400 text-center flex items-center justify-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                      <span>Admin (9087923641) receives instant WhatsApp notification upon payment</span>
+                    </p>
                   </div>
                 </div>
               ) : (
@@ -493,47 +529,32 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                     <ExternalLink className="w-3.5 h-3.5" />
                   </a>
 
-                  {/* Step 2 inside Razorpay Tab */}
+                  {/* Automated WhatsApp Notification Action inside Razorpay tab */}
                   <div className="pt-3 border-t border-white/10 space-y-2.5">
-                    <div className="text-left">
-                      <label className="block text-xs font-semibold text-zinc-300 mb-1">
-                        Step 2: Enter Payment ID (e.g. pay_XXXXXX from your receipt)
-                      </label>
-                      <input
-                        type="text"
-                        value={utrNumber}
-                        onChange={(e) => setUtrNumber(e.target.value)}
-                        placeholder="e.g. pay_Q8x9yZ123 or 426891234567"
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-black/40 border border-white/15 text-white text-xs sm:text-sm placeholder:text-zinc-500 focus:outline-none focus:border-primary transition-all font-mono"
-                      />
-                    </div>
-
                     <button
                       disabled={loading}
-                      onClick={handleVerifyUpiPayment}
-                      className="w-full py-3 px-6 rounded-2xl text-xs sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-500 shadow-glow-sm transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                      onClick={handleNotifySuccess}
+                      className="w-full py-3.5 px-6 rounded-2xl text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-600 hover:opacity-95 shadow-glow-sm transition-all flex items-center justify-center gap-2 disabled:opacity-50 active:scale-98"
                     >
                       {loading ? (
-                        <span className="flex items-center gap-2">
+                        <>
                           <RefreshCw className="w-4 h-4 animate-spin" />
-                          Verifying Payment...
-                        </span>
+                          <span>Notifying Admin & Unlocking...</span>
+                        </>
                       ) : (
                         <>
-                          <CheckCircle2 className="w-4 h-4" />
-                          <span>I Have Paid ₹{payableAmount} • Verify & Unlock Now</span>
+                          <CheckCircle2 className="w-4 h-4 text-emerald-300" />
+                          <span>I Have Completed Payment • Unlock Now</span>
                         </>
                       )}
                     </button>
+                    <p className="text-[11px] text-zinc-400 text-center flex items-center justify-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                      <span>Admin (9087923641) receives instant WhatsApp notification upon payment</span>
+                    </p>
                   </div>
                 </div>
               )}
-
-              {/* Safety notice */}
-              <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-center gap-2 text-[11px] text-zinc-400">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                <span>Consent-protected • Verified profiles only</span>
-              </div>
             </div>
           )}
 
@@ -544,10 +565,13 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                 <CheckCircle2 className="w-8 h-8" />
               </div>
               <h3 className="text-2xl font-bold font-heading mb-1 text-white">Payment Confirmed!</h3>
-              <p className="text-xs sm:text-sm text-zinc-300 mb-6">
-                Your payment of <strong className="text-emerald-400">₹{payableAmount}</strong> to{' '}
-                <span className="font-mono text-pink-300">{UPI_ID}</span> was received and verified.
+              <p className="text-xs sm:text-sm text-zinc-300 mb-2">
+                Your payment of <strong className="text-emerald-400">₹{payableAmount}</strong> was received successfully.
               </p>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[11px] font-semibold mb-5">
+                <CheckCircle2 className="w-3.5 h-3.5" />
+                <span>WhatsApp notification sent to Admin (9087923641)</span>
+              </div>
 
               {unlockedData && (
                 <div className="p-4 mb-6 rounded-2xl bg-white/5 border border-primary/30 text-left space-y-3">

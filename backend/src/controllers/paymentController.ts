@@ -9,6 +9,7 @@ import { Subscription } from '../models/Subscription';
 import { Plan } from '../models/Plan';
 import { Profile } from '../models/Profile';
 import { User } from '../models/User';
+import { sendAdminWhatsAppPaymentAlert } from '../services/whatsappService';
 
 export const createOrder = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -212,9 +213,25 @@ export const verifyPayment = async (req: AuthRequest, res: Response, next: NextF
       });
     }
 
+    // Automatically send WhatsApp notification to Admin (9087923641)
+    const user = await User.findById(currentUserId);
+    const userProfile = await Profile.findOne({ userId: currentUserId });
+    const userName = userProfile?.displayName || user?.username || 'Frndma Member';
+    const userMobile = user?.mobileNumber || 'Not provided';
+    await sendAdminWhatsAppPaymentAlert({
+      userName,
+      userMobile,
+      paymentStatus: `Payment Successful for ₹${payment.amount}`,
+      amount: payment.amount,
+      paymentId: razorpayPaymentId,
+      orderId: razorpayOrderId,
+      paymentType: payment.type,
+      targetProfileName: unlockedDetails?.displayName,
+    });
+
     res.status(200).json({
       success: true,
-      message: 'Payment verified successfully!',
+      message: 'Payment verified successfully and Admin notified via WhatsApp!',
       data: {
         paymentId: payment._id,
         status: payment.status,
@@ -333,9 +350,25 @@ export const verifyUpiPayment = async (req: AuthRequest, res: Response, next: Ne
       });
     }
 
+    // Automatically notify Admin (9087923641) on WhatsApp
+    const user = await User.findById(currentUserId);
+    const userProfile = await Profile.findOne({ userId: currentUserId });
+    const userName = userProfile?.displayName || user?.username || 'Frndma Member';
+    const userMobile = user?.mobileNumber || 'Not provided';
+    await sendAdminWhatsAppPaymentAlert({
+      userName,
+      userMobile,
+      paymentStatus: `Payment Successful for ₹${amount}`,
+      amount,
+      paymentId,
+      orderId,
+      paymentType: type,
+      targetProfileName: unlockedDetails?.displayName,
+    });
+
     res.status(200).json({
       success: true,
-      message: 'UPI payment verified and access granted successfully!',
+      message: 'Payment verified and Admin notified on WhatsApp successfully!',
       data: {
         paymentId: payment._id,
         status: payment.status,
@@ -368,21 +401,173 @@ export const handleWebhook = async (req: Request, res: Response): Promise<void> 
     const event = req.body.event;
     console.log(`[Razorpay Webhook] Received event: ${event}`);
 
-    if (event === 'payment.captured') {
-      const orderId = req.body.payload?.payment?.entity?.order_id;
-      const paymentId = req.body.payload?.payment?.entity?.id;
+    if (event === 'payment.captured' || event === 'order.paid' || event === 'payment_link.paid') {
+      const entity = req.body.payload?.payment?.entity || req.body.payload?.payment_link?.entity || {};
+      const orderId = entity.order_id;
+      const paymentId = entity.id || `pay_${Date.now()}`;
+      const amountPaise = entity.amount || 39900;
+      const amount = Math.round(amountPaise / 100);
+      const contact = entity.contact || '';
+      const notes = entity.notes || {};
+
+      let user = null;
+      if (notes.userId) {
+        user = await User.findById(notes.userId);
+      } else if (contact) {
+        const cleanDigits = contact.replace(/\D/g, '').slice(-10);
+        user = await User.findOne({ mobileNumber: { $regex: cleanDigits } });
+      }
+
+      let userProfile = null;
+      if (user) {
+        userProfile = await Profile.findOne({ userId: user._id });
+      }
+      const userName = userProfile?.displayName || user?.username || notes.userName || 'Frndma Member';
+      const userMobile = user?.mobileNumber || contact || 'Not provided';
+
       if (orderId) {
         await Payment.findOneAndUpdate(
           { razorpayOrderId: orderId },
           { status: 'captured', razorpayPaymentId: paymentId }
         );
       }
+
+      // If targetProfileId is attached, unlock contact automatically
+      if (notes.targetProfileId && user) {
+        await ContactUnlock.findOneAndUpdate(
+          { userId: user._id, profileOwnerId: notes.targetProfileId },
+          {
+            userId: user._id,
+            profileOwnerId: notes.targetProfileId,
+            paymentId,
+            orderId: orderId || `ord_${Date.now()}`,
+            status: 'unlocked',
+            unlockedAt: new Date(),
+          },
+          { upsert: true, new: true }
+        );
+      }
+
+      // Automatically dispatch WhatsApp notification to Admin (9087923641)
+      await sendAdminWhatsAppPaymentAlert({
+        userName,
+        userMobile,
+        paymentStatus: `Payment Successful for ₹${amount}`,
+        amount,
+        paymentId,
+        orderId,
+        paymentType: notes.type || 'contact_unlock',
+      });
     }
 
     res.status(200).json({ status: 'ok' });
   } catch (error) {
     console.error('[Razorpay Webhook Error]', error);
     res.status(500).json({ status: 'error' });
+  }
+};
+
+/**
+ * Direct success handler endpoint to automatically record payment & dispatch WhatsApp notification to Admin (9087923641)
+ */
+export const notifyPaymentSuccess = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const currentUserId = req.userId;
+    const { type = 'contact_unlock', targetProfileId, planId, paymentId } = req.body;
+
+    const user = await User.findById(currentUserId);
+    const userProfile = await Profile.findOne({ userId: currentUserId });
+    const userName = userProfile?.displayName || user?.username || 'Frndma Member';
+    const userMobile = user?.mobileNumber || 'Not provided';
+    const amount = 399;
+
+    let targetProfileName = '';
+    let unlockedDetails: any = null;
+
+    if (type === 'contact_unlock' && targetProfileId) {
+      const targetUser = await User.findById(targetProfileId);
+      const targetProfile = await Profile.findOne({ userId: targetProfileId });
+      targetProfileName = targetProfile?.displayName || targetUser?.username || 'Profile';
+
+      await ContactUnlock.findOneAndUpdate(
+        { userId: currentUserId, profileOwnerId: targetProfileId },
+        {
+          userId: currentUserId,
+          profileOwnerId: targetProfileId,
+          paymentId: paymentId || `pay_rzp_${Date.now()}`,
+          orderId: `ord_rzp_${Date.now()}`,
+          status: 'unlocked',
+          unlockedAt: new Date(),
+        },
+        { upsert: true, new: true }
+      );
+
+      unlockedDetails = {
+        ownerUsername: targetUser?.username,
+        displayName: targetProfile?.displayName,
+        contact: targetProfile?.shareableContact || targetUser?.mobileNumber,
+        contactSharing: targetProfile?.contactSharing,
+      };
+    }
+
+    if (type === 'subscription' && planId) {
+      const startDate = new Date();
+      const endDate = new Date();
+      endDate.setDate(endDate.getDate() + 30);
+
+      await Subscription.create({
+        userId: currentUserId,
+        planId,
+        status: 'active',
+        startDate,
+        endDate,
+      });
+    }
+
+    const assignedPaymentId = paymentId || `pay_rzp_${Date.now()}`;
+    const payment = await Payment.create({
+      userId: currentUserId,
+      razorpayOrderId: `ord_rzp_${Date.now()}`,
+      razorpayPaymentId: assignedPaymentId,
+      razorpaySignature: 'rzp_auto_success',
+      amount,
+      currency: 'INR',
+      type,
+      targetProfileId: targetProfileId || undefined,
+      planId: planId || undefined,
+      status: 'captured',
+      notes: {
+        paymentMethod: 'razorpay_link',
+        paymentLink: 'https://rzp.io/rzp/GWx1fBU',
+        userName,
+        userMobile,
+        timestamp: new Date().toISOString(),
+      },
+    });
+
+    // Send WhatsApp notification to Admin (9087923641)
+    const waResult = await sendAdminWhatsAppPaymentAlert({
+      userName,
+      userMobile,
+      paymentStatus: `Payment Successful for ₹${amount}`,
+      amount,
+      paymentId: assignedPaymentId,
+      paymentType: type,
+      targetProfileName,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: 'Payment registered and Admin notified on WhatsApp successfully!',
+      data: {
+        paymentId: payment._id,
+        status: 'captured',
+        unlockedDetails,
+        waLink: waResult.waLink,
+      },
+    });
+  } catch (error) {
+    next(error);
   }
 };
 
