@@ -263,15 +263,19 @@ export const verifyUpiPayment = async (req: AuthRequest, res: Response, next: Ne
       return;
     }
 
-    const orderId = `upi_ord_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
-    const paymentId = utr ? `upi_utr_${utr.trim()}` : `upi_pay_${Date.now()}`;
+    const orderId = `rzp_ord_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
+    const paymentId = utr
+      ? utr.trim().startsWith('pay_')
+        ? utr.trim()
+        : `upi_utr_${utr.trim()}`
+      : `pay_direct_${Date.now()}`;
 
     // Create captured payment record
     const payment = await Payment.create({
       userId: currentUserId,
       razorpayOrderId: orderId,
       razorpayPaymentId: paymentId,
-      razorpaySignature: 'upi_direct_verified',
+      razorpaySignature: 'rzp_direct_verified',
       amount,
       currency: 'INR',
       type,
@@ -279,8 +283,9 @@ export const verifyUpiPayment = async (req: AuthRequest, res: Response, next: Ne
       planId: planId || undefined,
       status: 'captured',
       notes: {
-        paymentMethod: 'upi_direct',
+        paymentMethod: utr && utr.trim().startsWith('pay_') ? 'razorpay_link' : 'upi_direct',
         upiId,
+        paymentLink: 'https://rzp.io/rzp/GWx1fBU',
         utr: utr ? utr.trim() : 'VERIFIED_DIRECT',
         timestamp: new Date().toISOString(),
       },

@@ -43,6 +43,7 @@ interface PaymentModalProps {
 const UPI_ID = 'sri67803@axl';
 const LOCKED_AMOUNT = 399; // Fixed non-editable amount of ₹399
 const PAYEE_NAME = 'Frndma';
+const RAZORPAY_PAYMENT_LINK = 'https://rzp.io/rzp/GWx1fBU';
 
 export const PaymentModal: React.FC<PaymentModalProps> = ({
   isOpen,
@@ -394,15 +395,27 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                   </div>
 
                   {/* Direct Pay Action Buttons */}
-                  <div className="space-y-2">
-                    {/* Primary Direct Pay Button */}
-                    <button
-                      onClick={() => handleDirectUpiPay()}
+                  <div className="space-y-2.5">
+                    {/* Primary Direct Razorpay Payment Link Button */}
+                    <a
+                      href={RAZORPAY_PAYMENT_LINK}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="w-full py-3.5 px-6 rounded-2xl text-sm font-bold text-white bg-gradient-to-r from-primary via-rose-600 to-primary hover:opacity-95 shadow-glow-md hover:shadow-glow-lg transition-all flex items-center justify-center gap-2 transform active:scale-98"
                     >
-                      <Smartphone className="w-4 h-4" />
-                      <span>⚡ Direct Pay ₹{payableAmount} via UPI App</span>
+                      <CreditCard className="w-4 h-4" />
+                      <span>⚡ Direct Pay ₹{payableAmount} via Razorpay Link</span>
                       <ExternalLink className="w-3.5 h-3.5 opacity-80" />
+                    </a>
+
+                    {/* Direct UPI App Button */}
+                    <button
+                      onClick={() => handleDirectUpiPay()}
+                      className="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-pink-200 bg-white/10 hover:bg-white/15 border border-white/10 transition-all flex items-center justify-center gap-2"
+                    >
+                      <Smartphone className="w-4 h-4 text-emerald-400" />
+                      <span>Pay ₹{payableAmount} via UPI App (PhonePe / GPay / Paytm)</span>
+                      <ExternalLink className="w-3.5 h-3.5 opacity-70" />
                     </button>
 
                     {/* Quick Launch Buttons for Popular Apps */}
@@ -432,13 +445,13 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                   <div className="pt-3 border-t border-white/10 space-y-2.5">
                     <div className="text-left">
                       <label className="block text-xs font-semibold text-zinc-300 mb-1">
-                        Step 2: Enter 12-Digit UPI Ref / UTR No. (from your UPI receipt)
+                        Step 2: Enter Razorpay Payment ID or 12-Digit UPI Ref / UTR
                       </label>
                       <input
                         type="text"
                         value={utrNumber}
                         onChange={(e) => setUtrNumber(e.target.value)}
-                        placeholder="e.g. 426891234567 or Transaction ID"
+                        placeholder="e.g. pay_Q8x9yZ123 or 426891234567"
                         className="w-full px-3.5 py-2.5 rounded-xl bg-black/40 border border-white/15 text-white text-xs sm:text-sm placeholder:text-zinc-500 focus:outline-none focus:border-primary transition-all font-mono"
                       />
                     </div>
@@ -463,33 +476,60 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                   </div>
                 </div>
               ) : (
-                /* Razorpay Alternative Tab */
+                /* Razorpay Tab */
                 <div className="space-y-4">
                   <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-xs text-zinc-300 space-y-2">
-                    <p>Pay with Debit / Credit Cards or NetBanking securely via Razorpay.</p>
+                    <p>Pay securely via Razorpay with Cards, NetBanking, UPI or Wallets.</p>
                     <div className="flex items-center gap-2 text-emerald-400 text-[11px]">
                       <ShieldCheck className="w-4 h-4 shrink-0" />
-                      <span>256-Bit SSL Encrypted Gateway</span>
+                      <span>Direct Official Link: <strong>rzp.io/rzp/GWx1fBU</strong></span>
                     </div>
                   </div>
 
-                  <button
-                    disabled={loading}
-                    onClick={handleRazorpayPayment}
-                    className="w-full py-3.5 px-6 rounded-2xl text-sm font-bold text-white bg-gradient-to-r from-primary to-rose-600 hover:from-primary-hover hover:to-rose-500 shadow-glow-sm hover:shadow-glow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                  <a
+                    href={RAZORPAY_PAYMENT_LINK}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-3.5 px-6 rounded-2xl text-sm font-bold text-white bg-gradient-to-r from-primary to-rose-600 hover:from-primary-hover hover:to-rose-500 shadow-glow-sm hover:shadow-glow-md transition-all flex items-center justify-center gap-2"
                   >
-                    {loading ? (
-                      <span className="flex items-center gap-2">
-                        <RefreshCw className="w-4 h-4 animate-spin" />
-                        Processing...
-                      </span>
-                    ) : (
-                      <>
-                        <CreditCard className="w-4 h-4" />
-                        <span>Pay ₹{payableAmount} via Razorpay Gateway</span>
-                      </>
-                    )}
-                  </button>
+                    <CreditCard className="w-4 h-4" />
+                    <span>⚡ Click to Pay ₹{payableAmount} via Razorpay</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+
+                  {/* Step 2 inside Razorpay Tab */}
+                  <div className="pt-3 border-t border-white/10 space-y-2.5">
+                    <div className="text-left">
+                      <label className="block text-xs font-semibold text-zinc-300 mb-1">
+                        Step 2: Enter Payment ID (e.g. pay_XXXXXX from your receipt)
+                      </label>
+                      <input
+                        type="text"
+                        value={utrNumber}
+                        onChange={(e) => setUtrNumber(e.target.value)}
+                        placeholder="e.g. pay_Q8x9yZ123 or 426891234567"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-black/40 border border-white/15 text-white text-xs sm:text-sm placeholder:text-zinc-500 focus:outline-none focus:border-primary transition-all font-mono"
+                      />
+                    </div>
+
+                    <button
+                      disabled={loading}
+                      onClick={handleVerifyUpiPayment}
+                      className="w-full py-3 px-6 rounded-2xl text-xs sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-500 shadow-glow-sm transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                    >
+                      {loading ? (
+                        <span className="flex items-center gap-2">
+                          <RefreshCw className="w-4 h-4 animate-spin" />
+                          Verifying Payment...
+                        </span>
+                      ) : (
+                        <>
+                          <CheckCircle2 className="w-4 h-4" />
+                          <span>I Have Paid ₹{payableAmount} • Verify & Unlock Now</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
                 </div>
               )}
 
