@@ -47,6 +47,7 @@ const DISCOVER_5_GIRLS_LIST = [
     interests: ['Nature', 'Music', 'Coffee', 'Travel'],
     avatarUrl: 'https://images.unsplash.com/photo-1689580298851-d4482a124290?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543211',
+    unlockPrice: 399,
     contactSharing: true,
   },
 
@@ -65,6 +66,7 @@ const DISCOVER_5_GIRLS_LIST = [
     interests: ['Design', 'Cafes', 'Indie Music', 'Art'],
     avatarUrl: 'https://images.unsplash.com/photo-1710972197951-3aade7376076?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543212',
+    unlockPrice: 599,
     contactSharing: true,
   },
 
@@ -83,6 +85,7 @@ const DISCOVER_5_GIRLS_LIST = [
     interests: ['Classical Dance', 'Medicine', 'Sunsets', 'Travel'],
     avatarUrl: 'https://images.unsplash.com/photo-1761125135357-99cbe52a6271?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543213',
+    unlockPrice: 499,
     contactSharing: true,
   },
 
@@ -101,6 +104,7 @@ const DISCOVER_5_GIRLS_LIST = [
     interests: ['Road Trips', 'Photography', 'Vlogging', 'Music'],
     avatarUrl: 'https://images.unsplash.com/photo-1710967795578-81e7669b2185?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543214',
+    unlockPrice: 699,
     contactSharing: true,
   },
 
@@ -119,6 +123,7 @@ const DISCOVER_5_GIRLS_LIST = [
     interests: ['Startups', 'Sarees', 'Literature', 'Acoustic'],
     avatarUrl: 'https://plus.unsplash.com/premium_photo-1691030255899-cccde3a4e04f?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543215',
+    unlockPrice: 799,
     contactSharing: true,
   },
 
@@ -137,6 +142,7 @@ const DISCOVER_5_GIRLS_LIST = [
     interests: ['Bharatanatyam', 'Heritage', 'Temple Art', 'Poetry'],
     avatarUrl: 'https://plus.unsplash.com/premium_photo-1726873351723-cb980a1d6dcb?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543216',
+    unlockPrice: 499,
     contactSharing: true,
   },
 
@@ -155,11 +161,12 @@ const DISCOVER_5_GIRLS_LIST = [
     interests: ['Teaching', 'Beaches', 'Novels', 'Planting'],
     avatarUrl: 'https://images.unsplash.com/photo-1710967074857-d5c6d53d926b?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543217',
+    unlockPrice: 399,
     contactSharing: true,
   },
 
   // ──────────────────────────────────────────────────────────
-  // 🌸 [GIRL 8] - RITHIKA (Chennai, Tamil Nadu) - Red Sari Front of Door
+  // 🌸 [GIRL 8] - RITHIKA (Chennai, Tamil Nadu) - Red Sari Front of Door (Hot Fashion Stylist)
   // ──────────────────────────────────────────────────────────
   {
     id: 'girl_8',
@@ -173,6 +180,7 @@ const DISCOVER_5_GIRLS_LIST = [
     interests: ['Fashion', 'Photography', 'Cafes', 'Beaches'],
     avatarUrl: 'https://images.unsplash.com/photo-1738853941039-b3d49beb16aa?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543218',
+    unlockPrice: 899,
     contactSharing: true,
   },
 
@@ -191,6 +199,7 @@ const DISCOVER_5_GIRLS_LIST = [
     interests: ['Wellness', 'Houseboats', 'Nature', 'Meditation'],
     avatarUrl: 'https://images.unsplash.com/photo-1747993114347-7a4a9d454e22?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543219',
+    unlockPrice: 599,
     contactSharing: true,
   },
 
@@ -209,6 +218,7 @@ const DISCOVER_5_GIRLS_LIST = [
     interests: ['Fitness', 'Trekking', 'Podcasts', 'Networking'],
     avatarUrl: 'https://images.unsplash.com/photo-1641877953739-8cab85119201?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543220',
+    unlockPrice: 699,
     contactSharing: true,
   },
 
@@ -227,6 +237,7 @@ const DISCOVER_5_GIRLS_LIST = [
     interests: ['Sketching', 'Rain', 'Architecture', 'Foodie'],
     avatarUrl: 'https://images.unsplash.com/photo-1669829508691-8ce630261b7b?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543221',
+    unlockPrice: 499,
     contactSharing: true,
   },
 
@@ -245,11 +256,12 @@ const DISCOVER_5_GIRLS_LIST = [
     interests: ['Painting', 'Economics', 'Badminton', 'Movies'],
     avatarUrl: 'https://images.unsplash.com/photo-1669829586323-0aa141a664cc?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543222',
+    unlockPrice: 599,
     contactSharing: true,
   },
 
   // ──────────────────────────────────────────────────────────
-  // 🌸 [GIRL 13] - KEERTHANA (Bangalore, Karnataka) - Cosplay / Anime Fan
+  // 🌸 [GIRL 13] - KEERTHANA (Bangalore, Karnataka) - Cosplay / Anime Fan (Hot Glamorous)
   // ──────────────────────────────────────────────────────────
   {
     id: 'girl_13',
@@ -263,6 +275,7 @@ const DISCOVER_5_GIRLS_LIST = [
     interests: ['Anime', 'Cosplay', 'Gaming', 'Design'],
     avatarUrl: 'https://images.unsplash.com/photo-1788022164447-c491541fe0a0?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543223',
+    unlockPrice: 999,
     contactSharing: true,
   },
 ];
@@ -285,6 +298,7 @@ export default function DiscoverPage() {
     isOpen: boolean;
     targetProfileId?: string;
     targetProfileName?: string;
+    amount?: number;
   }>({
     isOpen: false,
   });
@@ -309,7 +323,7 @@ export default function DiscoverPage() {
     if (profilesRes.success && profilesRes.data && profilesRes.data.length > 0) {
       setProfiles(profilesRes.data);
     } else {
-      // Default to the 5 configured girls profiles if query has no database results or offline
+      // Default to the configured girls profiles if query has no database results or offline
       setProfiles(DISCOVER_5_GIRLS_LIST);
     }
 
@@ -329,6 +343,7 @@ export default function DiscoverPage() {
       isOpen: true,
       targetProfileId: profile.userId || profile.id,
       targetProfileName: profile.displayName,
+      amount: profile.unlockPrice || 399,
     });
   };
 
@@ -436,13 +451,18 @@ export default function DiscoverPage() {
                     <span>Verified</span>
                   </div>
 
-                  {/* Lock Indicator */}
-                  <div className="absolute top-3 right-3 p-2 rounded-xl bg-black/60 backdrop-blur-md border border-white/10 text-white">
-                    {isUnlocked ? (
-                      <Unlock className="w-4 h-4 text-emerald-400" />
-                    ) : (
-                      <Lock className="w-4 h-4 text-primary" />
-                    )}
+                  {/* Price Tag & Lock Indicator */}
+                  <div className="absolute top-3 right-3 flex items-center gap-1.5">
+                    <div className="px-2.5 py-1 rounded-xl bg-gradient-to-r from-primary to-rose-600 backdrop-blur-md border border-white/20 text-[11px] font-extrabold text-white shadow-glow-sm">
+                      ₹{profile.unlockPrice || 399}
+                    </div>
+                    <div className="p-1.5 rounded-xl bg-black/60 backdrop-blur-md border border-white/10 text-white">
+                      {isUnlocked ? (
+                        <Unlock className="w-4 h-4 text-emerald-400" />
+                      ) : (
+                        <Lock className="w-4 h-4 text-primary" />
+                      )}
+                    </div>
                   </div>
 
                   {/* Card Details */}
@@ -503,7 +523,7 @@ export default function DiscoverPage() {
                         className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-primary to-rose-600 hover:from-primary-hover hover:to-rose-500 text-white text-xs font-bold flex items-center justify-center gap-2 shadow-glow-sm transition-all hover:scale-[1.02]"
                       >
                         <Lock className="w-3.5 h-3.5" />
-                        <span>Unlock Contact (₹399)</span>
+                        <span>Unlock Contact (₹{profile.unlockPrice || 399})</span>
                       </button>
                     )}
 
@@ -641,13 +661,14 @@ export default function DiscoverPage() {
                     </p>
                     <button
                       onClick={() => {
+                        const target = selectedProfile;
                         setSelectedProfile(null);
-                        handleUnlockClick(selectedProfile);
+                        handleUnlockClick(target);
                       }}
                       className="w-full py-3 px-6 rounded-xl bg-gradient-to-r from-primary to-rose-600 text-white text-xs font-bold flex items-center justify-center gap-2 shadow-glow-sm"
                     >
                       <Lock className="w-4 h-4" />
-                      <span>Unlock Contact Details (₹399 • Razorpay / UPI)</span>
+                      <span>Unlock Contact Details (₹{selectedProfile.unlockPrice || 399} • Razorpay / UPI)</span>
                     </button>
                   </div>
                 )}
@@ -664,7 +685,7 @@ export default function DiscoverPage() {
         type="contact_unlock"
         targetProfileId={paymentData.targetProfileId}
         targetProfileName={paymentData.targetProfileName}
-        amount={399}
+        amount={paymentData.amount || 399}
         onSuccess={() => {
           loadData();
         }}

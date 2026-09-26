@@ -9,9 +9,9 @@
  * 
  * 1. Image URL (avatarUrl): Direct image link podunga (Unsplash, Cloudinary, etc.)
  * 2. Contact details (shareableContact): Avanga WhatsApp / Phone number podunga.
- *    (User ₹399 pay panni unlock pannum pothu intha number thaan kaattum).
- * 3. Display Name (displayName): Girl's name
- * 4. City, Age, Bio, Occupation: Kerala, Tamil Nadu, Bangalore locations.
+ * 3. Unlock Price (unlockPrice): Starting ₹399 muthal ₹999 varai individual girl-ku set pannalam.
+ * 4. Display Name (displayName): Girl's name
+ * 5. City, Age, Bio, Occupation: Kerala, Tamil Nadu, Bangalore locations.
  * 
  * ============================================================================
  */
@@ -44,9 +44,13 @@ export interface GirlProfileConfig {
   avatarUrl: string;
   /** 
    * 📱 CONTACT / WHATSAPP NUMBER
-   * Revealed when user pays ₹399 to unlock contact!
+   * Revealed when user pays unlock fee to unlock contact!
    */
   shareableContact: string;
+  /** 
+   * 💰 UNLOCK PRICE (₹399, ₹499, ₹599, ₹699, ₹799, ₹899, ₹999)
+   */
+  unlockPrice: number;
   /** Additional photo gallery (optional) */
   photos?: Array<{ url: string; isPrimary?: boolean }>;
 }
@@ -68,6 +72,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Nature', 'Music', 'Coffee', 'Travel'],
     avatarUrl: 'https://images.unsplash.com/photo-1689580298851-d4482a124290?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543211',
+    unlockPrice: 399,
   },
 
   // ==========================================================================
@@ -86,6 +91,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Design', 'Cafes', 'Indie Music', 'Art'],
     avatarUrl: 'https://images.unsplash.com/photo-1710972197951-3aade7376076?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543212',
+    unlockPrice: 599,
   },
 
   // ==========================================================================
@@ -104,6 +110,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Classical Dance', 'Medicine', 'Sunsets', 'Travel'],
     avatarUrl: 'https://images.unsplash.com/photo-1761125135357-99cbe52a6271?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543213',
+    unlockPrice: 499,
   },
 
   // ==========================================================================
@@ -122,6 +129,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Road Trips', 'Photography', 'Vlogging', 'Music'],
     avatarUrl: 'https://images.unsplash.com/photo-1710967795578-81e7669b2185?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543214',
+    unlockPrice: 699,
   },
 
   // ==========================================================================
@@ -140,6 +148,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Startups', 'Sarees', 'Literature', 'Acoustic'],
     avatarUrl: 'https://plus.unsplash.com/premium_photo-1691030255899-cccde3a4e04f?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543215',
+    unlockPrice: 799,
   },
 
   // ==========================================================================
@@ -158,6 +167,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Bharatanatyam', 'Heritage', 'Temple Art', 'Poetry'],
     avatarUrl: 'https://plus.unsplash.com/premium_photo-1726873351723-cb980a1d6dcb?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543216',
+    unlockPrice: 499,
   },
 
   // ==========================================================================
@@ -176,10 +186,11 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Teaching', 'Beaches', 'Novels', 'Planting'],
     avatarUrl: 'https://images.unsplash.com/photo-1710967074857-d5c6d53d926b?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543217',
+    unlockPrice: 399,
   },
 
   // ==========================================================================
-  // PROFILE 8: RITHIKA (Chennai, Tamil Nadu) - Red Sari Front of Door
+  // PROFILE 8: RITHIKA (Chennai, Tamil Nadu) - Red Sari Front of Door (Hot Fashion Stylist)
   // ==========================================================================
   {
     username: 'rithika_23',
@@ -194,6 +205,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Fashion', 'Photography', 'Cafes', 'Beaches'],
     avatarUrl: 'https://images.unsplash.com/photo-1738853941039-b3d49beb16aa?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543218',
+    unlockPrice: 899,
   },
 
   // ==========================================================================
@@ -212,6 +224,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Wellness', 'Houseboats', 'Nature', 'Meditation'],
     avatarUrl: 'https://images.unsplash.com/photo-1747993114347-7a4a9d454e22?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543219',
+    unlockPrice: 599,
   },
 
   // ==========================================================================
@@ -230,6 +243,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Fitness', 'Trekking', 'Podcasts', 'Networking'],
     avatarUrl: 'https://images.unsplash.com/photo-1641877953739-8cab85119201?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543220',
+    unlockPrice: 699,
   },
 
   // ==========================================================================
@@ -248,6 +262,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Sketching', 'Rain', 'Architecture', 'Foodie'],
     avatarUrl: 'https://images.unsplash.com/photo-1669829508691-8ce630261b7b?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543221',
+    unlockPrice: 499,
   },
 
   // ==========================================================================
@@ -266,10 +281,11 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Painting', 'Economics', 'Badminton', 'Movies'],
     avatarUrl: 'https://images.unsplash.com/photo-1669829586323-0aa141a664cc?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543222',
+    unlockPrice: 599,
   },
 
   // ==========================================================================
-  // PROFILE 13: KEERTHANA (Bangalore, Karnataka) - Bunny Costume / Cosplay
+  // PROFILE 13: KEERTHANA (Bangalore, Karnataka) - Cosplay / Bunny Costume (Hot Glamorous)
   // ==========================================================================
   {
     username: 'keerthana_23',
@@ -284,5 +300,6 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Anime', 'Cosplay', 'Gaming', 'Design'],
     avatarUrl: 'https://images.unsplash.com/photo-1788022164447-c491541fe0a0?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543223',
+    unlockPrice: 999,
   },
 ];

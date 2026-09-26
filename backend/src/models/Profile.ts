@@ -24,6 +24,7 @@ export interface IProfile extends Document {
   photos: IProfilePhoto[];
   contactSharing: boolean;
   shareableContact?: string;
+  unlockPrice?: number;
   isProfileComplete: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -117,6 +118,10 @@ const ProfileSchema = new Schema<IProfile>(
       type: String,
       trim: true,
       default: '',
+    },
+    unlockPrice: {
+      type: Number,
+      default: 399,
     },
     isProfileComplete: {
       type: Boolean,

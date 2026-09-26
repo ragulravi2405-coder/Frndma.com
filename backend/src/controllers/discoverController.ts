@@ -94,6 +94,7 @@ export const getDiscoverProfiles = async (req: AuthRequest, res: Response, next:
         photos: p.photos,
         isOnline: p.userId.isOnline,
         contactSharing: p.contactSharing,
+        unlockPrice: p.unlockPrice || 399,
       }));
 
     res.status(200).json({

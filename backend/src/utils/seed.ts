@@ -109,6 +109,7 @@ export const seedDatabase = async () => {
           photos: [{ url: g.avatarUrl, publicId: `seed_${g.username}`, isPrimary: true }],
           contactSharing: true,
           shareableContact: g.shareableContact,
+          unlockPrice: g.unlockPrice || 399,
           isProfileComplete: true,
         },
         { upsert: true, new: true }

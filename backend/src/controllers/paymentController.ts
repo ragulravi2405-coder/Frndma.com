@@ -138,7 +138,7 @@ export const createOrder = async (req: AuthRequest, res: Response, next: NextFun
         return;
       }
 
-      amount = 399; // Contact unlock price ₹399
+      amount = targetProfile?.unlockPrice || 399; // Profile-specific unlock price
       notes.targetProfileId = profileOwnerId;
     } else if (type === 'subscription') {
       if (!planId) {
@@ -557,7 +557,7 @@ export const notifyPaymentSuccess = async (req: AuthRequest, res: Response, next
 export const verifyRazorpayLinkPayment = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const currentUserId = req.userId;
-    const { targetProfileId, paymentId, phone, type = 'contact_unlock' } = req.body;
+    const { targetProfileId, paymentId, phone, amount, type = 'contact_unlock' } = req.body;
 
     if (!targetProfileId) {
       res.status(400).json({ success: false, message: 'Target profile ID is required' });
@@ -570,6 +570,8 @@ export const verifyRazorpayLinkPayment = async (req: AuthRequest, res: Response,
       return;
     }
     const profileOwnerId = targetProfile.userId.toString();
+    const requiredRupees = targetProfile?.unlockPrice || Number(amount) || 399;
+    const requiredPaise = requiredRupees * 100;
 
     // 1. Check if user already unlocked this profile
     const existingUnlock = await ContactUnlock.findOne({
@@ -595,35 +597,35 @@ export const verifyRazorpayLinkPayment = async (req: AuthRequest, res: Response,
       return;
     }
 
-    // 2. Query Razorpay API for live captured payments of strictly ₹399
+    // 2. Query Razorpay API for live captured payments of required amount
     let matchedPayment: any = null;
     try {
       const payments = await razorpayInstance.payments.all({ count: 50 });
-      // Only captured payments with amount strictly ₹399 (39900 paise)
-      const captured399 = payments.items.filter(
-        (p: any) => p.status === 'captured' && Number(p.amount) === 39900
+      // Captured payments with amount matching required profile unlock fee (in paise)
+      const capturedMatching = payments.items.filter(
+        (p: any) => p.status === 'captured' && (Number(p.amount) === requiredPaise || Number(p.amount) >= requiredPaise)
       );
 
       // Match by Payment ID if provided
       if (paymentId && String(paymentId).trim()) {
         const cleanPid = String(paymentId).trim().toLowerCase();
-        matchedPayment = captured399.find((p: any) => p.id.toLowerCase() === cleanPid);
+        matchedPayment = capturedMatching.find((p: any) => p.id.toLowerCase() === cleanPid);
       }
 
       // Match by phone number
       if (!matchedPayment) {
         const userPhone = (phone || req.user?.mobileNumber || '').replace(/\D/g, '').slice(-10);
         if (userPhone && userPhone.length >= 10) {
-          matchedPayment = captured399.find(
+          matchedPayment = capturedMatching.find(
             (p: any) => p.contact && p.contact.replace(/\D/g, '').includes(userPhone)
           );
         }
       }
 
-      // Match by recent captured ₹399 payment in last 30 minutes
+      // Match by recent captured payment in last 30 minutes
       if (!matchedPayment) {
         const thirtyMinsAgo = Math.floor(Date.now() / 1000) - 1800;
-        const recentPayments = captured399.filter((p: any) => p.created_at >= thirtyMinsAgo);
+        const recentPayments = capturedMatching.filter((p: any) => p.created_at >= thirtyMinsAgo);
 
         for (const p of recentPayments) {
           const alreadyClaimed = await Payment.findOne({
@@ -644,7 +646,7 @@ export const verifyRazorpayLinkPayment = async (req: AuthRequest, res: Response,
     if (!matchedPayment) {
       res.status(400).json({
         success: false,
-        message: 'No ₹399 payment detected on razorpay.me/@ravirahul601. Please make ₹399 payment on razorpay.me/@ravirahul601 first.',
+        message: `No ₹${requiredRupees} payment detected on razorpay.me/@ravirahul601. Please make ₹${requiredRupees} payment on razorpay.me/@ravirahul601 first.`,
       });
       return;
     }
@@ -655,7 +657,7 @@ export const verifyRazorpayLinkPayment = async (req: AuthRequest, res: Response,
       razorpayOrderId: `link_ord_${matchedPayment.id}_${Date.now()}_${Math.floor(Math.random() * 10000)}`,
       razorpayPaymentId: matchedPayment.id,
       razorpaySignature: 'rzp_link_verified',
-      amount: 399,
+      amount: requiredRupees,
       currency: 'INR',
       type: 'contact_unlock',
       targetProfileId: profileOwnerId,
@@ -698,8 +700,8 @@ export const verifyRazorpayLinkPayment = async (req: AuthRequest, res: Response,
     await sendAdminWhatsAppPaymentAlert({
       userName,
       userMobile,
-      paymentStatus: `Payment Verified on Razorpay Link for ₹399`,
-      amount: 399,
+      paymentStatus: `Payment Verified on Razorpay Link for ₹${requiredRupees}`,
+      amount: requiredRupees,
       paymentId: matchedPayment.id,
       orderId: payment.razorpayOrderId,
       paymentType: 'contact_unlock',
@@ -708,7 +710,7 @@ export const verifyRazorpayLinkPayment = async (req: AuthRequest, res: Response,
 
     res.status(200).json({
       success: true,
-      message: '₹399 payment verified! Contact unlocked successfully.',
+      message: `₹${requiredRupees} payment verified! Contact unlocked successfully.`,
       data: {
         paymentId: matchedPayment.id,
         status: 'captured',

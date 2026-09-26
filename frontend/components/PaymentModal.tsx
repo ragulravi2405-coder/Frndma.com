@@ -43,9 +43,10 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
   targetProfileName,
   planId,
   planName,
+  amount,
   onSuccess,
 }) => {
-  const payableAmount = LOCKED_AMOUNT;
+  const payableAmount = amount || LOCKED_AMOUNT;
 
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
@@ -109,6 +110,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
           type,
           targetProfileId,
           planId,
+          amount: payableAmount,
           phone: paymentPhone.trim(),
           paymentId: paymentIdInput.trim(),
         }),
@@ -140,7 +142,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
           setStatus('error');
           setErrorMessage(
             res.message ||
-              'No ₹399 payment detected on razorpay.me/@ravirahul601 yet. Please pay ₹399 and click Check again.'
+              `No ₹${payableAmount} payment detected on razorpay.me/@ravirahul601 yet. Please pay ₹${payableAmount} and click Check again.`
           );
         }
         return false;
