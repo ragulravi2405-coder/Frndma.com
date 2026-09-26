@@ -404,40 +404,36 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                       className="w-full py-3.5 px-6 rounded-2xl text-sm font-bold text-white bg-gradient-to-r from-primary via-rose-600 to-primary hover:opacity-95 shadow-glow-md hover:shadow-glow-lg transition-all flex items-center justify-center gap-2 transform active:scale-98"
                     >
                       <CreditCard className="w-4 h-4" />
-                      <span>⚡ Direct Pay ₹{payableAmount} via Razorpay Link</span>
+                      <span>⚡ Direct Pay ₹{payableAmount} via PhonePe / GPay</span>
                       <ExternalLink className="w-3.5 h-3.5 opacity-80" />
                     </a>
 
-                    {/* Direct UPI App Button */}
-                    <button
-                      onClick={() => handleDirectUpiPay()}
-                      className="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-pink-200 bg-white/10 hover:bg-white/15 border border-white/10 transition-all flex items-center justify-center gap-2"
-                    >
-                      <Smartphone className="w-4 h-4 text-emerald-400" />
-                      <span>Pay ₹{payableAmount} via UPI App (PhonePe / GPay / Paytm)</span>
-                      <ExternalLink className="w-3.5 h-3.5 opacity-70" />
-                    </button>
-
-                    {/* Quick Launch Buttons for Popular Apps */}
+                    {/* Quick Launch Buttons for Popular Apps (All opening Razorpay Payment Link) */}
                     <div className="grid grid-cols-3 gap-2">
-                      <button
-                        onClick={() => handleDirectUpiPay('phonepe')}
-                        className="py-2 px-2 rounded-xl bg-purple-950/40 hover:bg-purple-900/60 border border-purple-500/30 text-purple-200 text-xs font-semibold flex items-center justify-center gap-1 transition-all"
+                      <a
+                        href={RAZORPAY_PAYMENT_LINK}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="py-2.5 px-2 rounded-xl bg-purple-950/40 hover:bg-purple-900/60 border border-purple-500/30 text-purple-200 text-xs font-semibold flex items-center justify-center gap-1 transition-all text-center"
                       >
                         <span>PhonePe</span>
-                      </button>
-                      <button
-                        onClick={() => handleDirectUpiPay('gpay')}
-                        className="py-2 px-2 rounded-xl bg-blue-950/40 hover:bg-blue-900/60 border border-blue-500/30 text-blue-200 text-xs font-semibold flex items-center justify-center gap-1 transition-all"
+                      </a>
+                      <a
+                        href={RAZORPAY_PAYMENT_LINK}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="py-2.5 px-2 rounded-xl bg-blue-950/40 hover:bg-blue-900/60 border border-blue-500/30 text-blue-200 text-xs font-semibold flex items-center justify-center gap-1 transition-all text-center"
                       >
                         <span>Google Pay</span>
-                      </button>
-                      <button
-                        onClick={() => handleDirectUpiPay('paytm')}
-                        className="py-2 px-2 rounded-xl bg-cyan-950/40 hover:bg-cyan-900/60 border border-cyan-500/30 text-cyan-200 text-xs font-semibold flex items-center justify-center gap-1 transition-all"
+                      </a>
+                      <a
+                        href={RAZORPAY_PAYMENT_LINK}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="py-2.5 px-2 rounded-xl bg-cyan-950/40 hover:bg-cyan-900/60 border border-cyan-500/30 text-cyan-200 text-xs font-semibold flex items-center justify-center gap-1 transition-all text-center"
                       >
                         <span>Paytm</span>
-                      </button>
+                      </a>
                     </div>
                   </div>
 
