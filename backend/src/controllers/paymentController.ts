@@ -467,108 +467,11 @@ export const handleWebhook = async (req: Request, res: Response): Promise<void> 
   }
 };
 
-/**
- * Direct success handler endpoint to automatically record payment & dispatch WhatsApp notification to Admin (catman2kai@gmail.com)
- */
 export const notifyPaymentSuccess = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
-  try {
-    const currentUserId = req.userId;
-    const { type = 'contact_unlock', targetProfileId, planId, paymentId } = req.body;
-
-    const user = await User.findById(currentUserId);
-    const userProfile = await Profile.findOne({ userId: currentUserId });
-    const userName = userProfile?.displayName || user?.username || 'Frndma Member';
-    const userMobile = user?.mobileNumber || 'Not provided';
-    const amount = 399;
-
-    let targetProfileName = '';
-    let unlockedDetails: any = null;
-
-    if (type === 'contact_unlock' && targetProfileId) {
-      const targetUser = await User.findById(targetProfileId);
-      const targetProfile = await Profile.findOne({ userId: targetProfileId });
-      targetProfileName = targetProfile?.displayName || targetUser?.username || 'Profile';
-
-      await ContactUnlock.findOneAndUpdate(
-        { userId: currentUserId, profileOwnerId: targetProfileId },
-        {
-          userId: currentUserId,
-          profileOwnerId: targetProfileId,
-          paymentId: paymentId || `pay_rzp_${Date.now()}`,
-          orderId: `ord_rzp_${Date.now()}`,
-          status: 'unlocked',
-          unlockedAt: new Date(),
-        },
-        { upsert: true, new: true }
-      );
-
-      unlockedDetails = {
-        ownerUsername: targetUser?.username,
-        displayName: targetProfile?.displayName,
-        contact: targetProfile?.shareableContact || targetUser?.mobileNumber,
-        contactSharing: targetProfile?.contactSharing,
-      };
-    }
-
-    if (type === 'subscription' && planId) {
-      const startDate = new Date();
-      const endDate = new Date();
-      endDate.setDate(endDate.getDate() + 30);
-
-      await Subscription.create({
-        userId: currentUserId,
-        planId,
-        status: 'active',
-        startDate,
-        endDate,
-      });
-    }
-
-    const assignedPaymentId = paymentId || `pay_rzp_${Date.now()}`;
-    const payment = await Payment.create({
-      userId: currentUserId,
-      razorpayOrderId: `ord_rzp_${Date.now()}`,
-      razorpayPaymentId: assignedPaymentId,
-      razorpaySignature: 'rzp_auto_success',
-      amount,
-      currency: 'INR',
-      type,
-      targetProfileId: targetProfileId || undefined,
-      planId: planId || undefined,
-      status: 'captured',
-      notes: {
-        paymentMethod: 'razorpay_link',
-        paymentLink: 'https://rzp.io/rzp/GWx1fBU',
-        userName,
-        userMobile,
-        timestamp: new Date().toISOString(),
-      },
-    });
-
-    // Send WhatsApp notification to Admin (catman2kai@gmail.com)
-    const waResult = await sendAdminWhatsAppPaymentAlert({
-      userName,
-      userMobile,
-      paymentStatus: `Payment Successful for ₹${amount}`,
-      amount,
-      paymentId: assignedPaymentId,
-      paymentType: type,
-      targetProfileName,
-    });
-
-    res.status(200).json({
-      success: true,
-      message: 'Payment registered and Admin notified on WhatsApp successfully!',
-      data: {
-        paymentId: payment._id,
-        status: 'captured',
-        unlockedDetails,
-        waLink: waResult.waLink,
-      },
-    });
-  } catch (error) {
-    next(error);
-  }
+  res.status(403).json({
+    success: false,
+    message: 'Manual unlock without payment verification is disabled. Please complete payment via Razorpay to unlock.',
+  });
 };
 
 export const getPaymentHistory = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {

@@ -145,51 +145,6 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
     }
   };
 
-  const handleNotifySuccess = async () => {
-    try {
-      setLoading(true);
-      setErrorMessage('');
-
-      const res = await fetchApi('/payments/notify-success', {
-        method: 'POST',
-        body: JSON.stringify({
-          type,
-          targetProfileId,
-          planId,
-          paymentId: `pay_direct_${Date.now()}`,
-        }),
-      });
-
-      setLoading(false);
-
-      if (res.success) {
-        setStatus('success');
-        setUnlockedData(res.data?.unlockedDetails);
-
-        try {
-          confetti({
-            particleCount: 80,
-            spread: 70,
-            origin: { y: 0.6 },
-          });
-        } catch {
-          // ignore
-        }
-
-        if (onSuccess) {
-          onSuccess(res.data);
-        }
-      } else {
-        setStatus('error');
-        setErrorMessage(res.message || 'Payment registration failed.');
-      }
-    } catch (err) {
-      setLoading(false);
-      setStatus('error');
-      setErrorMessage((err as Error).message || 'Connection failed.');
-    }
-  };
-
   const loadRazorpayScript = () => {
     return new Promise((resolve) => {
       if (window.Razorpay) {
@@ -441,69 +396,50 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
 
                   {/* Direct Pay Action Buttons */}
                   <div className="space-y-2.5">
-                    {/* Primary Direct Razorpay Payment Link Button */}
-                    <a
-                      href={RAZORPAY_PAYMENT_LINK}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full py-3.5 px-6 rounded-2xl text-sm font-bold text-white bg-gradient-to-r from-primary via-rose-600 to-primary hover:opacity-95 shadow-glow-md hover:shadow-glow-lg transition-all flex items-center justify-center gap-2 transform active:scale-98"
-                    >
-                      <CreditCard className="w-4 h-4" />
-                      <span>⚡ Direct Pay ₹{payableAmount} via PhonePe / GPay</span>
-                      <ExternalLink className="w-3.5 h-3.5 opacity-80" />
-                    </a>
-
-                    {/* Quick Launch Buttons for Popular Apps (All opening Razorpay Payment Link) */}
-                    <div className="grid grid-cols-3 gap-2">
-                      <a
-                        href={RAZORPAY_PAYMENT_LINK}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="py-2.5 px-2 rounded-xl bg-purple-950/40 hover:bg-purple-900/60 border border-purple-500/30 text-purple-200 text-xs font-semibold flex items-center justify-center gap-1 transition-all text-center"
-                      >
-                        <span>PhonePe</span>
-                      </a>
-                      <a
-                        href={RAZORPAY_PAYMENT_LINK}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="py-2.5 px-2 rounded-xl bg-blue-950/40 hover:bg-blue-900/60 border border-blue-500/30 text-blue-200 text-xs font-semibold flex items-center justify-center gap-1 transition-all text-center"
-                      >
-                        <span>Google Pay</span>
-                      </a>
-                      <a
-                        href={RAZORPAY_PAYMENT_LINK}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="py-2.5 px-2 rounded-xl bg-cyan-950/40 hover:bg-cyan-900/60 border border-cyan-500/30 text-cyan-200 text-xs font-semibold flex items-center justify-center gap-1 transition-all text-center"
-                      >
-                        <span>Paytm</span>
-                      </a>
-                    </div>
-                  </div>
-
-                  {/* Automated WhatsApp Notification Action */}
-                  <div className="pt-3 border-t border-white/10 space-y-2.5">
+                    {/* Primary Secure Payment Button */}
                     <button
+                      onClick={handleRazorpayPayment}
                       disabled={loading}
-                      onClick={handleNotifySuccess}
-                      className="w-full py-3.5 px-6 rounded-2xl text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-600 hover:opacity-95 shadow-glow-sm transition-all flex items-center justify-center gap-2 disabled:opacity-50 active:scale-98"
+                      className="w-full py-3.5 px-6 rounded-2xl text-sm font-bold text-white bg-gradient-to-r from-primary via-rose-600 to-primary hover:opacity-95 shadow-glow-md hover:shadow-glow-lg transition-all flex items-center justify-center gap-2 transform active:scale-98 disabled:opacity-50"
                     >
                       {loading ? (
                         <>
                           <RefreshCw className="w-4 h-4 animate-spin" />
-                          <span>Notifying Admin & Unlocking...</span>
+                          <span>Opening Secure Payment...</span>
                         </>
                       ) : (
                         <>
-                          <CheckCircle2 className="w-4 h-4 text-emerald-300" />
-                          <span>I Have Completed Payment • Unlock Now</span>
+                          <CreditCard className="w-4 h-4" />
+                          <span>⚡ Pay ₹{payableAmount} via PhonePe / GPay / Scanner</span>
                         </>
                       )}
                     </button>
-                    <p className="text-[11px] text-zinc-400 text-center flex items-center justify-center gap-1.5">
-                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                      <span>Instant verification and contact unlock upon payment</span>
+
+                    {/* Quick Launch Buttons for Popular Apps */}
+                    <div className="grid grid-cols-3 gap-2">
+                      <button
+                        onClick={handleRazorpayPayment}
+                        className="py-2.5 px-2 rounded-xl bg-purple-950/40 hover:bg-purple-900/60 border border-purple-500/30 text-purple-200 text-xs font-semibold flex items-center justify-center gap-1 transition-all text-center"
+                      >
+                        <span>PhonePe</span>
+                      </button>
+                      <button
+                        onClick={handleRazorpayPayment}
+                        className="py-2.5 px-2 rounded-xl bg-blue-950/40 hover:bg-blue-900/60 border border-blue-500/30 text-blue-200 text-xs font-semibold flex items-center justify-center gap-1 transition-all text-center"
+                      >
+                        <span>Google Pay</span>
+                      </button>
+                      <button
+                        onClick={handleRazorpayPayment}
+                        className="py-2.5 px-2 rounded-xl bg-cyan-950/40 hover:bg-cyan-900/60 border border-cyan-500/30 text-cyan-200 text-xs font-semibold flex items-center justify-center gap-1 transition-all text-center"
+                      >
+                        <span>Paytm</span>
+                      </button>
+                    </div>
+
+                    <p className="text-[11px] text-zinc-400 text-center flex items-center justify-center gap-1.5 pt-2">
+                      <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                      <span>Contact will automatically unlock immediately after verified payment</span>
                     </p>
                   </div>
                 </div>
@@ -518,41 +454,28 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                     </div>
                   </div>
 
-                  <a
-                    href={RAZORPAY_PAYMENT_LINK}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full py-3.5 px-6 rounded-2xl text-sm font-bold text-white bg-gradient-to-r from-primary to-rose-600 hover:from-primary-hover hover:to-rose-500 shadow-glow-sm hover:shadow-glow-md transition-all flex items-center justify-center gap-2"
+                  <button
+                    onClick={handleRazorpayPayment}
+                    disabled={loading}
+                    className="w-full py-3.5 px-6 rounded-2xl text-sm font-bold text-white bg-gradient-to-r from-primary to-rose-600 hover:from-primary-hover hover:to-rose-500 shadow-glow-sm hover:shadow-glow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                   >
-                    <CreditCard className="w-4 h-4" />
-                    <span>⚡ Click to Pay ₹{payableAmount} via Razorpay</span>
-                    <ExternalLink className="w-3.5 h-3.5" />
-                  </a>
+                    {loading ? (
+                      <>
+                        <RefreshCw className="w-4 h-4 animate-spin" />
+                        <span>Opening Secure Payment Gateway...</span>
+                      </>
+                    ) : (
+                      <>
+                        <CreditCard className="w-4 h-4" />
+                        <span>⚡ Click to Pay ₹{payableAmount} via Razorpay</span>
+                      </>
+                    )}
+                  </button>
 
-                  {/* Automated WhatsApp Notification Action inside Razorpay tab */}
-                  <div className="pt-3 border-t border-white/10 space-y-2.5">
-                    <button
-                      disabled={loading}
-                      onClick={handleNotifySuccess}
-                      className="w-full py-3.5 px-6 rounded-2xl text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-600 hover:opacity-95 shadow-glow-sm transition-all flex items-center justify-center gap-2 disabled:opacity-50 active:scale-98"
-                    >
-                      {loading ? (
-                        <>
-                          <RefreshCw className="w-4 h-4 animate-spin" />
-                          <span>Notifying Admin & Unlocking...</span>
-                        </>
-                      ) : (
-                        <>
-                          <CheckCircle2 className="w-4 h-4 text-emerald-300" />
-                          <span>I Have Completed Payment • Unlock Now</span>
-                        </>
-                      )}
-                    </button>
-                    <p className="text-[11px] text-zinc-400 text-center flex items-center justify-center gap-1.5">
-                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                      <span>Instant verification and contact unlock upon payment</span>
-                    </p>
-                  </div>
+                  <p className="text-[11px] text-zinc-400 text-center flex items-center justify-center gap-1.5">
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>Contact will automatically unlock immediately after verified payment</span>
+                  </p>
                 </div>
               )}
             </div>
