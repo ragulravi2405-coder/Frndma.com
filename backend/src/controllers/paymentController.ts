@@ -47,15 +47,17 @@ export const resolveTargetProfile = async (targetProfileId?: string | mongoose.T
     const nameMap: Record<number, string> = {
       1: 'Priya',
       2: 'Ananya',
-      3: 'Sneha',
-      4: 'Kavya',
-      5: 'Divya',
-      6: 'Meenakshi',
-      7: 'Rithika',
-      8: 'Shalini',
-      9: 'Nithya',
-      10: 'Deepa',
-      11: 'Revathi',
+      3: 'Dr. Meera',
+      4: 'Sneha',
+      5: 'Kavya',
+      6: 'Revathi',
+      7: 'Aparna',
+      8: 'Rithika',
+      9: 'Devika',
+      10: 'Divya',
+      11: 'Malavika',
+      12: 'Shalini',
+      13: 'Keerthana',
     };
     const targetName = nameMap[index] || idStr;
 

@@ -33,200 +33,236 @@ import { PaymentModal } from '@/components/PaymentModal';
  */
 const DISCOVER_5_GIRLS_LIST = [
   // ──────────────────────────────────────────────────────────
-  // 🌸 [GIRL 1] - PRIYA (Chennai)
+  // 🌸 [GIRL 1] - PRIYA (Chennai, Tamil Nadu) - Lush Green Bush
   // ──────────────────────────────────────────────────────────
   {
     id: 'girl_1',
     userId: 'girl_user_1',
     displayName: 'Priya',
-    age: 21,
+    age: 22,
     city: 'Chennai',
     state: 'Tamil Nadu',
-    occupation: 'UI Designer',
-    bio: 'Coffee, books, travel and meaningful conversations. Looking forward to meeting pleasant people! ✨',
-    interests: ['Travel', 'Music', 'Books', 'Design'],
-    avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80',
+    occupation: 'Software Engineer',
+    bio: 'Greenery lover, nature walks, warm smiles, and meaningful conversations. Looking to connect with kind souls! 🌿',
+    interests: ['Nature', 'Music', 'Coffee', 'Travel'],
+    avatarUrl: 'https://images.unsplash.com/photo-1689580298851-d4482a124290?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543211',
     contactSharing: true,
   },
 
   // ──────────────────────────────────────────────────────────
-  // 🌸 [GIRL 2] - ANANYA (Coimbatore) - Saree Sunset
+  // 🌸 [GIRL 2] - ANANYA (Bangalore, Karnataka) - Black Dress Posing
   // ──────────────────────────────────────────────────────────
   {
     id: 'girl_2',
     userId: 'girl_user_2',
     displayName: 'Ananya',
-    age: 23,
-    city: 'Coimbatore',
-    state: 'Tamil Nadu',
-    occupation: 'Software Engineer',
-    bio: 'Lover of sunsets, indie music, and weekend drives in Western Ghats. Positive vibes only! 🌅',
-    interests: ['Sunsets', 'Road Trips', 'Music', 'Nature'],
-    avatarUrl: '/images/girl2_sari_sun.jpg',
+    age: 24,
+    city: 'Bangalore',
+    state: 'Karnataka',
+    occupation: 'UI/UX Designer',
+    bio: 'Indiranagar explorer, product designer by day, indie gig & cafe hopper on weekends. Let’s connect! ☕',
+    interests: ['Design', 'Cafes', 'Indie Music', 'Art'],
+    avatarUrl: 'https://images.unsplash.com/photo-1710972197951-3aade7376076?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543212',
     contactSharing: true,
   },
 
   // ──────────────────────────────────────────────────────────
-  // 🌸 [GIRL 3] - SNEHA (Madurai) - Black & White Dress
+  // 🌸 [GIRL 3] - DR. MEERA (Kochi, Kerala) - Red & Black Clothing
   // ──────────────────────────────────────────────────────────
   {
     id: 'girl_3',
     userId: 'girl_user_3',
-    displayName: 'Sneha',
-    age: 24,
-    city: 'Madurai',
-    state: 'Tamil Nadu',
-    occupation: 'Digital Marketer',
-    bio: 'Madurai girl with a cheerful smile, fashion lover, and weekend cafe explorer. Love genuine talks! 🤍',
-    interests: ['Fashion', 'Photography', 'Food', 'Cafes'],
-    avatarUrl: 'https://images.unsplash.com/photo-1646539741099-7ac3cc927e54?auto=format&fit=crop&w=800&q=80',
+    displayName: 'Dr. Meera',
+    age: 25,
+    city: 'Kochi',
+    state: 'Kerala',
+    occupation: 'Dental Surgeon',
+    bio: 'Malayali penne with a cheerful smile! Doctor, Kathakali enthusiast, and coastal sunset admirer. 🌸',
+    interests: ['Classical Dance', 'Medicine', 'Sunsets', 'Travel'],
+    avatarUrl: 'https://images.unsplash.com/photo-1761125135357-99cbe52a6271?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543213',
     contactSharing: true,
   },
 
   // ──────────────────────────────────────────────────────────
-  // 🌸 [GIRL 4] - KAVYA (Tiruchirappalli) - Saree Pose
+  // 🌸 [GIRL 4] - SNEHA (Coimbatore, Tamil Nadu) - Purple Top Fence
   // ──────────────────────────────────────────────────────────
   {
     id: 'girl_4',
     userId: 'girl_user_4',
-    displayName: 'Kavya',
-    age: 22,
-    city: 'Tiruchirappalli',
+    displayName: 'Sneha',
+    age: 23,
+    city: 'Coimbatore',
     state: 'Tamil Nadu',
-    occupation: 'Architect',
-    bio: 'Classical saree lover, fond of traditional temple architecture and artistic photography. 🪷',
-    interests: ['Architecture', 'Photography', 'Heritage', 'Reading'],
-    avatarUrl: 'https://images.unsplash.com/photo-1729101146492-006e4d9c82f4?auto=format&fit=crop&w=800&q=80',
+    occupation: 'Content Creator',
+    bio: 'Siruvani breeze lover, weekend road trips across Western Ghats, fond of cozy cafes and laughter! 💜',
+    interests: ['Road Trips', 'Photography', 'Vlogging', 'Music'],
+    avatarUrl: 'https://images.unsplash.com/photo-1710967795578-81e7669b2185?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543214',
     contactSharing: true,
   },
 
   // ──────────────────────────────────────────────────────────
-  // 🌸 [GIRL 5] - DIVYA (Salem) - Red Top Wall
+  // 🌸 [GIRL 5] - KAVYA (Bangalore, Karnataka) - Black & White Saree
   // ──────────────────────────────────────────────────────────
   {
     id: 'girl_5',
     userId: 'girl_user_5',
-    displayName: 'Divya',
-    age: 25,
-    city: 'Salem',
-    state: 'Tamil Nadu',
-    occupation: 'HR Executive',
-    bio: 'Bold & independent. Love fitness, mountain trekking, and warm evening coffee. ❤️',
-    interests: ['Fitness', 'Trekking', 'Coffee', 'Music'],
-    avatarUrl: 'https://images.unsplash.com/photo-1710967795457-d6ace6343c59?auto=format&fit=crop&w=800&q=80',
+    displayName: 'Kavya',
+    age: 26,
+    city: 'Bangalore',
+    state: 'Karnataka',
+    occupation: 'Growth Marketer',
+    bio: 'Koramangala girl, startup marketer, loves handloom sarees, books, and rooftop acoustics. 🪷',
+    interests: ['Startups', 'Sarees', 'Literature', 'Acoustic'],
+    avatarUrl: 'https://plus.unsplash.com/premium_photo-1691030255899-cccde3a4e04f?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543215',
     contactSharing: true,
   },
 
   // ──────────────────────────────────────────────────────────
-  // 🌸 [GIRL 6] - MEENAKSHI (Thanjavur) - Traditional South Indian
+  // 🌸 [GIRL 6] - REVATHI (Madurai, Tamil Nadu) - Temple Portrait
   // ──────────────────────────────────────────────────────────
   {
     id: 'girl_6',
     userId: 'girl_user_6',
-    displayName: 'Meenakshi',
-    age: 28,
-    city: 'Thanjavur',
+    displayName: 'Revathi',
+    age: 25,
+    city: 'Madurai',
     state: 'Tamil Nadu',
-    occupation: 'Classical Music Teacher',
-    bio: 'Rooted in Tamil tradition, Carnatic music enthusiast, and classical Tanjore art connoisseur. 🌸',
-    interests: ['Carnatic Music', 'Art', 'Culture', 'Temples'],
-    avatarUrl: '/images/girl6_south_indian.jpg',
+    occupation: 'Dance Instructor',
+    bio: 'Traditional soul with a modern heartbeat. Bharatanatyam artist, Madurai Meenakshi temple devotee. ✨',
+    interests: ['Bharatanatyam', 'Heritage', 'Temple Art', 'Poetry'],
+    avatarUrl: 'https://plus.unsplash.com/premium_photo-1726873351723-cb980a1d6dcb?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543216',
     contactSharing: true,
   },
 
   // ──────────────────────────────────────────────────────────
-  // 🌸 [GIRL 7] - RITHIKA (Tirunelveli) - Curly Hair Sunglasses
+  // 🌸 [GIRL 7] - APARNA (Trivandrum, Kerala) - Red & Black Dress Tree
   // ──────────────────────────────────────────────────────────
   {
     id: 'girl_7',
     userId: 'girl_user_7',
-    displayName: 'Rithika',
-    age: 23,
-    city: 'Tirunelveli',
-    state: 'Tamil Nadu',
-    occupation: 'Graphic Designer',
-    bio: 'Curly hair, chic sunglasses, and adventurous road trips. Sweet like Tirunelveli Halwa! 🕶️',
-    interests: ['Design', 'Road Trips', 'Movies', 'Fashion'],
-    avatarUrl: 'https://images.unsplash.com/photo-1784360432673-ad3f7727ef09?auto=format&fit=crop&w=800&q=80',
+    displayName: 'Aparna',
+    age: 24,
+    city: 'Trivandrum',
+    state: 'Kerala',
+    occupation: 'High School Educator',
+    bio: 'Nature lover from Kerala’s capital. Passionate about literature, beach strolls at Kovalam & true vibes. 🌿',
+    interests: ['Teaching', 'Beaches', 'Novels', 'Planting'],
+    avatarUrl: 'https://images.unsplash.com/photo-1710967074857-d5c6d53d926b?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543217',
     contactSharing: true,
   },
 
   // ──────────────────────────────────────────────────────────
-  // 🌸 [GIRL 8] - SHALINI (Erode) - Curly Hair Tree
+  // 🌸 [GIRL 8] - RITHIKA (Chennai, Tamil Nadu) - Red Sari Front of Door
   // ──────────────────────────────────────────────────────────
   {
     id: 'girl_8',
     userId: 'girl_user_8',
-    displayName: 'Shalini',
-    age: 26,
-    city: 'Erode',
+    displayName: 'Rithika',
+    age: 23,
+    city: 'Chennai',
     state: 'Tamil Nadu',
-    occupation: 'Botanist / Researcher',
-    bio: 'Nature lover, passionate about eco-friendly living and peaceful greenery. Looking for true friendship. 🌿',
-    interests: ['Nature', 'Gardening', 'Environment', 'Peace'],
-    avatarUrl: 'https://images.unsplash.com/photo-1759854881836-53a85959f628?auto=format&fit=crop&w=800&q=80',
+    occupation: 'Fashion Stylist',
+    bio: 'Besant Nagar beach sunset lover, fashion stylist, and vintage aesthetic collector. Let’s talk! ❤️',
+    interests: ['Fashion', 'Photography', 'Cafes', 'Beaches'],
+    avatarUrl: 'https://images.unsplash.com/photo-1738853941039-b3d49beb16aa?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543218',
     contactSharing: true,
   },
 
   // ──────────────────────────────────────────────────────────
-  // 🌸 [GIRL 9] - NITHYA (Vellore) - White Top & Jeans
+  // 🌸 [GIRL 9] - DEVIKA (Alleppey, Kerala) - Saree Sits on Boat
   // ──────────────────────────────────────────────────────────
   {
     id: 'girl_9',
     userId: 'girl_user_9',
-    displayName: 'Nithya',
-    age: 27,
-    city: 'Vellore',
-    state: 'Tamil Nadu',
-    occupation: 'Financial Analyst',
-    bio: 'Smart casual vibes, modern outlook, loves reading novels and long chats with thoughtful minds. 📖',
-    interests: ['Reading', 'Economics', 'Podcasts', 'Travel'],
-    avatarUrl: 'https://images.unsplash.com/photo-1781551928573-cd7b9b7a433a?auto=format&fit=crop&w=800&q=80',
+    displayName: 'Devika',
+    age: 26,
+    city: 'Alleppey',
+    state: 'Kerala',
+    occupation: 'Ayurvedic Doctor',
+    bio: 'Backwaters, tranquil houseboats, Ayurveda practitioner and lover of peaceful melodies. 🚣‍♀️',
+    interests: ['Wellness', 'Houseboats', 'Nature', 'Meditation'],
+    avatarUrl: 'https://images.unsplash.com/photo-1747993114347-7a4a9d454e22?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543219',
     contactSharing: true,
   },
 
   // ──────────────────────────────────────────────────────────
-  // 🌸 [GIRL 10] - DEEPA (Kanyakumari) - Purple & Blue Saree
+  // 🌸 [GIRL 10] - DIVYA (Bangalore, Karnataka) - Green & Brown Talking on Phone
   // ──────────────────────────────────────────────────────────
   {
     id: 'girl_10',
     userId: 'girl_user_10',
-    displayName: 'Deepa',
-    age: 29,
-    city: 'Kanyakumari',
-    state: 'Tamil Nadu',
-    occupation: 'Marine Biologist',
-    bio: 'Ocean lover, calm and thoughtful. Cherishing sunsets and sunrise at the southern tip of India. 🌊',
-    interests: ['Ocean', 'Marine Life', 'Sunsets', 'Yoga'],
-    avatarUrl: 'https://images.unsplash.com/photo-1710967074923-2b3ebe6171c3?auto=format&fit=crop&w=800&q=80',
+    displayName: 'Divya',
+    age: 27,
+    city: 'Bangalore',
+    state: 'Karnataka',
+    occupation: 'Senior HR Specialist',
+    bio: 'Tech park busy bee in Whitefield! Loves fitness, weekend getaways to Nandi Hills, and hearty laughs. 📱',
+    interests: ['Fitness', 'Trekking', 'Podcasts', 'Networking'],
+    avatarUrl: 'https://images.unsplash.com/photo-1641877953739-8cab85119201?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543220',
     contactSharing: true,
   },
 
   // ──────────────────────────────────────────────────────────
-  // 🌸 [GIRL 11] - REVATHI (Dindigul) - Red & Green Saree
+  // 🌸 [GIRL 11] - MALAVIKA (Kozhikode, Kerala) - Smiling for Camera
   // ──────────────────────────────────────────────────────────
   {
     id: 'girl_11',
     userId: 'girl_user_11',
-    displayName: 'Revathi',
-    age: 31,
-    city: 'Dindigul',
-    state: 'Tamil Nadu',
-    occupation: 'College Professor',
-    bio: 'Elegant, kind-hearted, and loves traditional cooking and family gatherings. Looking for meaningful bonds. 🥻',
-    interests: ['Literature', 'Cooking', 'Teaching', 'Poetry'],
-    avatarUrl: 'https://images.unsplash.com/photo-1735331467260-0153c5fbd31d?auto=format&fit=crop&w=800&q=80',
+    displayName: 'Malavika',
+    age: 22,
+    city: 'Kozhikode',
+    state: 'Kerala',
+    occupation: 'Architectural Intern',
+    bio: 'Malabar biryani enthusiast, architecture student, loves sketching old town buildings and rainy days. ☕',
+    interests: ['Sketching', 'Rain', 'Architecture', 'Foodie'],
+    avatarUrl: 'https://images.unsplash.com/photo-1669829508691-8ce630261b7b?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543221',
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [GIRL 12] - SHALINI (Tiruchirappalli, Tamil Nadu) - Long Hair Portrait
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'girl_12',
+    userId: 'girl_user_12',
+    displayName: 'Shalini',
+    age: 24,
+    city: 'Tiruchirappalli',
+    state: 'Tamil Nadu',
+    occupation: 'Financial Analyst',
+    bio: 'Rockfort city girl with a vibrant outlook. Numbers lover by profession, watercolor artist at heart. 🎨',
+    interests: ['Painting', 'Economics', 'Badminton', 'Movies'],
+    avatarUrl: 'https://images.unsplash.com/photo-1669829586323-0aa141a664cc?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '9876543222',
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [GIRL 13] - KEERTHANA (Bangalore, Karnataka) - Cosplay / Anime Fan
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'girl_13',
+    userId: 'girl_user_13',
+    displayName: 'Keerthana',
+    age: 23,
+    city: 'Bangalore',
+    state: 'Karnataka',
+    occupation: 'Motion & Visual Designer',
+    bio: 'HSR Layout girl! Anime, comic-con, creative design, and late night cold coffees. Hit me up! 🖤',
+    interests: ['Anime', 'Cosplay', 'Gaming', 'Design'],
+    avatarUrl: 'https://images.unsplash.com/photo-1788022164447-c491541fe0a0?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '9876543223',
     contactSharing: true,
   },
 ];
