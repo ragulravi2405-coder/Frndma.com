@@ -64,7 +64,7 @@ export const seedDatabase = async () => {
         {
           question: 'How do I reach support if I need assistance?',
           answer:
-            `Our official support team is available via email at ${ENV.SUPPORT_EMAIL || 'catman2kai@gmail.com'}.`,
+            `Our official support team is available via email at ${ENV.SUPPORT_EMAIL || 'webrion.studio@gmail.com'}.`,
           category: 'Support',
           order: 4,
           isActive: true,

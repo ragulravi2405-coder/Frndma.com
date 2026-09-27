@@ -20,7 +20,7 @@ export const ENV = {
   CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY || '123456789012345',
   CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET || 'abcdefghijklmnopqrstuvwxyz12345',
   SUPPORT_WHATSAPP: process.env.SUPPORT_WHATSAPP || '',
-  SUPPORT_EMAIL: process.env.SUPPORT_EMAIL || 'catman2kai@gmail.com',
+  SUPPORT_EMAIL: process.env.SUPPORT_EMAIL || 'webrion.studio@gmail.com',
   ADMIN_USERNAME: process.env.ADMIN_USERNAME || 'rahul2005',
   ADMIN_PASSWORD: process.env.ADMIN_PASSWORD || 'Abcd@1234',
   FRONTEND_INTERNAL_URL: process.env.FRONTEND_INTERNAL_URL || '',
