@@ -278,6 +278,234 @@ const DISCOVER_5_GIRLS_LIST = [
     unlockPrice: 999,
     contactSharing: true,
   },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [GIRL 14] - NANDHINI (Salem, Tamil Nadu)
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'girl_14',
+    userId: 'girl_user_14',
+    displayName: 'Nandhini',
+    age: 23,
+    city: 'Salem',
+    state: 'Tamil Nadu',
+    occupation: 'Graphic Artist',
+    bio: 'Simple, sweet and nature enthusiast from Salem. Loves photography, warm coffee, and genuine conversations. 🌸',
+    interests: ['Photography', 'Music', 'Nature', 'Travel'],
+    avatarUrl: '/profiles/girl_14.jpg',
+    shareableContact: '9876543224',
+    unlockPrice: 499,
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [GIRL 15] - KEERTHI (Madurai, Tamil Nadu)
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'girl_15',
+    userId: 'girl_user_15',
+    displayName: 'Keerthi',
+    age: 24,
+    city: 'Madurai',
+    state: 'Tamil Nadu',
+    occupation: 'Software Developer',
+    bio: 'Madurai girl with vibrant smile! Fond of traditional wear, spicy food, classical music, and long weekend drives. ✨',
+    interests: ['Classical Music', 'Foodie', 'Road Trips', 'Books'],
+    avatarUrl: '/profiles/girl_15.jpg',
+    shareableContact: '9876543225',
+    unlockPrice: 599,
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [GIRL 16] - DEEPIKA (Tirunelveli, Tamil Nadu)
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'girl_16',
+    userId: 'girl_user_16',
+    displayName: 'Deepika',
+    age: 22,
+    city: 'Tirunelveli',
+    state: 'Tamil Nadu',
+    occupation: 'Content Writer',
+    bio: 'Halwa city girl! Loves scenic waterfalls at Courtallam, traditional sarees, and sharing good laughs. ❤️',
+    interests: ['Literature', 'Waterfalls', 'Writing', 'Art'],
+    avatarUrl: '/profiles/girl_16.jpg',
+    shareableContact: '9876543226',
+    unlockPrice: 499,
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [GIRL 17] - POOJA (Chennai, Tamil Nadu)
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'girl_17',
+    userId: 'girl_user_17',
+    displayName: 'Pooja',
+    age: 25,
+    city: 'Chennai',
+    state: 'Tamil Nadu',
+    occupation: 'HR Manager',
+    bio: 'Marina beach morning walks, filter coffee, indie films, and cozy rooftop evenings in Anna Nagar. ☕',
+    interests: ['Cinema', 'Coffee', 'Beach', 'Fitness'],
+    avatarUrl: '/profiles/girl_17.jpg',
+    shareableContact: '9876543227',
+    unlockPrice: 699,
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [GIRL 18] - SOWMYA (Erode, Tamil Nadu)
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'girl_18',
+    userId: 'girl_user_18',
+    displayName: 'Sowmya',
+    age: 23,
+    city: 'Erode',
+    state: 'Tamil Nadu',
+    occupation: 'Fashion Merchandiser',
+    bio: 'Bhavani river breezes, handloom silk sarees, simple lifestyle, and looking for a caring companion. 🥻',
+    interests: ['Textiles', 'Cooking', 'Gardening', 'Music'],
+    avatarUrl: '/profiles/girl_18.jpg',
+    shareableContact: '9876543228',
+    unlockPrice: 499,
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [GIRL 19] - LAKSHMI (Thanjavur, Tamil Nadu)
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'girl_19',
+    userId: 'girl_user_19',
+    displayName: 'Lakshmi',
+    age: 26,
+    city: 'Thanjavur',
+    state: 'Tamil Nadu',
+    occupation: 'Music Teacher',
+    bio: 'Rooted in heritage and temple art. Loves Carnatic ragas, temple visits, and calm nature strolls. 🪷',
+    interests: ['Carnatic Music', 'Heritage', 'Temples', 'Painting'],
+    avatarUrl: '/profiles/girl_19.jpg',
+    shareableContact: '9876543229',
+    unlockPrice: 399,
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [GIRL 20] - SANDHYA (Coimbatore, Tamil Nadu)
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'girl_20',
+    userId: 'girl_user_20',
+    displayName: 'Sandhya',
+    age: 24,
+    city: 'Coimbatore',
+    state: 'Tamil Nadu',
+    occupation: 'Digital Marketer',
+    bio: 'Chill vibes, cafe hopper in Race Course, Marudhamalai road trips, and pleasant weekend conversations! 🌿',
+    interests: ['Road Trips', 'Cafes', 'Podcasts', 'Baking'],
+    avatarUrl: '/profiles/girl_20.jpg',
+    shareableContact: '9876543230',
+    unlockPrice: 599,
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [GIRL 21] - AARTHI (Trichy, Tamil Nadu)
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'girl_21',
+    userId: 'girl_user_21',
+    displayName: 'Aarthi',
+    age: 22,
+    city: 'Trichy',
+    state: 'Tamil Nadu',
+    occupation: 'Interior Design Intern',
+    bio: 'Rockfort city resident! Positive thinker, watercolor painter, and loves chatting about everyday wonders. 🎨',
+    interests: ['Painting', 'Interior Design', 'Badminton', 'Movies'],
+    avatarUrl: '/profiles/girl_21.jpg',
+    shareableContact: '9876543231',
+    unlockPrice: 499,
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [GIRL 22] - PAVITHRA (Vellore, Tamil Nadu)
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'girl_22',
+    userId: 'girl_user_22',
+    displayName: 'Pavithra',
+    age: 25,
+    city: 'Vellore',
+    state: 'Tamil Nadu',
+    occupation: 'Research Analyst',
+    bio: 'Modern girl with traditional values. Loves weekend baking, acoustic melodies, and long soulful chats. 🤍',
+    interests: ['Research', 'Baking', 'Acoustic Music', 'Fitness'],
+    avatarUrl: '/profiles/girl_22.jpg',
+    shareableContact: '9876543232',
+    unlockPrice: 599,
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [GIRL 23] - GAYATHRI (Dindigul, Tamil Nadu)
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'girl_23',
+    userId: 'girl_user_23',
+    displayName: 'Gayathri',
+    age: 23,
+    city: 'Dindigul',
+    state: 'Tamil Nadu',
+    occupation: 'School Teacher',
+    bio: 'Kodaikanal mist lover! Enjoys hill station drives, spicy biryani, and meeting people with warm hearts. ⛰️',
+    interests: ['Teaching', 'Mountains', 'Nature', 'Cooking'],
+    avatarUrl: '/profiles/girl_23.jpg',
+    shareableContact: '9876543233',
+    unlockPrice: 399,
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [GIRL 24] - MONIKA (Kanyakumari, Tamil Nadu)
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'girl_24',
+    userId: 'girl_user_24',
+    displayName: 'Monika',
+    age: 24,
+    city: 'Kanyakumari',
+    state: 'Tamil Nadu',
+    occupation: 'Tourism Consultant',
+    bio: 'Ocean sunrise and sunset admirer from the edge of India! Calm, cheerful, and loves good music. 🌅',
+    interests: ['Ocean', 'Travel', 'Sunsets', 'Yoga'],
+    avatarUrl: '/profiles/girl_24.jpg',
+    shareableContact: '9876543234',
+    unlockPrice: 499,
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [GIRL 25] - SWETHA (Kanchipuram, Tamil Nadu)
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'girl_25',
+    userId: 'girl_user_25',
+    displayName: 'Swetha',
+    age: 25,
+    city: 'Kanchipuram',
+    state: 'Tamil Nadu',
+    occupation: 'Fashion Stylist',
+    bio: 'Silk city pride! Classical aesthetics, fond of ethnic fashion, saree designing, and deep conversations. ✨',
+    interests: ['Fashion', 'Sarees', 'Photography', 'Heritage'],
+    avatarUrl: '/profiles/girl_25.jpg',
+    shareableContact: '9876543235',
+    unlockPrice: 699,
+    contactSharing: true,
+  },
 ];
 
 
