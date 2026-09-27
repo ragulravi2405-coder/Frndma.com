@@ -590,6 +590,15 @@ export const syncDefaultGirls = async (req: Request, res: Response, next: NextFu
       syncedCount++;
     }
 
+    // Clean up any old foreign / other country profiles from database
+    const foreignUsernames = ['sophia_usa', 'jessica_usa', 'chloe_canada', 'emma_canada', 'jiwoo_korea', 'minseo_korea'];
+    const foreignUsers = await User.find({ username: { $in: foreignUsernames } });
+    if (foreignUsers.length > 0) {
+      const ids = foreignUsers.map((u) => u._id);
+      await Profile.deleteMany({ userId: { $in: ids } });
+      await User.deleteMany({ _id: { $in: ids } });
+    }
+
     res.status(200).json({
       success: true,
       message: `Successfully synced ${syncedCount} profiles from code (girlsProfiles.ts)!`,

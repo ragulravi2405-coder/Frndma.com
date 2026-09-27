@@ -117,6 +117,16 @@ export const seedDatabase = async () => {
     }
     console.log(`[Seed] Synced ${GIRLS_PROFILES_LIST.length} female profiles from config successfully.`);
 
+    // Clean up any old foreign / other country profiles if they exist in DB
+    const foreignUsernames = ['sophia_usa', 'jessica_usa', 'chloe_canada', 'emma_canada', 'jiwoo_korea', 'minseo_korea'];
+    const foreignUsers = await User.find({ username: { $in: foreignUsernames } });
+    if (foreignUsers.length > 0) {
+      const ids = foreignUsers.map((u) => u._id);
+      await Profile.deleteMany({ userId: { $in: ids } });
+      await User.deleteMany({ _id: { $in: ids } });
+      console.log(`[Seed] Purged ${foreignUsers.length} old other country profiles from database.`);
+    }
+
     // 4. Seed Demo Male User (demo_male / Test@1234) with Unlocked Contact for testing
     const demoPassword = await bcrypt.hash('Test@1234', salt);
     let demoUser = await User.findOne({ username: 'demo_male' });
