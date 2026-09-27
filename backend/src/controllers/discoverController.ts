@@ -14,7 +14,7 @@ export const getDiscoverProfiles = async (req: AuthRequest, res: Response, next:
       city,
       interest,
       relationshipPreference,
-      limit = 20,
+      limit = 100,
       page = 1,
     } = req.query;
 

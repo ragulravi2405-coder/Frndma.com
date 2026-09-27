@@ -547,7 +547,7 @@ export default function DiscoverPage() {
 
   const loadData = async () => {
     setLoading(true);
-    let query = `?minAge=${minAge}&maxAge=${maxAge}&gender=female`;
+    let query = `?minAge=${minAge}&maxAge=${maxAge}&gender=female&limit=100`;
     if (city) query += `&city=${encodeURIComponent(city)}`;
 
     const [profilesRes, unlocksRes] = await Promise.all([

@@ -32,7 +32,7 @@ export default function HomePage() {
       setFaqs(faqRes.data);
     }
 
-    const profilesRes = await fetchApi('/discover?limit=4');
+    const profilesRes = await fetchApi('/discover?gender=female&limit=8');
     if (profilesRes.success && profilesRes.data) {
       setFeaturedProfiles(profilesRes.data);
     }
