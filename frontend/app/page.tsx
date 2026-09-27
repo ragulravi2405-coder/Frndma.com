@@ -83,58 +83,11 @@ export default function HomePage() {
           confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
         } catch {}
       } else {
-        // Fallback: 3 top verified profiles
-        setClaimedContacts([
-          {
-            displayName: 'Nandhini',
-            city: 'Salem',
-            state: 'Tamil Nadu',
-            contact: '9876543224',
-            avatarUrl: '/profiles/girl_14.jpg',
-          },
-          {
-            displayName: 'Keerthi',
-            city: 'Madurai',
-            state: 'Tamil Nadu',
-            contact: '9876543225',
-            avatarUrl: '/profiles/girl_15.jpg',
-          },
-          {
-            displayName: 'Deepika',
-            city: 'Tirunelveli',
-            state: 'Tamil Nadu',
-            contact: '9876543226',
-            avatarUrl: '/profiles/girl_16.jpg',
-          },
-        ]);
-        try {
-          confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
-        } catch {}
+        // Payment required: open Razorpay modal
+        setPaymentModalOpen(true);
       }
     } catch {
-      setClaimedContacts([
-        {
-          displayName: 'Nandhini',
-          city: 'Salem',
-          state: 'Tamil Nadu',
-          contact: '9876543224',
-          avatarUrl: '/profiles/girl_14.jpg',
-        },
-        {
-          displayName: 'Keerthi',
-          city: 'Madurai',
-          state: 'Tamil Nadu',
-          contact: '9876543225',
-          avatarUrl: '/profiles/girl_15.jpg',
-        },
-        {
-          displayName: 'Deepika',
-          city: 'Tirunelveli',
-          state: 'Tamil Nadu',
-          contact: '9876543226',
-          avatarUrl: '/profiles/girl_16.jpg',
-        },
-      ]);
+      setPaymentModalOpen(true);
     }
     setClaiming(false);
   };
@@ -320,7 +273,7 @@ export default function HomePage() {
       </section>
 
       {/* ===================== 24-HOUR PACKAGE OFFER (UNLOCK 3 PROFILES AT ₹999) ===================== */}
-      <section className="py-12 sm:py-16 relative overflow-hidden bg-gradient-to-b from-black via-rose-950/20 to-black border-y border-rose-500/20">
+      <section id="offer-24h" className="py-12 sm:py-16 relative overflow-hidden bg-gradient-to-b from-black via-rose-950/20 to-black border-y border-rose-500/20">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-pink-600/10 via-transparent to-transparent pointer-events-none" />
 
         <div className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10">
@@ -426,6 +379,10 @@ export default function HomePage() {
                     <span className="inline-block mt-1 text-[9px] font-bold px-2 py-0.5 rounded bg-emerald-950/60 text-emerald-300 border border-emerald-500/30">
                       {p.status}
                     </span>
+                    <div className="mt-2 pt-2 border-t border-white/10 flex items-center sm:justify-center gap-1.5 text-[10px] text-pink-300 font-mono">
+                      <Lock className="w-3 h-3 text-pink-400" />
+                      <span>+91 98765 XXXXX (Locked)</span>
+                    </div>
                   </div>
                 </div>
               ))}

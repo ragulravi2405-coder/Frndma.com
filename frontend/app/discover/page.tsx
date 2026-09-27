@@ -506,6 +506,215 @@ const DISCOVER_5_GIRLS_LIST = [
     unlockPrice: 699,
     contactSharing: true,
   },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [GIRL 26] - PRIYA S. (Chennai, Tamil Nadu) - Classic Unsplash
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'girl_26',
+    userId: 'girl_user_26',
+    displayName: 'Priya S.',
+    age: 21,
+    city: 'Chennai',
+    state: 'Tamil Nadu',
+    occupation: 'UI Designer',
+    bio: 'Coffee, books, travel and meaningful conversations. Looking forward to meeting pleasant people! ✨',
+    interests: ['Travel', 'Music', 'Books', 'Food', 'Design'],
+    avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '9876543227',
+    unlockPrice: 399,
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [GIRL 27] - SNEHA M. (Madurai, Tamil Nadu) - Classic Unsplash
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'girl_27',
+    userId: 'girl_user_27',
+    displayName: 'Sneha M.',
+    age: 24,
+    city: 'Madurai',
+    state: 'Tamil Nadu',
+    occupation: 'Digital Marketer',
+    bio: 'Madurai girl with a cheerful smile, fashion lover, and weekend cafe explorer. Love genuine talks! 🤍',
+    interests: ['Fashion', 'Photography', 'Food', 'Cafes'],
+    avatarUrl: 'https://images.unsplash.com/photo-1646539741099-7ac3cc927e54?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '9876543228',
+    unlockPrice: 499,
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [GIRL 28] - KAVYA T. (Tiruchirappalli, Tamil Nadu) - Classic Unsplash
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'girl_28',
+    userId: 'girl_user_28',
+    displayName: 'Kavya T.',
+    age: 22,
+    city: 'Tiruchirappalli',
+    state: 'Tamil Nadu',
+    occupation: 'Architect',
+    bio: 'Classical saree lover, fond of traditional temple architecture and artistic photography. 🪷',
+    interests: ['Architecture', 'Photography', 'Heritage', 'Reading'],
+    avatarUrl: 'https://images.unsplash.com/photo-1729101146492-006e4d9c82f4?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '9876543229',
+    unlockPrice: 599,
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [GIRL 29] - RITHIKA V. (Tirunelveli, Tamil Nadu) - Classic Unsplash
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'girl_29',
+    userId: 'girl_user_29',
+    displayName: 'Rithika V.',
+    age: 23,
+    city: 'Tirunelveli',
+    state: 'Tamil Nadu',
+    occupation: 'Graphic Designer',
+    bio: 'Curly hair, chic sunglasses, and adventurous road trips. Sweet like Tirunelveli Halwa! 🕶️',
+    interests: ['Design', 'Road Trips', 'Movies', 'Fashion'],
+    avatarUrl: 'https://images.unsplash.com/photo-1784360432673-ad3f7727ef09?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '9876543230',
+    unlockPrice: 699,
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [GIRL 30] - SHALINI E. (Erode, Tamil Nadu) - Classic Unsplash
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'girl_30',
+    userId: 'girl_user_30',
+    displayName: 'Shalini E.',
+    age: 26,
+    city: 'Erode',
+    state: 'Tamil Nadu',
+    occupation: 'Botanist / Researcher',
+    bio: 'Nature lover, passionate about eco-friendly living and peaceful greenery. Looking for true friendship. 🌿',
+    interests: ['Nature', 'Gardening', 'Environment', 'Peace'],
+    avatarUrl: 'https://images.unsplash.com/photo-1759854881836-53a85959f628?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '9876543231',
+    unlockPrice: 499,
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [GIRL 31] - NITHYA (Vellore, Tamil Nadu) - Classic Unsplash
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'girl_31',
+    userId: 'girl_user_31',
+    displayName: 'Nithya',
+    age: 27,
+    city: 'Vellore',
+    state: 'Tamil Nadu',
+    occupation: 'Financial Analyst',
+    bio: 'Smart casual vibes, modern outlook, loves reading novels and long chats with thoughtful minds. 📖',
+    interests: ['Reading', 'Economics', 'Podcasts', 'Travel'],
+    avatarUrl: 'https://images.unsplash.com/photo-1781551928573-cd7b9b7a433a?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '9876543232',
+    unlockPrice: 599,
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [GIRL 32] - DEEPA (Kanyakumari, Tamil Nadu) - Classic Unsplash
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'girl_32',
+    userId: 'girl_user_32',
+    displayName: 'Deepa',
+    age: 29,
+    city: 'Kanyakumari',
+    state: 'Tamil Nadu',
+    occupation: 'Marine Biologist',
+    bio: 'Ocean lover, calm and thoughtful. Cherishing sunsets and sunrise at the southern tip of India. 🌊',
+    interests: ['Ocean', 'Marine Life', 'Sunsets', 'Yoga'],
+    avatarUrl: 'https://images.unsplash.com/photo-1710967074923-2b3ebe6171c3?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '9876543233',
+    unlockPrice: 499,
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [GIRL 33] - REVATHI D. (Dindigul, Tamil Nadu) - Classic Unsplash
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'girl_33',
+    userId: 'girl_user_33',
+    displayName: 'Revathi D.',
+    age: 31,
+    city: 'Dindigul',
+    state: 'Tamil Nadu',
+    occupation: 'College Professor',
+    bio: 'Elegant, kind-hearted, and loves traditional cooking and family gatherings. Looking for meaningful bonds. 🥻',
+    interests: ['Literature', 'Cooking', 'Teaching', 'Poetry'],
+    avatarUrl: 'https://images.unsplash.com/photo-1735331467260-0153c5fbd31d?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '9876543234',
+    unlockPrice: 399,
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [GIRL 34] - POOJA (Chennai, Tamil Nadu) - Classic Unsplash
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'girl_34',
+    userId: 'girl_user_34',
+    displayName: 'Pooja',
+    age: 23,
+    city: 'Chennai',
+    state: 'Tamil Nadu',
+    occupation: 'Fashion Designer',
+    bio: 'Marina beach evening walks, fashion designer, food enthusiast and cheerful companion! 🌸',
+    interests: ['Fashion', 'Foodie', 'Beaches', 'Music'],
+    avatarUrl: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '9876543235',
+    unlockPrice: 599,
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [GIRL 35] - DR. MEERA C. (Coimbatore, Tamil Nadu) - Classic Unsplash
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'girl_35',
+    userId: 'girl_user_35',
+    displayName: 'Dr. Meera C.',
+    age: 25,
+    city: 'Coimbatore',
+    state: 'Tamil Nadu',
+    occupation: 'Physician',
+    bio: 'Doctor with passion for yoga, Western Ghats road trips, and deep friendly conversations. 🩺',
+    interests: ['Yoga', 'Healthcare', 'Road Trips', 'Reading'],
+    avatarUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '9876543236',
+    unlockPrice: 699,
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [GIRL 36] - KEERTHI K. (Madurai, Tamil Nadu) - Classic Unsplash
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'girl_36',
+    userId: 'girl_user_36',
+    displayName: 'Keerthi K.',
+    age: 24,
+    city: 'Madurai',
+    state: 'Tamil Nadu',
+    occupation: 'Software Engineer',
+    bio: 'Techie girl from temple city. Love filter coffee, listening to melody tracks and weekend chill. ☕',
+    interests: ['Music', 'Coffee', 'Movies', 'Tech'],
+    avatarUrl: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '9876543237',
+    unlockPrice: 499,
+    contactSharing: true,
+  },
 ];
 
 

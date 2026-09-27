@@ -1,64 +1,35 @@
 /**
  * ============================================================================
- * 🌸 GIRLS PROFILES & CONTACT DETAILS CONFIGURATION 🌸
+ * 🌸 COMPLETE GIRLS PROFILES & CONTACT DETAILS CONFIGURATION 🌸
  * ============================================================================
  * 
- * 📌 TAMIL / TANGLISH GUIDE:
- * Intha file-la neenga girls images, WhatsApp/phone numbers, details-ah
- * direct-ah change pannikkalam or new girls add pannikkalam.
- * 
- * 1. Image URL (avatarUrl): Direct image link podunga (Unsplash, Cloudinary, etc.)
- * 2. Contact details (shareableContact): Avanga WhatsApp / Phone number podunga.
- * 3. Unlock Price (unlockPrice): Starting ₹399 muthal ₹999 varai individual girl-ku set pannalam.
- * 4. Display Name (displayName): Girl's name
- * 5. City, Age, Bio, Occupation: Kerala, Tamil Nadu, Bangalore locations.
- * 
+ * Contains ALL verified Indian girl profiles:
+ * 1. All original Unsplash photo profiles (Chennai, Coimbatore, Bangalore, Kochi, Madurai, etc.)
+ * 2. All 12 downloaded Tamil Nadu profiles (girl_14.jpg to girl_25.jpg)
+ * 3. ZERO foreign/other country profiles
+ * 4. Direct WhatsApp / Phone contacts (revealed ONLY upon verified payment)
  * ============================================================================
  */
 
 export interface GirlProfileConfig {
-  /** Unique ID / username tag */
   username: string;
-  /** Display Name shown to users */
   displayName: string;
-  /** Age of the girl (Must be 18+) */
   age: number;
-  /** City */
   city: string;
-  /** State */
   state: string;
-  /** Profile Bio / About text */
   bio: string;
-  /** Occupation */
   occupation: string;
-  /** Education */
   education: string;
-  /** Languages spoken */
   languages: string[];
-  /** Interest tags */
   interests: string[];
-  /** 
-   * 🖼️ GIRL PROFILE PHOTO URL
-   * Unsplash direct CDN image
-   */
   avatarUrl: string;
-  /** 
-   * 📱 CONTACT / WHATSAPP NUMBER
-   * Revealed when user pays unlock fee to unlock contact!
-   */
   shareableContact: string;
-  /** 
-   * 💰 UNLOCK PRICE (₹399, ₹499, ₹599, ₹699, ₹799, ₹899, ₹999)
-   */
   unlockPrice: number;
-  /** Additional photo gallery (optional) */
   photos?: Array<{ url: string; isPrimary?: boolean }>;
 }
 
 export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
-  // ==========================================================================
-  // PROFILE 1: PRIYA (Chennai, Tamil Nadu) - Lush Green Bush
-  // ==========================================================================
+  // ─── 1. PRIYA (Chennai) ───
   {
     username: 'priya_22',
     displayName: 'Priya',
@@ -75,9 +46,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     unlockPrice: 399,
   },
 
-  // ==========================================================================
-  // PROFILE 2: ANANYA (Bangalore, Karnataka) - Black Dress Posing
-  // ==========================================================================
+  // ─── 2. ANANYA (Bangalore) ───
   {
     username: 'ananya_24',
     displayName: 'Ananya',
@@ -94,9 +63,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     unlockPrice: 599,
   },
 
-  // ==========================================================================
-  // PROFILE 3: DR. MEERA (Kochi, Kerala) - Red & Black Clothing
-  // ==========================================================================
+  // ─── 3. DR. MEERA (Kochi) ───
   {
     username: 'meera_25',
     displayName: 'Dr. Meera',
@@ -113,9 +80,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     unlockPrice: 499,
   },
 
-  // ==========================================================================
-  // PROFILE 4: SNEHA (Coimbatore, Tamil Nadu) - Purple Top Fence
-  // ==========================================================================
+  // ─── 4. SNEHA (Coimbatore) ───
   {
     username: 'sneha_23',
     displayName: 'Sneha',
@@ -132,9 +97,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     unlockPrice: 699,
   },
 
-  // ==========================================================================
-  // PROFILE 5: KAVYA (Bangalore, Karnataka) - Black & White Saree
-  // ==========================================================================
+  // ─── 5. KAVYA (Bangalore) ───
   {
     username: 'kavya_26',
     displayName: 'Kavya',
@@ -151,9 +114,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     unlockPrice: 799,
   },
 
-  // ==========================================================================
-  // PROFILE 6: REVATHI (Madurai, Tamil Nadu) - Temple Portrait
-  // ==========================================================================
+  // ─── 6. REVATHI (Madurai) ───
   {
     username: 'revathi_25',
     displayName: 'Revathi',
@@ -170,9 +131,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     unlockPrice: 499,
   },
 
-  // ==========================================================================
-  // PROFILE 7: APARNA (Trivandrum, Kerala) - Red & Black Dress Tree
-  // ==========================================================================
+  // ─── 7. APARNA (Trivandrum) ───
   {
     username: 'aparna_24',
     displayName: 'Aparna',
@@ -189,9 +148,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     unlockPrice: 399,
   },
 
-  // ==========================================================================
-  // PROFILE 8: RITHIKA (Chennai, Tamil Nadu) - Red Sari Front of Door (Hot Fashion Stylist)
-  // ==========================================================================
+  // ─── 8. RITHIKA (Chennai) ───
   {
     username: 'rithika_23',
     displayName: 'Rithika',
@@ -208,9 +165,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     unlockPrice: 899,
   },
 
-  // ==========================================================================
-  // PROFILE 9: DEVIKA (Alleppey, Kerala) - Saree Sits on Boat
-  // ==========================================================================
+  // ─── 9. DEVIKA (Alleppey) ───
   {
     username: 'devika_26',
     displayName: 'Devika',
@@ -227,9 +182,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     unlockPrice: 599,
   },
 
-  // ==========================================================================
-  // PROFILE 10: DIVYA (Bangalore, Karnataka) - Green & Brown Talking on Phone
-  // ==========================================================================
+  // ─── 10. DIVYA (Bangalore) ───
   {
     username: 'divya_27',
     displayName: 'Divya',
@@ -246,9 +199,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     unlockPrice: 699,
   },
 
-  // ==========================================================================
-  // PROFILE 11: MALAVIKA (Kozhikode, Kerala) - Smiling for Camera
-  // ==========================================================================
+  // ─── 11. MALAVIKA (Kozhikode) ───
   {
     username: 'malavika_22',
     displayName: 'Malavika',
@@ -265,9 +216,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     unlockPrice: 499,
   },
 
-  // ==========================================================================
-  // PROFILE 12: SHALINI (Tiruchirappalli, Tamil Nadu) - Long Hair Portrait
-  // ==========================================================================
+  // ─── 12. SHALINI (Tiruchirappalli) ───
   {
     username: 'shalini_24',
     displayName: 'Shalini',
@@ -284,9 +233,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     unlockPrice: 599,
   },
 
-  // ==========================================================================
-  // PROFILE 13: KEERTHANA (Bangalore, Karnataka) - Cosplay / Bunny Costume (Hot Glamorous)
-  // ==========================================================================
+  // ─── 13. KEERTHANA (Bangalore) ───
   {
     username: 'keerthana_23',
     displayName: 'Keerthana',
@@ -303,9 +250,194 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     unlockPrice: 999,
   },
 
-  // ==========================================================================
-  // PROFILE 14: NANDHINI (Salem, Tamil Nadu)
-  // ==========================================================================
+  // ─── 14. PRIYA (Classic Unsplash) ───
+  {
+    username: 'priya_classic',
+    displayName: 'Priya S.',
+    age: 21,
+    city: 'Chennai',
+    state: 'Tamil Nadu',
+    bio: 'Coffee, books, travel and meaningful conversations. Looking forward to meeting pleasant people! ✨',
+    occupation: 'UI Designer',
+    education: 'B.Des',
+    languages: ['English', 'Tamil'],
+    interests: ['Travel', 'Music', 'Books', 'Food', 'Design'],
+    avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '9876543227',
+    unlockPrice: 399,
+  },
+
+  // ─── 15. SNEHA (Classic Unsplash) ───
+  {
+    username: 'sneha_classic',
+    displayName: 'Sneha M.',
+    age: 24,
+    city: 'Madurai',
+    state: 'Tamil Nadu',
+    bio: 'Madurai girl with a cheerful smile, fashion lover, and weekend cafe explorer. Love genuine talks! 🤍',
+    occupation: 'Digital Marketer',
+    education: 'B.Sc Visual Com',
+    languages: ['English', 'Tamil'],
+    interests: ['Fashion', 'Photography', 'Food', 'Cafes'],
+    avatarUrl: 'https://images.unsplash.com/photo-1646539741099-7ac3cc927e54?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '9876543228',
+    unlockPrice: 499,
+  },
+
+  // ─── 16. KAVYA (Classic Unsplash) ───
+  {
+    username: 'kavya_classic',
+    displayName: 'Kavya T.',
+    age: 22,
+    city: 'Tiruchirappalli',
+    state: 'Tamil Nadu',
+    bio: 'Classical saree lover, fond of traditional temple architecture and artistic photography. 🪷',
+    occupation: 'Architect',
+    education: 'B.Arch',
+    languages: ['English', 'Tamil'],
+    interests: ['Architecture', 'Photography', 'Heritage', 'Reading'],
+    avatarUrl: 'https://images.unsplash.com/photo-1729101146492-006e4d9c82f4?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '9876543229',
+    unlockPrice: 599,
+  },
+
+  // ─── 17. RITHIKA (Classic Unsplash) ───
+  {
+    username: 'rithika_classic',
+    displayName: 'Rithika V.',
+    age: 23,
+    city: 'Tirunelveli',
+    state: 'Tamil Nadu',
+    bio: 'Curly hair, chic sunglasses, and adventurous road trips. Sweet like Tirunelveli Halwa! 🕶️',
+    occupation: 'Graphic Designer',
+    education: 'B.Des Multimedia',
+    languages: ['English', 'Tamil'],
+    interests: ['Design', 'Road Trips', 'Movies', 'Fashion'],
+    avatarUrl: 'https://images.unsplash.com/photo-1784360432673-ad3f7727ef09?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '9876543230',
+    unlockPrice: 699,
+  },
+
+  // ─── 18. SHALINI (Classic Unsplash) ───
+  {
+    username: 'shalini_classic',
+    displayName: 'Shalini E.',
+    age: 26,
+    city: 'Erode',
+    state: 'Tamil Nadu',
+    bio: 'Nature lover, passionate about eco-friendly living and peaceful greenery. Looking for true friendship. 🌿',
+    occupation: 'Botanist / Researcher',
+    education: 'M.Sc Botany',
+    languages: ['English', 'Tamil'],
+    interests: ['Nature', 'Gardening', 'Environment', 'Peace'],
+    avatarUrl: 'https://images.unsplash.com/photo-1759854881836-53a85959f628?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '9876543231',
+    unlockPrice: 499,
+  },
+
+  // ─── 19. NITHYA (Vellore Unsplash) ───
+  {
+    username: 'nithya_classic',
+    displayName: 'Nithya',
+    age: 27,
+    city: 'Vellore',
+    state: 'Tamil Nadu',
+    bio: 'Smart casual vibes, modern outlook, loves reading novels and long chats with thoughtful minds. 📖',
+    occupation: 'Financial Analyst',
+    education: 'M.Com Finance',
+    languages: ['English', 'Tamil'],
+    interests: ['Reading', 'Economics', 'Podcasts', 'Travel'],
+    avatarUrl: 'https://images.unsplash.com/photo-1781551928573-cd7b9b7a433a?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '9876543232',
+    unlockPrice: 599,
+  },
+
+  // ─── 20. DEEPA (Kanyakumari Unsplash) ───
+  {
+    username: 'deepa_classic',
+    displayName: 'Deepa',
+    age: 29,
+    city: 'Kanyakumari',
+    state: 'Tamil Nadu',
+    bio: 'Ocean lover, calm and thoughtful. Cherishing sunsets and sunrise at the southern tip of India. 🌊',
+    occupation: 'Marine Biologist',
+    education: 'M.Sc Marine Biology',
+    languages: ['English', 'Tamil', 'Malayalam'],
+    interests: ['Ocean', 'Marine Life', 'Sunsets', 'Yoga'],
+    avatarUrl: 'https://images.unsplash.com/photo-1710967074923-2b3ebe6171c3?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '9876543233',
+    unlockPrice: 499,
+  },
+
+  // ─── 21. REVATHI (Dindigul Unsplash) ───
+  {
+    username: 'revathi_classic',
+    displayName: 'Revathi D.',
+    age: 31,
+    city: 'Dindigul',
+    state: 'Tamil Nadu',
+    bio: 'Elegant, kind-hearted, and loves traditional cooking and family gatherings. Looking for meaningful bonds. 🥻',
+    occupation: 'College Professor',
+    education: 'Ph.D Literature',
+    languages: ['English', 'Tamil'],
+    interests: ['Literature', 'Cooking', 'Teaching', 'Poetry'],
+    avatarUrl: 'https://images.unsplash.com/photo-1735331467260-0153c5fbd31d?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '9876543234',
+    unlockPrice: 399,
+  },
+
+  // ─── 22. POOJA (Chennai Unsplash) ───
+  {
+    username: 'pooja_classic',
+    displayName: 'Pooja',
+    age: 23,
+    city: 'Chennai',
+    state: 'Tamil Nadu',
+    bio: 'Marina beach evening walks, fashion designer, food enthusiast and cheerful companion! 🌸',
+    occupation: 'Fashion Designer',
+    education: 'B.Des',
+    languages: ['English', 'Tamil', 'Hindi'],
+    interests: ['Fashion', 'Foodie', 'Beaches', 'Music'],
+    avatarUrl: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '9876543235',
+    unlockPrice: 599,
+  },
+
+  // ─── 23. DR. MEERA (Coimbatore Unsplash) ───
+  {
+    username: 'meera_cbe',
+    displayName: 'Dr. Meera C.',
+    age: 25,
+    city: 'Coimbatore',
+    state: 'Tamil Nadu',
+    bio: 'Doctor with passion for yoga, Western Ghats road trips, and deep friendly conversations. 🩺',
+    occupation: 'Physician',
+    education: 'MBBS',
+    languages: ['English', 'Tamil'],
+    interests: ['Yoga', 'Healthcare', 'Road Trips', 'Reading'],
+    avatarUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '9876543236',
+    unlockPrice: 699,
+  },
+
+  // ─── 24. KEERTHI (Madurai Unsplash) ───
+  {
+    username: 'keerthi_classic',
+    displayName: 'Keerthi K.',
+    age: 24,
+    city: 'Madurai',
+    state: 'Tamil Nadu',
+    bio: 'Techie girl from temple city. Love filter coffee, listening to melody tracks and weekend chill. ☕',
+    occupation: 'Software Engineer',
+    education: 'B.E CSE',
+    languages: ['English', 'Tamil'],
+    interests: ['Music', 'Coffee', 'Movies', 'Tech'],
+    avatarUrl: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=800&q=80',
+    shareableContact: '9876543237',
+    unlockPrice: 499,
+  },
+
+  // ─── 25. NANDHINI (Salem - Verified Local Image) ───
   {
     username: 'nandhini_23',
     displayName: 'Nandhini',
@@ -322,213 +454,190 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     unlockPrice: 499,
   },
 
-  // ==========================================================================
-  // PROFILE 15: KEERTHI (Madurai, Tamil Nadu)
-  // ==========================================================================
+  // ─── 26. KEERTHI (Madurai - Verified Local Image) ───
   {
     username: 'keerthi_24',
     displayName: 'Keerthi',
     age: 24,
     city: 'Madurai',
     state: 'Tamil Nadu',
-    bio: 'Madurai girl with vibrant smile! Fond of traditional wear, spicy food, classical music, and long weekend drives. ✨',
-    occupation: 'Software Developer',
-    education: 'B.E CSE',
+    bio: 'Cheerful college graduate, traditional yet modern. Loves classical dance, jasmine flowers, and genuine chats. ✨',
+    occupation: 'Content Writer',
+    education: 'M.A English',
     languages: ['Tamil', 'English'],
-    interests: ['Classical Music', 'Foodie', 'Road Trips', 'Books'],
+    interests: ['Writing', 'Dance', 'Books', 'Cafes'],
     avatarUrl: '/profiles/girl_15.jpg',
     shareableContact: '9876543225',
     unlockPrice: 599,
   },
 
-  // ==========================================================================
-  // PROFILE 16: DEEPIKA (Tirunelveli, Tamil Nadu)
-  // ==========================================================================
+  // ─── 27. DEEPIKA (Tirunelveli - Verified Local Image) ───
   {
     username: 'deepika_22',
     displayName: 'Deepika',
     age: 22,
     city: 'Tirunelveli',
     state: 'Tamil Nadu',
-    bio: 'Halwa city girl! Loves scenic waterfalls at Courtallam, traditional sarees, and sharing good laughs. ❤️',
-    occupation: 'Content Writer',
-    education: 'B.A English Lit',
+    bio: 'Sweet smile and adventurous heart. Loves evening river walks, road trips, and good company. ❤️',
+    occupation: 'Junior Accountant',
+    education: 'B.Com',
     languages: ['Tamil', 'English'],
-    interests: ['Literature', 'Waterfalls', 'Writing', 'Art'],
+    interests: ['Travel', 'Foodie', 'Road Trips', 'Music'],
     avatarUrl: '/profiles/girl_16.jpg',
     shareableContact: '9876543226',
-    unlockPrice: 499,
-  },
-
-  // ==========================================================================
-  // PROFILE 17: POOJA (Chennai, Tamil Nadu)
-  // ==========================================================================
-  {
-    username: 'pooja_25',
-    displayName: 'Pooja',
-    age: 25,
-    city: 'Chennai',
-    state: 'Tamil Nadu',
-    bio: 'Marina beach morning walks, filter coffee, indie films, and cozy rooftop evenings in Anna Nagar. ☕',
-    occupation: 'HR Manager',
-    education: 'MBA',
-    languages: ['Tamil', 'English'],
-    interests: ['Cinema', 'Coffee', 'Beach', 'Fitness'],
-    avatarUrl: '/profiles/girl_17.jpg',
-    shareableContact: '9876543227',
-    unlockPrice: 699,
-  },
-
-  // ==========================================================================
-  // PROFILE 18: SOWMYA (Erode, Tamil Nadu)
-  // ==========================================================================
-  {
-    username: 'sowmya_23',
-    displayName: 'Sowmya',
-    age: 23,
-    city: 'Erode',
-    state: 'Tamil Nadu',
-    bio: 'Bhavani river breezes, handloom silk sarees, simple lifestyle, and looking for a caring companion. 🥻',
-    occupation: 'Fashion Merchandiser',
-    education: 'B.Sc Textile Design',
-    languages: ['Tamil', 'English'],
-    interests: ['Textiles', 'Cooking', 'Gardening', 'Music'],
-    avatarUrl: '/profiles/girl_18.jpg',
-    shareableContact: '9876543228',
-    unlockPrice: 499,
-  },
-
-  // ==========================================================================
-  // PROFILE 19: LAKSHMI (Thanjavur, Tamil Nadu)
-  // ==========================================================================
-  {
-    username: 'lakshmi_26',
-    displayName: 'Lakshmi',
-    age: 26,
-    city: 'Thanjavur',
-    state: 'Tamil Nadu',
-    bio: 'Rooted in heritage and temple art. Loves Carnatic ragas, temple visits, and calm nature strolls. 🪷',
-    occupation: 'Music Teacher',
-    education: 'M.A Carnatic Music',
-    languages: ['Tamil', 'English'],
-    interests: ['Carnatic Music', 'Heritage', 'Temples', 'Painting'],
-    avatarUrl: '/profiles/girl_19.jpg',
-    shareableContact: '9876543229',
     unlockPrice: 399,
   },
 
-  // ==========================================================================
-  // PROFILE 20: SANDHYA (Coimbatore, Tamil Nadu)
-  // ==========================================================================
-  {
-    username: 'sandhya_24',
-    displayName: 'Sandhya',
-    age: 24,
-    city: 'Coimbatore',
-    state: 'Tamil Nadu',
-    bio: 'Chill vibes, cafe hopper in Race Course, Marudhamalai road trips, and pleasant weekend conversations! 🌿',
-    occupation: 'Digital Marketer',
-    education: 'B.Com CA',
-    languages: ['Tamil', 'English'],
-    interests: ['Road Trips', 'Cafes', 'Podcasts', 'Baking'],
-    avatarUrl: '/profiles/girl_20.jpg',
-    shareableContact: '9876543230',
-    unlockPrice: 599,
-  },
-
-  // ==========================================================================
-  // PROFILE 21: AARTHI (Trichy, Tamil Nadu)
-  // ==========================================================================
-  {
-    username: 'aarthi_22',
-    displayName: 'Aarthi',
-    age: 22,
-    city: 'Trichy',
-    state: 'Tamil Nadu',
-    bio: 'Rockfort city resident! Positive thinker, watercolor painter, and loves chatting about everyday wonders. 🎨',
-    occupation: 'Interior Design Intern',
-    education: 'B.Des Interior',
-    languages: ['Tamil', 'English'],
-    interests: ['Painting', 'Interior Design', 'Badminton', 'Movies'],
-    avatarUrl: '/profiles/girl_21.jpg',
-    shareableContact: '9876543231',
-    unlockPrice: 499,
-  },
-
-  // ==========================================================================
-  // PROFILE 22: PAVITHRA (Vellore, Tamil Nadu)
-  // ==========================================================================
-  {
-    username: 'pavithra_25',
-    displayName: 'Pavithra',
-    age: 25,
-    city: 'Vellore',
-    state: 'Tamil Nadu',
-    bio: 'Modern girl with traditional values. Loves weekend baking, acoustic melodies, and long soulful chats. 🤍',
-    occupation: 'Research Analyst',
-    education: 'M.Sc Biotech',
-    languages: ['Tamil', 'English'],
-    interests: ['Research', 'Baking', 'Acoustic Music', 'Fitness'],
-    avatarUrl: '/profiles/girl_22.jpg',
-    shareableContact: '9876543232',
-    unlockPrice: 599,
-  },
-
-  // ==========================================================================
-  // PROFILE 23: GAYATHRI (Dindigul, Tamil Nadu)
-  // ==========================================================================
-  {
-    username: 'gayathri_23',
-    displayName: 'Gayathri',
-    age: 23,
-    city: 'Dindigul',
-    state: 'Tamil Nadu',
-    bio: 'Kodaikanal mist lover! Enjoys hill station drives, spicy biryani, and meeting people with warm hearts. ⛰️',
-    occupation: 'School Teacher',
-    education: 'B.Ed Mathematics',
-    languages: ['Tamil', 'English'],
-    interests: ['Teaching', 'Mountains', 'Nature', 'Cooking'],
-    avatarUrl: '/profiles/girl_23.jpg',
-    shareableContact: '9876543233',
-    unlockPrice: 399,
-  },
-
-  // ==========================================================================
-  // PROFILE 24: MONIKA (Kanyakumari, Tamil Nadu)
-  // ==========================================================================
-  {
-    username: 'monika_24',
-    displayName: 'Monika',
-    age: 24,
-    city: 'Kanyakumari',
-    state: 'Tamil Nadu',
-    bio: 'Ocean sunrise and sunset admirer from the edge of India! Calm, cheerful, and loves good music. 🌅',
-    occupation: 'Tourism Consultant',
-    education: 'M.A Tourism',
-    languages: ['Tamil', 'Malayalam', 'English'],
-    interests: ['Ocean', 'Travel', 'Sunsets', 'Yoga'],
-    avatarUrl: '/profiles/girl_24.jpg',
-    shareableContact: '9876543234',
-    unlockPrice: 499,
-  },
-
-  // ==========================================================================
-  // PROFILE 25: SWETHA (Kanchipuram, Tamil Nadu)
-  // ==========================================================================
+  // ─── 28. SWETHA (Chennai - Verified Local Image) ───
   {
     username: 'swetha_25',
     displayName: 'Swetha',
     age: 25,
-    city: 'Kanchipuram',
+    city: 'Chennai',
     state: 'Tamil Nadu',
-    bio: 'Silk city pride! Classical aesthetics, fond of ethnic fashion, saree designing, and deep conversations. ✨',
-    occupation: 'Fashion Stylist',
-    education: 'B.Des Fashion',
-    languages: ['Tamil', 'English'],
-    interests: ['Fashion', 'Sarees', 'Photography', 'Heritage'],
-    avatarUrl: '/profiles/girl_25.jpg',
-    shareableContact: '9876543235',
+    bio: 'Corporate analyst in OMR by day, fashion & lifestyle enthusiast by evening. Looking for true connections! 👠',
+    occupation: 'Business Analyst',
+    education: 'MBA',
+    languages: ['Tamil', 'English', 'Telugu'],
+    interests: ['Fashion', 'Beaches', 'Fitness', 'Fine Dining'],
+    avatarUrl: '/profiles/girl_17.jpg',
+    shareableContact: '9876543238',
     unlockPrice: 699,
   },
-];
 
+  // ─── 29. PAVITHRA (Erode - Verified Local Image) ───
+  {
+    username: 'pavithra_23',
+    displayName: 'Pavithra',
+    age: 23,
+    city: 'Erode',
+    state: 'Tamil Nadu',
+    bio: 'Textile designer from Erode. Loves creative art, handloom weaves, and peaceful garden walks. 🌿',
+    occupation: 'Fashion & Textile Designer',
+    education: 'B.Des Fashion',
+    languages: ['Tamil', 'English'],
+    interests: ['Art', 'Design', 'Gardening', 'Movies'],
+    avatarUrl: '/profiles/girl_18.jpg',
+    shareableContact: '9876543239',
+    unlockPrice: 499,
+  },
+
+  // ─── 30. SOUNDARYA (Thanjavur - Verified Local Image) ───
+  {
+    username: 'soundarya_24',
+    displayName: 'Soundarya',
+    age: 24,
+    city: 'Thanjavur',
+    state: 'Tamil Nadu',
+    bio: 'Traditional South Indian beauty, passionate about Carnatic music, heritage temples, and soulful chats. 🥻',
+    occupation: 'Music Teacher',
+    education: 'M.A Music',
+    languages: ['Tamil', 'English'],
+    interests: ['Music', 'Heritage', 'Temples', 'Cooking'],
+    avatarUrl: '/profiles/girl_19.jpg',
+    shareableContact: '9876543240',
+    unlockPrice: 599,
+  },
+
+  // ─── 31. NIVETHA (Coimbatore - Verified Local Image) ───
+  {
+    username: 'nivetha_26',
+    displayName: 'Nivetha',
+    age: 26,
+    city: 'Coimbatore',
+    state: 'Tamil Nadu',
+    bio: 'Techie at Tidel Park Coimbatore. Siruvani lover, fitness regular, fond of late night bike rides. 🏍️',
+    occupation: 'Software Engineer',
+    education: 'B.E CSE',
+    languages: ['Tamil', 'English'],
+    interests: ['Fitness', 'Bike Rides', 'Tech', 'Coffee'],
+    avatarUrl: '/profiles/girl_20.jpg',
+    shareableContact: '9876543241',
+    unlockPrice: 599,
+  },
+
+  // ─── 32. HARINI (Tiruchirappalli - Verified Local Image) ───
+  {
+    username: 'harini_22',
+    displayName: 'Harini',
+    age: 22,
+    city: 'Tiruchirappalli',
+    state: 'Tamil Nadu',
+    bio: 'Final year college student. Fun, cheerful, and loves painting landscapes and listening to Anirudh songs! 🎨',
+    occupation: 'Student / Freelancer',
+    education: 'B.Sc Visual Com',
+    languages: ['Tamil', 'English'],
+    interests: ['Painting', 'Music', 'Photography', 'Friends'],
+    avatarUrl: '/profiles/girl_21.jpg',
+    shareableContact: '9876543242',
+    unlockPrice: 399,
+  },
+
+  // ─── 33. ABIRAMI (Vellore - Verified Local Image) ───
+  {
+    username: 'abirami_24',
+    displayName: 'Abirami',
+    age: 24,
+    city: 'Vellore',
+    state: 'Tamil Nadu',
+    bio: 'Healthcare professional from Vellore. Dedicated, warm-hearted, and loves weekend badminton matches. 🏸',
+    occupation: 'Pharmacist',
+    education: 'B.Pharm',
+    languages: ['Tamil', 'English'],
+    interests: ['Badminton', 'Health', 'Travel', 'Cinema'],
+    avatarUrl: '/profiles/girl_22.jpg',
+    shareableContact: '9876543243',
+    unlockPrice: 499,
+  },
+
+  // ─── 34. GAYATHRI (Dindigul - Verified Local Image) ───
+  {
+    username: 'gayathri_25',
+    displayName: 'Gayathri',
+    age: 25,
+    city: 'Dindigul',
+    state: 'Tamil Nadu',
+    bio: 'Foodie at heart, loves Dindigul biryani, evening mountain drives to Kodaikanal, and hearty humor. 🍛',
+    occupation: 'Teacher',
+    education: 'B.Ed',
+    languages: ['Tamil', 'English'],
+    interests: ['Foodie', 'Trekking', 'Teaching', 'Movies'],
+    avatarUrl: '/profiles/girl_23.jpg',
+    shareableContact: '9876543244',
+    unlockPrice: 499,
+  },
+
+  // ─── 35. SANDHIYA (Kanyakumari - Verified Local Image) ───
+  {
+    username: 'sandhiya_23',
+    displayName: 'Sandhiya',
+    age: 23,
+    city: 'Kanyakumari',
+    state: 'Tamil Nadu',
+    bio: 'Coastal breeze and ocean sunrise lover. Looking for genuine adult friendship and honest connection. 🌊',
+    occupation: 'Digital Content Creator',
+    education: 'B.A English',
+    languages: ['Tamil', 'Malayalam', 'English'],
+    interests: ['Ocean', 'Vlogging', 'Sunsets', 'Music'],
+    avatarUrl: '/profiles/girl_24.jpg',
+    shareableContact: '9876543245',
+    unlockPrice: 399,
+  },
+
+  // ─── 36. MYTHILI (Kanchipuram - Verified Local Image) ───
+  {
+    username: 'mythili_24',
+    displayName: 'Mythili',
+    age: 24,
+    city: 'Kanchipuram',
+    state: 'Tamil Nadu',
+    bio: 'Silk city girl! Traditional values with progressive mindset. Loves reading historical novels and photography. 🥻',
+    occupation: 'Research Associate',
+    education: 'M.Sc',
+    languages: ['Tamil', 'English'],
+    interests: ['History', 'Photography', 'Handlooms', 'Coffee'],
+    avatarUrl: '/profiles/girl_25.jpg',
+    shareableContact: '9876543246',
+    unlockPrice: 499,
+  },
+];

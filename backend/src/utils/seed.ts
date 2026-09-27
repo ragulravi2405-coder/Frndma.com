@@ -164,41 +164,7 @@ export const seedDatabase = async () => {
       { upsert: true, new: true }
     );
 
-    // Pre-unlock Priya (priya_21) so the demo account already has 1 unlocked contact
-    const priyaUser = await User.findOne({ username: 'priya_21' });
-    if (priyaUser) {
-      await ContactUnlock.findOneAndUpdate(
-        { userId: demoUser._id, profileOwnerId: priyaUser._id },
-        {
-          userId: demoUser._id,
-          profileOwnerId: priyaUser._id,
-          paymentId: 'pay_demo_pre_unlocked',
-          orderId: 'order_demo_pre_unlocked',
-          status: 'unlocked',
-          unlockedAt: new Date(),
-        },
-        { upsert: true, new: true }
-      );
-
-      await Payment.findOneAndUpdate(
-        { userId: demoUser._id, razorpayOrderId: 'order_demo_pre_unlocked' },
-        {
-          userId: demoUser._id,
-          razorpayOrderId: 'order_demo_pre_unlocked',
-          razorpayPaymentId: 'pay_demo_pre_unlocked',
-          amount: 399,
-          currency: 'INR',
-          type: 'contact_unlock',
-          targetProfileId: priyaUser._id,
-          status: 'captured',
-          notes: { demo: true, target: 'Priya' },
-        },
-        { upsert: true, new: true }
-      );
-      console.log('[Seed] Demo male user (demo_male / Test@1234) with Priya unlocked ready for testing.');
-    }
-
-    console.log('[Seed] Database initialization complete.');
+    console.log('[Seed] Database initialization complete. No contacts pre-unlocked without payment.');
   } catch (error) {
     console.error('[Seed Error]', error);
   }

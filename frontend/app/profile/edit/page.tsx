@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Upload, Check, AlertCircle, Shield, Sparkles, Smile, Image as ImageIcon } from 'lucide-react';
+import { ArrowLeft, Check, AlertCircle, Shield, Sparkles, Smile, Image as ImageIcon } from 'lucide-react';
 import { fetchApi } from '@/lib/api';
 import { MALE_CARTOON_AVATARS } from '@/lib/maleCartoonAvatars';
 
@@ -58,31 +58,6 @@ export default function EditProfilePage() {
       });
     }
     setLoading(false);
-  };
-
-  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const body = new FormData();
-    body.append('photo', file);
-
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'}/profile/photos`, {
-        method: 'POST',
-        credentials: 'include',
-        body,
-      });
-      const data = await response.json();
-      if (data.success && data.data?.avatarUrl) {
-        setFormData((prev) => ({ ...prev, avatarUrl: data.data.avatarUrl }));
-        setMessage('Profile photo updated successfully!');
-      } else {
-        setError(data.message || 'Photo upload failed');
-      }
-    } catch (err) {
-      setError('Photo upload failed');
-    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -184,26 +159,22 @@ export default function EditProfilePage() {
                 <Smile className="w-3.5 h-3.5" />
                 <span>Male Cartoon Avatars Facility</span>
               </div>
-              <h4 className="text-base font-bold text-white">Your Profile Picture</h4>
+              <h4 className="text-base font-bold text-white">Your Profile Avatar</h4>
               <p className="text-xs text-zinc-400 mt-1 mb-3">
-                Select any of the 10 cartoon character faces below, enter a custom picture link, or upload from your device.
+                Choose any of the 10 cartoon character faces below to set as your profile avatar.
               </p>
-              <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3">
-                <label className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-semibold cursor-pointer transition-colors flex items-center gap-2 border border-white/10">
-                  <Upload className="w-3.5 h-3.5 text-pink-400" />
-                  <span>Upload Photo</span>
-                  <input type="file" accept="image/*" onChange={handlePhotoUpload} className="hidden" />
-                </label>
-                {formData.avatarUrl && (
+              {formData.avatarUrl && (
+                <div className="flex items-center gap-2">
+                  <span className="text-[11px] text-zinc-400">Selected Avatar Active</span>
                   <button
                     type="button"
                     onClick={() => setFormData({ ...formData, avatarUrl: '' })}
-                    className="px-3 py-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 text-xs font-medium border border-rose-500/20 transition-colors"
+                    className="px-3 py-1 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 text-xs font-medium border border-rose-500/20 transition-colors"
                   >
                     Reset
                   </button>
-                )}
-              </div>
+                </div>
+              )}
             </div>
           </div>
 
