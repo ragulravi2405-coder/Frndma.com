@@ -87,3 +87,19 @@ export async function fetchApi<T = any>(
     };
   }
 }
+
+export async function logoutUser(redirectTo: string = '/login'): Promise<void> {
+  try {
+    await fetchApi('/auth/logout', { method: 'POST' });
+  } catch (err) {
+    console.error('Logout error:', err);
+  } finally {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('frndma_token');
+      localStorage.removeItem('frndma_user');
+      document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+      window.location.href = redirectTo;
+    }
+  }
+}
+

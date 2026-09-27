@@ -19,8 +19,9 @@ import {
   Smile,
   Check,
   X,
+  LogOut,
 } from 'lucide-react';
-import { fetchApi } from '@/lib/api';
+import { fetchApi, logoutUser } from '@/lib/api';
 import { MALE_CARTOON_AVATARS } from '@/lib/maleCartoonAvatars';
 
 export default function MyProfilePage() {
@@ -67,6 +68,10 @@ export default function MyProfilePage() {
     }
   };
 
+  const handleLogout = async () => {
+    await logoutUser('/login');
+  };
+
   if (loading) {
     return (
       <div className="min-h-[70vh] flex items-center justify-center">
@@ -94,13 +99,23 @@ export default function MyProfilePage() {
           <span className="text-xs uppercase tracking-wider text-pink-400 font-bold">Account</span>
           <h1 className="text-3xl font-extrabold text-white font-heading">My Profile</h1>
         </div>
-        <Link
-          href="/profile/edit"
-          className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary hover:bg-primary-hover text-white text-xs font-bold shadow-glow-sm transition-all"
-        >
-          <Edit className="w-4 h-4" />
-          <span>Edit Profile</span>
-        </Link>
+        <div className="flex items-center gap-2.5">
+          <Link
+            href="/profile/edit"
+            className="flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full bg-primary hover:bg-primary-hover text-white text-xs font-bold shadow-glow-sm transition-all"
+          >
+            <Edit className="w-4 h-4" />
+            <span>Edit Profile</span>
+          </Link>
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 hover:text-white border border-rose-500/30 text-xs font-bold transition-all cursor-pointer shadow-sm"
+          >
+            <LogOut className="w-4 h-4" />
+            <span>Log Out</span>
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -159,6 +174,16 @@ export default function MyProfilePage() {
                 : 'Your contact details remain completely private.'}
             </p>
           </div>
+
+          {/* Full-width Logout Button for Profile Drawer / Mobile */}
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="w-full mt-4 py-3 rounded-2xl bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/30 text-rose-300 hover:text-white text-xs font-bold flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm"
+          >
+            <LogOut className="w-4 h-4" />
+            <span>Log Out</span>
+          </button>
         </div>
 
         {/* Right Column: Bio, Interests & Detailed Attributes */}

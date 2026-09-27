@@ -12,7 +12,7 @@ import {
   X,
   User,
 } from 'lucide-react';
-import { fetchApi } from '@/lib/api';
+import { fetchApi, logoutUser } from '@/lib/api';
 
 export const Navbar: React.FC = () => {
   const pathname = usePathname();
@@ -33,9 +33,9 @@ export const Navbar: React.FC = () => {
   };
 
   const handleLogout = async () => {
-    await fetchApi('/auth/logout', { method: 'POST' });
     setCurrentUser(null);
-    window.location.href = '/';
+    setMobileMenuOpen(false);
+    await logoutUser('/login');
   };
 
   const navLinks = [
