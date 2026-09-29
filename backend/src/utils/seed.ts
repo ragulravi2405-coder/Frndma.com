@@ -110,6 +110,7 @@ export const seedDatabase = async () => {
           contactSharing: true,
           shareableContact: g.shareableContact,
           unlockPrice: g.unlockPrice || 399,
+          userTag: g.userTag || '',
           isProfileComplete: true,
         },
         { upsert: true, new: true }

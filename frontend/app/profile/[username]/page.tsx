@@ -130,9 +130,18 @@ export default function PublicProfilePage() {
             <div className="absolute inset-0 bg-gradient-to-t from-[#0e0714] via-transparent to-transparent" />
 
             <div className="absolute bottom-5 left-5 right-5 text-white">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-wrap">
                 <h2 className="text-2xl font-bold font-heading">{profile.displayName}, {profile.age}</h2>
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-glow-sm" title="Verified" />
+                {profile.userTag && (
+                  <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold shadow-sm flex items-center gap-1 border ${
+                    profile.userTag.includes('New')
+                      ? 'bg-blue-600/90 border-blue-400/60 text-white'
+                      : 'bg-amber-600/90 border-amber-400/60 text-white'
+                  }`}>
+                    {profile.userTag.includes('New') ? '🌟' : '👑'} {profile.userTag}
+                  </span>
+                )}
               </div>
               <p className="text-xs text-zinc-300 flex items-center gap-1 mt-0.5">
                 <MapPin className="w-3.5 h-3.5 text-primary" />

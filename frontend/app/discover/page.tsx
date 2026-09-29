@@ -33,6 +33,146 @@ import { PaymentModal } from '@/components/PaymentModal';
  */
 const DISCOVER_5_GIRLS_LIST = [
   // ──────────────────────────────────────────────────────────
+  // 🌸 [CUSTOM 1] - ABIRAMI (Madurai, Tamil Nadu) - ₹149 - New User
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'custom_girl_1',
+    userId: 'girl_user_custom_1',
+    displayName: 'Abirami',
+    age: 23,
+    city: 'Madurai',
+    state: 'Tamil Nadu',
+    occupation: 'B.Sc Graduate',
+    bio: 'Simple traditional girl with a warm heart. Loves evening walks, sweet talks, and genuine friendships. 🌸',
+    interests: ['Music', 'Long Walks', 'Cooking', 'Temple Visits'],
+    avatarUrl: '/profiles/custom_girl_1.jpg',
+    shareableContact: '9840123451',
+    unlockPrice: 149,
+    userTag: 'New User',
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [CUSTOM 2] - DHARSHINI (Chennai, Tamil Nadu) - ₹149 - Old User
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'custom_girl_2',
+    userId: 'girl_user_custom_2',
+    displayName: 'Dharshini',
+    age: 24,
+    city: 'Chennai',
+    state: 'Tamil Nadu',
+    occupation: 'HR Recruiter',
+    bio: 'Dusky beauty, passionate HR professional, filter coffee enthusiast, seeking sincere connections. ☕',
+    interests: ['Coffee', 'Travel', 'Reading', 'Soulful Music'],
+    avatarUrl: '/profiles/custom_girl_2.jpg',
+    shareableContact: '9840123452',
+    unlockPrice: 149,
+    userTag: 'Old User',
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [CUSTOM 3] - PRIYADHARSHINI (Salem, Tamil Nadu) - ₹99 - New User
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'custom_girl_3',
+    userId: 'girl_user_custom_3',
+    displayName: 'Priyadharshini',
+    age: 22,
+    city: 'Salem',
+    state: 'Tamil Nadu',
+    occupation: 'Accounts Executive',
+    bio: 'Down-to-earth, sweet smile and cheerful personality. Looking for a caring and honest friendship. ✨',
+    interests: ['Movies', 'Foodie', 'Music', 'Photography'],
+    avatarUrl: '/profiles/custom_girl_3.jpg',
+    shareableContact: '9840123453',
+    unlockPrice: 99,
+    userTag: 'New User',
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [CUSTOM 4] - SARANYA (Coimbatore, Tamil Nadu) - ₹199 - Old User
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'custom_girl_4',
+    userId: 'girl_user_custom_4',
+    displayName: 'Saranya',
+    age: 24,
+    city: 'Coimbatore',
+    state: 'Tamil Nadu',
+    occupation: 'College Lecturer',
+    bio: 'Calm mind, bright smile! College lecturer who loves nature vibes, traditional values, and deep chats. 🌿',
+    interests: ['Teaching', 'Nature', 'Books', 'Western Ghats'],
+    avatarUrl: '/profiles/custom_girl_4.jpg',
+    shareableContact: '9840123454',
+    unlockPrice: 199,
+    userTag: 'Old User',
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [CUSTOM 5] - GAYATHRI (Trichy, Tamil Nadu) - ₹249 - New User
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'custom_girl_5',
+    userId: 'girl_user_custom_5',
+    displayName: 'Gayathri',
+    age: 24,
+    city: 'Trichy',
+    state: 'Tamil Nadu',
+    occupation: 'Software Engineer',
+    bio: 'Software engineer by weekday, classical saree lover on weekends. Kind soul who values loyalty. ❤️',
+    interests: ['Coding', 'Sarees', 'Acoustics', 'Weekend Drives'],
+    avatarUrl: '/profiles/custom_girl_5.jpg',
+    shareableContact: '9840123455',
+    unlockPrice: 249,
+    userTag: 'New User',
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [CUSTOM 6] - ARCHANA (Tirunelveli, Tamil Nadu) - ₹249 - Old User
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'custom_girl_6',
+    userId: 'girl_user_custom_6',
+    displayName: 'Archana',
+    age: 25,
+    city: 'Tirunelveli',
+    state: 'Tamil Nadu',
+    occupation: 'Graphic Designer',
+    bio: 'Expressive eyes, sweet heart, graphic designer with an eye for aesthetics and soulful conversations. 🌸',
+    interests: ['Design', 'Art', 'Melodies', 'Sunsets'],
+    avatarUrl: '/profiles/custom_girl_6.jpg',
+    shareableContact: '9840123456',
+    unlockPrice: 249,
+    userTag: 'Old User',
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // 🌸 [CUSTOM 7] - DEEPA (Erode, Tamil Nadu) - ₹299 - New User
+  // ──────────────────────────────────────────────────────────
+  {
+    id: 'custom_girl_7',
+    userId: 'girl_user_custom_7',
+    displayName: 'Deepa',
+    age: 25,
+    city: 'Erode',
+    state: 'Tamil Nadu',
+    occupation: 'High School Teacher',
+    bio: 'High school teacher with a calm & gentle demeanor. Simple lifestyle, handloom lover, looking for meaningful talks. 🪷',
+    interests: ['Literature', 'Teaching', 'Handloom', 'Cooking'],
+    avatarUrl: '/profiles/custom_girl_7.jpg',
+    shareableContact: '9840123457',
+    unlockPrice: 299,
+    userTag: 'New User',
+    contactSharing: true,
+  },
+
+  // ──────────────────────────────────────────────────────────
   // 🌸 [GIRL 1] - PRIYA (Chennai, Tamil Nadu) - Lush Green Bush
   // ──────────────────────────────────────────────────────────
   {
@@ -896,12 +1036,25 @@ export default function DiscoverPage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-[#120a17] via-transparent to-transparent" />
 
                   {/* Top Status Badges */}
-                  <div className="absolute top-2 left-2 sm:top-2.5 sm:left-2.5 px-2 py-0.5 rounded-full bg-black/70 backdrop-blur-md border border-white/10 text-[9px] sm:text-[10px] font-semibold text-white flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    <span>Verified</span>
+                  <div className="absolute top-2 left-2 sm:top-2.5 sm:left-2.5 flex items-center gap-1 flex-wrap max-w-[70%] z-10">
+                    <div className="px-2 py-0.5 rounded-full bg-black/75 backdrop-blur-md border border-white/10 text-[9px] sm:text-[10px] font-semibold text-white flex items-center gap-1 shadow-sm">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      <span>Verified</span>
+                    </div>
+
+                    {profile.userTag && (
+                      <div className={`px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-extrabold shadow-sm flex items-center gap-1 backdrop-blur-md border ${
+                        profile.userTag.includes('New')
+                          ? 'bg-blue-600/90 border-blue-400/60 text-white'
+                          : 'bg-amber-600/90 border-amber-400/60 text-white'
+                      }`}>
+                        <span>{profile.userTag.includes('New') ? '🌟' : '👑'}</span>
+                        <span>{profile.userTag}</span>
+                      </div>
+                    )}
                   </div>
 
-                  <div className="absolute top-2 right-2 sm:top-2.5 sm:right-2.5 flex items-center gap-1">
+                  <div className="absolute top-2 right-2 sm:top-2.5 sm:right-2.5 flex items-center gap-1 z-10">
                     <div className="px-2 py-0.5 rounded-lg bg-gradient-to-r from-primary to-rose-600 backdrop-blur-md border border-white/20 text-[10px] sm:text-[11px] font-extrabold text-white shadow-glow-sm">
                       ₹{profile.unlockPrice || 399}
                     </div>
@@ -1012,7 +1165,18 @@ export default function DiscoverPage() {
                   />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold font-heading">{selectedProfile.displayName}, {selectedProfile.age}</h3>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h3 className="text-2xl font-bold font-heading">{selectedProfile.displayName}, {selectedProfile.age}</h3>
+                    {selectedProfile.userTag && (
+                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold shadow-sm flex items-center gap-1 border ${
+                        selectedProfile.userTag.includes('New')
+                          ? 'bg-blue-600/90 border-blue-400/60 text-white'
+                          : 'bg-amber-600/90 border-amber-400/60 text-white'
+                      }`}>
+                        {selectedProfile.userTag.includes('New') ? '🌟' : '👑'} {selectedProfile.userTag}
+                      </span>
+                    )}
+                  </div>
                   <p className="text-xs text-zinc-300 mt-1 flex items-center gap-1">
                     <MapPin className="w-3.5 h-3.5 text-primary" />
                     <span>{selectedProfile.city}{selectedProfile.state ? `, ${selectedProfile.state}` : ''}</span>

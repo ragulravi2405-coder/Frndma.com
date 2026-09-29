@@ -25,6 +25,8 @@ export interface Profile {
   photos?: Array<{ url: string; publicId: string; isPrimary: boolean }>;
   contactSharing?: boolean;
   shareableContact?: string;
+  unlockPrice?: number;
+  userTag?: string;
   isProfileComplete?: boolean;
   isOnline?: boolean;
   lastActive?: string;

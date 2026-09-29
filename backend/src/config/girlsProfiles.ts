@@ -25,10 +25,137 @@ export interface GirlProfileConfig {
   avatarUrl: string;
   shareableContact: string;
   unlockPrice: number;
+  userTag?: string;
   photos?: Array<{ url: string; isPrimary?: boolean }>;
 }
 
 export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
+  // ─── CUSTOM 1: ABIRAMI (Madurai, Tamil Nadu) - ₹149 - New User ───
+  {
+    username: 'abirami_23',
+    displayName: 'Abirami',
+    age: 23,
+    city: 'Madurai',
+    state: 'Tamil Nadu',
+    bio: 'Simple traditional girl with a warm heart. Loves evening walks, sweet talks, and genuine friendships. 🌸',
+    occupation: 'B.Sc Graduate',
+    education: 'B.Sc Mathematics',
+    languages: ['Tamil', 'English'],
+    interests: ['Music', 'Long Walks', 'Cooking', 'Temple Visits'],
+    avatarUrl: '/profiles/custom_girl_1.jpg',
+    shareableContact: '9840123451',
+    unlockPrice: 149,
+    userTag: 'New User',
+  },
+
+  // ─── CUSTOM 2: DHARSHINI (Chennai, Tamil Nadu) - ₹149 - Old User ───
+  {
+    username: 'dharshini_24',
+    displayName: 'Dharshini',
+    age: 24,
+    city: 'Chennai',
+    state: 'Tamil Nadu',
+    bio: 'Dusky beauty, passionate HR professional, filter coffee enthusiast, seeking sincere connections. ☕',
+    occupation: 'HR Recruiter',
+    education: 'MBA HR',
+    languages: ['Tamil', 'English'],
+    interests: ['Coffee', 'Travel', 'Reading', 'Soulful Music'],
+    avatarUrl: '/profiles/custom_girl_2.jpg',
+    shareableContact: '9840123452',
+    unlockPrice: 149,
+    userTag: 'Old User',
+  },
+
+  // ─── CUSTOM 3: PRIYADHARSHINI (Salem, Tamil Nadu) - ₹99 - New User ───
+  {
+    username: 'priyadharshini_22',
+    displayName: 'Priyadharshini',
+    age: 22,
+    city: 'Salem',
+    state: 'Tamil Nadu',
+    bio: 'Down-to-earth, sweet smile and cheerful personality. Looking for a caring and honest friendship. ✨',
+    occupation: 'Accounts Executive',
+    education: 'B.Com',
+    languages: ['Tamil', 'English'],
+    interests: ['Movies', 'Foodie', 'Music', 'Photography'],
+    avatarUrl: '/profiles/custom_girl_3.jpg',
+    shareableContact: '9840123453',
+    unlockPrice: 99,
+    userTag: 'New User',
+  },
+
+  // ─── CUSTOM 4: SARANYA (Coimbatore, Tamil Nadu) - ₹199 - Old User ───
+  {
+    username: 'saranya_24',
+    displayName: 'Saranya',
+    age: 24,
+    city: 'Coimbatore',
+    state: 'Tamil Nadu',
+    bio: 'Calm mind, bright smile! College lecturer who loves nature vibes, traditional values, and deep chats. 🌿',
+    occupation: 'College Lecturer',
+    education: 'M.Sc Physics',
+    languages: ['Tamil', 'English'],
+    interests: ['Teaching', 'Nature', 'Books', 'Western Ghats'],
+    avatarUrl: '/profiles/custom_girl_4.jpg',
+    shareableContact: '9840123454',
+    unlockPrice: 199,
+    userTag: 'Old User',
+  },
+
+  // ─── CUSTOM 5: GAYATHRI (Trichy, Tamil Nadu) - ₹249 - New User ───
+  {
+    username: 'gayathri_24',
+    displayName: 'Gayathri',
+    age: 24,
+    city: 'Trichy',
+    state: 'Tamil Nadu',
+    bio: 'Software engineer by weekday, classical saree lover on weekends. Kind soul who values loyalty. ❤️',
+    occupation: 'Software Engineer',
+    education: 'B.Tech IT',
+    languages: ['Tamil', 'English'],
+    interests: ['Coding', 'Sarees', 'Acoustics', 'Weekend Drives'],
+    avatarUrl: '/profiles/custom_girl_5.jpg',
+    shareableContact: '9840123455',
+    unlockPrice: 249,
+    userTag: 'New User',
+  },
+
+  // ─── CUSTOM 6: ARCHANA (Tirunelveli, Tamil Nadu) - ₹249 - Old User ───
+  {
+    username: 'archana_25',
+    displayName: 'Archana',
+    age: 25,
+    city: 'Tirunelveli',
+    state: 'Tamil Nadu',
+    bio: 'Expressive eyes, sweet heart, graphic designer with an eye for aesthetics and soulful conversations. 🌸',
+    occupation: 'Graphic Designer',
+    education: 'B.Sc Visual Communication',
+    languages: ['Tamil', 'English'],
+    interests: ['Design', 'Art', 'Melodies', 'Sunsets'],
+    avatarUrl: '/profiles/custom_girl_6.jpg',
+    shareableContact: '9840123456',
+    unlockPrice: 249,
+    userTag: 'Old User',
+  },
+
+  // ─── CUSTOM 7: DEEPA (Erode, Tamil Nadu) - ₹299 - New User ───
+  {
+    username: 'deepa_25',
+    displayName: 'Deepa',
+    age: 25,
+    city: 'Erode',
+    state: 'Tamil Nadu',
+    bio: 'High school teacher with a calm & gentle demeanor. Simple lifestyle, handloom lover, looking for meaningful talks. 🪷',
+    occupation: 'High School Teacher',
+    education: 'B.Ed Literature',
+    languages: ['Tamil', 'English'],
+    interests: ['Literature', 'Teaching', 'Handloom', 'Cooking'],
+    avatarUrl: '/profiles/custom_girl_7.jpg',
+    shareableContact: '9840123457',
+    unlockPrice: 299,
+    userTag: 'New User',
+  },
+
   // ─── 1. PRIYA (Chennai) ───
   {
     username: 'priya_22',
@@ -44,6 +171,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     avatarUrl: 'https://images.unsplash.com/photo-1689580298851-d4482a124290?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543211',
     unlockPrice: 399,
+    userTag: 'Old User',
   },
 
   // ─── 2. ANANYA (Bangalore) ───
