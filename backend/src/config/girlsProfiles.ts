@@ -170,7 +170,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Nature', 'Music', 'Coffee', 'Travel'],
     avatarUrl: 'https://images.unsplash.com/photo-1689580298851-d4482a124290?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543211',
-    unlockPrice: 1,
+    unlockPrice: 299,
     userTag: 'Old User',
   },
 
