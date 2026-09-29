@@ -7,7 +7,7 @@ import {
   uploadProfilePhoto,
   deleteProfilePhoto,
 } from '../controllers/profileController';
-import { authenticate } from '../middleware/auth';
+import { authenticate, optionalAuthenticate } from '../middleware/auth';
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -25,7 +25,7 @@ const router = Router();
 
 router.get('/me', authenticate, getMyProfile);
 router.put('/me', authenticate, updateProfile);
-router.get('/:username', authenticate, getProfileByUsername);
+router.get('/:username', optionalAuthenticate, getProfileByUsername);
 router.post('/photos', authenticate, upload.single('photo'), uploadProfilePhoto);
 router.delete('/photos/:publicId', authenticate, deleteProfilePhoto);
 

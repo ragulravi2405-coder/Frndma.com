@@ -151,6 +151,8 @@ export const getProfileByUsername = async (req: AuthRequest, res: Response, next
       lastActive: targetUser.lastActive,
       contactSharingEnabled: profile.contactSharing,
       isContactUnlocked: isSelf || isContactUnlocked,
+      unlockPrice: profile.unlockPrice || 399,
+      userTag: profile.userTag || '',
       shareableContact:
         isSelf || (isContactUnlocked && profile.contactSharing)
           ? profile.shareableContact || targetUser.mobileNumber

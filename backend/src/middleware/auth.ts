@@ -59,13 +59,6 @@ export const authenticate = async (
     req.userId = user._id.toString();
     next();
   } catch (error) {
-    const fallbackUser = (await User.findOne({ username: 'demo_male' })) || (await User.findOne({ role: 'user' }));
-    if (fallbackUser && (req.baseUrl.includes('payment') || req.path.includes('payment') || req.originalUrl.includes('payment'))) {
-      req.user = fallbackUser;
-      req.userId = fallbackUser._id.toString();
-      return next();
-    }
-
     res.status(401).json({
       success: false,
       message: 'Invalid or expired session. Please log in again.',
