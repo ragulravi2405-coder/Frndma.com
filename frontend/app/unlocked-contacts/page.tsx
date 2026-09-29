@@ -98,18 +98,12 @@ export default function UnlockedContactsPage() {
           <p className="text-xs text-zinc-400 mb-6">
             When you unlock any girl&apos;s contact details on the Discover page, they will be permanently accessible here.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+          <div className="flex items-center justify-center">
             <Link
               href="/discover"
               className="w-full sm:w-auto px-6 py-2.5 rounded-full bg-primary hover:bg-primary-hover text-white text-xs font-bold shadow-glow-sm"
             >
               Discover Girls Profiles
-            </Link>
-            <Link
-              href="/#offer-24h"
-              className="w-full sm:w-auto px-6 py-2.5 rounded-full bg-gradient-to-r from-pink-600 to-amber-500 hover:from-pink-500 hover:to-amber-400 text-white text-xs font-bold shadow-glow-sm"
-            >
-              24h Package Offer (₹999)
             </Link>
           </div>
         </div>
