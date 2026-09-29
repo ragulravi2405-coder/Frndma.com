@@ -622,17 +622,10 @@ export const verifyRazorpayLinkPayment = async (req: AuthRequest, res: Response,
       }
     }
 
-    // Require either Phone Number or Payment ID
-    if (!cleanPid && (!cleanPhone || cleanPhone.length < 10)) {
-      res.status(400).json({
-        success: false,
-        message: 'Please enter the 10-digit mobile number or Razorpay Payment ID used when paying.',
-      });
-      return;
-    }
-
     // 2. Query Razorpay API for live captured payments of required amount
     let matchedPayment: any = null;
+    const twentyMinsAgo = Math.floor(Date.now() / 1000) - 20 * 60;
+
     try {
       const payments = await razorpayInstance.payments.all({ count: 50 });
       // Captured payments with amount matching required profile unlock fee (in paise)
@@ -651,15 +644,27 @@ export const verifyRazorpayLinkPayment = async (req: AuthRequest, res: Response,
           (p: any) => p.contact && p.contact.replace(/\D/g, '').includes(cleanPhone)
         );
       }
+
+      // Automatic matching: find the most recent fresh unclaimed payment in the last 20 minutes
+      if (!matchedPayment) {
+        const recentFresh = capturedMatching.filter((p: any) => p.created_at >= twentyMinsAgo);
+        for (const cand of recentFresh) {
+          const alreadyClaimed = await ContactUnlock.findOne({ paymentId: cand.id });
+          if (!alreadyClaimed) {
+            matchedPayment = cand;
+            break;
+          }
+        }
+      }
     } catch (rzpErr) {
       console.error('[Razorpay Link Check Error]', rzpErr);
     }
 
-    // NEVER unlock if payment is not verified on Razorpay!
+    // NEVER unlock if no verified fresh payment on Razorpay!
     if (!matchedPayment) {
       res.status(400).json({
         success: false,
-        message: `No payment of ₹${requiredRupees} found on Razorpay for this phone/payment ID. Please complete payment of ₹${requiredRupees} on razorpay.me/@ravirahul601 first.`,
+        message: `No fresh payment of ₹${requiredRupees} detected on Razorpay yet. Please complete payment of ₹${requiredRupees} on razorpay.me/@ravirahul601 first.`,
       });
       return;
     }
@@ -675,6 +680,25 @@ export const verifyRazorpayLinkPayment = async (req: AuthRequest, res: Response,
         message: 'This payment has already been used to unlock this contact.',
       });
       return;
+    }
+
+    // If guest, create or find user account using payment contact or generated ID
+    if (!currentUserId) {
+      const phoneToUse =
+        cleanPhone ||
+        (matchedPayment.contact ? matchedPayment.contact.replace(/\D/g, '').slice(-10) : '') ||
+        `guest_${Date.now().toString().slice(-6)}`;
+      let guestUser = await User.findOne({ mobileNumber: phoneToUse });
+      if (!guestUser) {
+        guestUser = await User.create({
+          username: `user_${phoneToUse.slice(-4)}_${Date.now().toString().slice(-4)}`,
+          mobileNumber: phoneToUse,
+          password: 'User@1234',
+          isAgeConfirmed: true,
+          role: 'user',
+        });
+      }
+      currentUserId = guestUser._id.toString();
     }
 
     // 3. Record captured payment in database
