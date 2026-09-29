@@ -7,6 +7,13 @@ import { User } from '../models/User';
 export const getMyUnlockedContacts = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const currentUserId = req.userId;
+    if (!currentUserId) {
+      res.status(200).json({
+        success: true,
+        data: [],
+      });
+      return;
+    }
 
     const unlocks = await ContactUnlock.find({
       userId: currentUserId,
@@ -49,6 +56,17 @@ export const checkUnlockStatus = async (req: AuthRequest, res: Response, next: N
   try {
     const currentUserId = req.userId;
     const { targetUserId } = req.params;
+
+    if (!currentUserId) {
+      res.status(200).json({
+        success: true,
+        data: {
+          isUnlocked: false,
+          contactSharingEnabled: false,
+        },
+      });
+      return;
+    }
 
     const unlock = await ContactUnlock.findOne({
       userId: currentUserId,

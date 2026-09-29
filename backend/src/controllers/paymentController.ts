@@ -562,7 +562,7 @@ export const notifyPaymentSuccess = async (req: AuthRequest, res: Response, next
 
 export const verifyRazorpayLinkPayment = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const currentUserId = req.userId;
+    let currentUserId = req.userId;
     const { targetProfileId, paymentId, phone, amount, type = 'contact_unlock' } = req.body;
 
     if (!targetProfileId) {
@@ -579,26 +579,54 @@ export const verifyRazorpayLinkPayment = async (req: AuthRequest, res: Response,
     const requiredRupees = targetProfile?.unlockPrice || Number(amount) || 399;
     const requiredPaise = requiredRupees * 100;
 
-    // 1. Check if user already unlocked this profile
-    const existingUnlock = await ContactUnlock.findOne({
-      userId: currentUserId,
-      profileOwnerId,
-      status: 'unlocked',
-    });
+    const cleanPhone = (phone || req.user?.mobileNumber || '').replace(/\D/g, '').slice(-10);
+    const cleanPid = paymentId ? String(paymentId).trim().toLowerCase() : '';
 
-    if (existingUnlock) {
-      res.status(200).json({
-        success: true,
-        alreadyUnlocked: true,
-        message: 'Profile already unlocked!',
-        data: {
-          unlockedDetails: {
-            ownerUsername: targetUser?.username,
-            displayName: targetProfile?.displayName,
-            contact: targetProfile?.shareableContact || targetUser?.mobileNumber || '9876543211',
-            contactSharing: true,
+    if (!currentUserId && cleanPhone && cleanPhone.length === 10) {
+      let guestUser = await User.findOne({ mobileNumber: cleanPhone });
+      if (!guestUser) {
+        guestUser = await User.create({
+          username: `user_${cleanPhone.slice(-4)}_${Date.now().toString().slice(-4)}`,
+          mobileNumber: cleanPhone,
+          password: 'User@1234',
+          isAgeConfirmed: true,
+          role: 'user',
+        });
+      }
+      currentUserId = guestUser._id.toString();
+    }
+
+    // 1. Check if user already unlocked this profile
+    if (currentUserId) {
+      const existingUnlock = await ContactUnlock.findOne({
+        userId: currentUserId,
+        profileOwnerId,
+        status: 'unlocked',
+      });
+
+      if (existingUnlock) {
+        res.status(200).json({
+          success: true,
+          alreadyUnlocked: true,
+          message: 'Profile already unlocked!',
+          data: {
+            unlockedDetails: {
+              ownerUsername: targetUser?.username,
+              displayName: targetProfile?.displayName,
+              contact: targetProfile?.shareableContact || targetUser?.mobileNumber || '9876543211',
+              contactSharing: true,
+            },
           },
-        },
+        });
+        return;
+      }
+    }
+
+    // Require either Phone Number or Payment ID
+    if (!cleanPid && (!cleanPhone || cleanPhone.length < 10)) {
+      res.status(400).json({
+        success: false,
+        message: 'Please enter the 10-digit mobile number or Razorpay Payment ID used when paying.',
       });
       return;
     }
@@ -613,46 +641,38 @@ export const verifyRazorpayLinkPayment = async (req: AuthRequest, res: Response,
       );
 
       // Match by Payment ID if provided
-      if (paymentId && String(paymentId).trim()) {
-        const cleanPid = String(paymentId).trim().toLowerCase();
+      if (cleanPid) {
         matchedPayment = capturedMatching.find((p: any) => p.id.toLowerCase() === cleanPid);
       }
 
-      // Match by phone number
-      if (!matchedPayment) {
-        const userPhone = (phone || req.user?.mobileNumber || '').replace(/\D/g, '').slice(-10);
-        if (userPhone && userPhone.length >= 10) {
-          matchedPayment = capturedMatching.find(
-            (p: any) => p.contact && p.contact.replace(/\D/g, '').includes(userPhone)
-          );
-        }
-      }
-
-      // Match by recent captured payment in last 30 minutes
-      if (!matchedPayment) {
-        const thirtyMinsAgo = Math.floor(Date.now() / 1000) - 1800;
-        const recentPayments = capturedMatching.filter((p: any) => p.created_at >= thirtyMinsAgo);
-
-        for (const p of recentPayments) {
-          const alreadyClaimed = await Payment.findOne({
-            razorpayPaymentId: p.id,
-            targetProfileId: profileOwnerId,
-            status: 'captured',
-          });
-          if (!alreadyClaimed) {
-            matchedPayment = p;
-            break;
-          }
-        }
+      // Match by phone number if provided
+      if (!matchedPayment && cleanPhone && cleanPhone.length === 10) {
+        matchedPayment = capturedMatching.find(
+          (p: any) => p.contact && p.contact.replace(/\D/g, '').includes(cleanPhone)
+        );
       }
     } catch (rzpErr) {
       console.error('[Razorpay Link Check Error]', rzpErr);
     }
 
+    // NEVER unlock if payment is not verified on Razorpay!
     if (!matchedPayment) {
       res.status(400).json({
         success: false,
-        message: `No ₹${requiredRupees} payment detected on razorpay.me/@ravirahul601. Please make ₹${requiredRupees} payment on razorpay.me/@ravirahul601 first.`,
+        message: `No payment of ₹${requiredRupees} found on Razorpay for this phone/payment ID. Please complete payment of ₹${requiredRupees} on razorpay.me/@ravirahul601 first.`,
+      });
+      return;
+    }
+
+    // Check if this payment was already used to unlock this contact
+    const alreadyClaimed = await ContactUnlock.findOne({
+      paymentId: matchedPayment.id,
+      profileOwnerId,
+    });
+    if (alreadyClaimed) {
+      res.status(400).json({
+        success: false,
+        message: 'This payment has already been used to unlock this contact.',
       });
       return;
     }

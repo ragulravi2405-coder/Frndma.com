@@ -21,13 +21,6 @@ export const authenticate = async (
     }
 
     if (!token) {
-      const fallbackUser = (await User.findOne({ username: 'demo_male' })) || (await User.findOne({ role: 'user' }));
-      if (fallbackUser && (req.baseUrl.includes('payment') || req.path.includes('payment') || req.originalUrl.includes('payment'))) {
-        req.user = fallbackUser;
-        req.userId = fallbackUser._id.toString();
-        return next();
-      }
-
       res.status(401).json({
         success: false,
         message: 'Authentication required. Please log in.',
@@ -39,13 +32,6 @@ export const authenticate = async (
     const user = await User.findById(decoded.userId);
 
     if (!user) {
-      const fallbackUser = (await User.findOne({ username: 'demo_male' })) || (await User.findOne({ role: 'user' }));
-      if (fallbackUser && (req.baseUrl.includes('payment') || req.path.includes('payment') || req.originalUrl.includes('payment'))) {
-        req.user = fallbackUser;
-        req.userId = fallbackUser._id.toString();
-        return next();
-      }
-
       res.status(401).json({
         success: false,
         message: 'User no longer exists.',
