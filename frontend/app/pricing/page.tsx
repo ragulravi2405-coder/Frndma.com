@@ -36,7 +36,7 @@ export default function PricingPage() {
         {
           _id: 'plan_premium',
           name: 'Premium',
-          price: 399,
+          price: 299,
           interval: 'month',
           description: 'Most popular for passionate daters.',
           features: [
@@ -51,7 +51,7 @@ export default function PricingPage() {
         {
           _id: 'plan_plus',
           name: 'Premium Plus',
-          price: 199,
+          price: 499,
           interval: 'month',
           description: 'The ultimate VIP romantic connection tier.',
           features: [

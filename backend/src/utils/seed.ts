@@ -118,6 +118,15 @@ export const seedDatabase = async () => {
     }
     console.log(`[Seed] Synced ${GIRLS_PROFILES_LIST.length} female profiles from config successfully.`);
 
+    // Migrate any profiles with unlockPrice < 299 to 299
+    const priceUpdateResult = await Profile.updateMany(
+      { $or: [{ unlockPrice: { $lt: 299 } }, { unlockPrice: { $exists: false } }] },
+      { $set: { unlockPrice: 299 } }
+    );
+    if (priceUpdateResult.modifiedCount > 0) {
+      console.log(`[Seed] Updated ${priceUpdateResult.modifiedCount} profiles to minimum starting price ₹299.`);
+    }
+
     // Clean up any old foreign / other country profiles if they exist in DB
     const foreignUsernames = ['sophia_usa', 'jessica_usa', 'chloe_canada', 'emma_canada', 'jiwoo_korea', 'minseo_korea'];
     const foreignUsers = await User.find({ username: { $in: foreignUsernames } });

@@ -34,7 +34,7 @@ Frndma is a modern, production-grade 18+ dating and social connection platform. 
 - **Gateway:** Razorpay (Server-side order creation + HMAC SHA-256 signature verification + Webhooks)
 - **Core Monetization:**
   - **Consent-Based Contact Unlock:** Unlocks contact information **only** when the profile owner has toggled `Contact Sharing: ON`.
-  - **Subscription Plans:** Configurable tiers (Free ₹0, Premium ₹99/mo, Premium Plus ₹199/mo).
+  - **Subscription Plans:** Configurable tiers (Free ₹0, Premium ₹299/mo, Premium Plus ₹499/mo).
 
 ---
 

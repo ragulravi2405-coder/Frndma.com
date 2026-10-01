@@ -47,6 +47,17 @@ app.use(cookieParser(ENV.COOKIE_SECRET));
 app.use('/api', express.json({ limit: '10mb' }));
 app.use('/api', express.urlencoded({ extended: true, limit: '10mb' }));
 
+// Root route info
+app.get('/', (req: Request, res: Response) => {
+  res.status(200).json({
+    status: 'online',
+    platform: 'Frndma 18+ Dating Platform API',
+    frontend: 'http://localhost:3000',
+    message: 'Backend API is running. Open http://localhost:3000 to use Frndma website.',
+    timestamp: new Date().toISOString(),
+  });
+});
+
 // Health Check
 app.get('/health', (req: Request, res: Response) => {
   res.status(200).json({

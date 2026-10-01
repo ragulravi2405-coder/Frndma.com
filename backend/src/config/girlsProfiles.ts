@@ -30,7 +30,7 @@ export interface GirlProfileConfig {
 }
 
 export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
-  // ─── CUSTOM 1: ABIRAMI (Madurai, Tamil Nadu) - ₹149 - New User ───
+  // ─── CUSTOM 1: ABIRAMI (Madurai, Tamil Nadu) - ₹299 - New User ───
   {
     username: 'abirami_23',
     displayName: 'Abirami',
@@ -44,11 +44,11 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Music', 'Long Walks', 'Cooking', 'Temple Visits'],
     avatarUrl: '/profiles/custom_girl_1.jpg',
     shareableContact: '9840123451',
-    unlockPrice: 149,
+    unlockPrice: 299,
     userTag: 'New User',
   },
 
-  // ─── CUSTOM 2: DHARSHINI (Chennai, Tamil Nadu) - ₹149 - Old User ───
+  // ─── CUSTOM 2: DHARSHINI (Chennai, Tamil Nadu) - ₹299 - Old User ───
   {
     username: 'dharshini_24',
     displayName: 'Dharshini',
@@ -62,11 +62,11 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Coffee', 'Travel', 'Reading', 'Soulful Music'],
     avatarUrl: '/profiles/custom_girl_2.jpg',
     shareableContact: '9840123452',
-    unlockPrice: 149,
+    unlockPrice: 299,
     userTag: 'Old User',
   },
 
-  // ─── CUSTOM 3: PRIYADHARSHINI (Salem, Tamil Nadu) - ₹99 - New User ───
+  // ─── CUSTOM 3: PRIYADHARSHINI (Salem, Tamil Nadu) - ₹299 - New User ───
   {
     username: 'priyadharshini_22',
     displayName: 'Priyadharshini',
@@ -80,11 +80,11 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Movies', 'Foodie', 'Music', 'Photography'],
     avatarUrl: '/profiles/custom_girl_3.jpg',
     shareableContact: '9840123453',
-    unlockPrice: 99,
+    unlockPrice: 299,
     userTag: 'New User',
   },
 
-  // ─── CUSTOM 4: SARANYA (Coimbatore, Tamil Nadu) - ₹199 - Old User ───
+  // ─── CUSTOM 4: SARANYA (Coimbatore, Tamil Nadu) - ₹299 - Old User ───
   {
     username: 'saranya_24',
     displayName: 'Saranya',
@@ -98,11 +98,11 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Teaching', 'Nature', 'Books', 'Western Ghats'],
     avatarUrl: '/profiles/custom_girl_4.jpg',
     shareableContact: '9840123454',
-    unlockPrice: 199,
+    unlockPrice: 299,
     userTag: 'Old User',
   },
 
-  // ─── CUSTOM 5: GAYATHRI (Trichy, Tamil Nadu) - ₹249 - New User ───
+  // ─── CUSTOM 5: GAYATHRI (Trichy, Tamil Nadu) - ₹299 - New User ───
   {
     username: 'gayathri_24',
     displayName: 'Gayathri',
@@ -116,11 +116,11 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Coding', 'Sarees', 'Acoustics', 'Weekend Drives'],
     avatarUrl: '/profiles/custom_girl_5.jpg',
     shareableContact: '9840123455',
-    unlockPrice: 249,
+    unlockPrice: 299,
     userTag: 'New User',
   },
 
-  // ─── CUSTOM 6: ARCHANA (Tirunelveli, Tamil Nadu) - ₹249 - Old User ───
+  // ─── CUSTOM 6: ARCHANA (Tirunelveli, Tamil Nadu) - ₹299 - Old User ───
   {
     username: 'archana_25',
     displayName: 'Archana',
@@ -134,7 +134,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Design', 'Art', 'Melodies', 'Sunsets'],
     avatarUrl: '/profiles/custom_girl_6.jpg',
     shareableContact: '9840123456',
-    unlockPrice: 249,
+    unlockPrice: 299,
     userTag: 'Old User',
   },
 

@@ -33,7 +33,7 @@ import { PaymentModal } from '@/components/PaymentModal';
  */
 const DISCOVER_5_GIRLS_LIST = [
   // ──────────────────────────────────────────────────────────
-  // 🌸 [CUSTOM 1] - ABIRAMI (Madurai, Tamil Nadu) - ₹149 - New User
+  // 🌸 [CUSTOM 1] - ABIRAMI (Madurai, Tamil Nadu) - ₹299 - New User
   // ──────────────────────────────────────────────────────────
   {
     id: 'custom_girl_1',
@@ -47,13 +47,13 @@ const DISCOVER_5_GIRLS_LIST = [
     interests: ['Music', 'Long Walks', 'Cooking', 'Temple Visits'],
     avatarUrl: '/profiles/custom_girl_1.jpg',
     shareableContact: '9840123451',
-    unlockPrice: 149,
+    unlockPrice: 299,
     userTag: 'New User',
     contactSharing: true,
   },
 
   // ──────────────────────────────────────────────────────────
-  // 🌸 [CUSTOM 2] - DHARSHINI (Chennai, Tamil Nadu) - ₹149 - Old User
+  // 🌸 [CUSTOM 2] - DHARSHINI (Chennai, Tamil Nadu) - ₹299 - Old User
   // ──────────────────────────────────────────────────────────
   {
     id: 'custom_girl_2',
@@ -67,13 +67,13 @@ const DISCOVER_5_GIRLS_LIST = [
     interests: ['Coffee', 'Travel', 'Reading', 'Soulful Music'],
     avatarUrl: '/profiles/custom_girl_2.jpg',
     shareableContact: '9840123452',
-    unlockPrice: 149,
+    unlockPrice: 299,
     userTag: 'Old User',
     contactSharing: true,
   },
 
   // ──────────────────────────────────────────────────────────
-  // 🌸 [CUSTOM 3] - PRIYADHARSHINI (Salem, Tamil Nadu) - ₹99 - New User
+  // 🌸 [CUSTOM 3] - PRIYADHARSHINI (Salem, Tamil Nadu) - ₹299 - New User
   // ──────────────────────────────────────────────────────────
   {
     id: 'custom_girl_3',
@@ -87,13 +87,13 @@ const DISCOVER_5_GIRLS_LIST = [
     interests: ['Movies', 'Foodie', 'Music', 'Photography'],
     avatarUrl: '/profiles/custom_girl_3.jpg',
     shareableContact: '9840123453',
-    unlockPrice: 99,
+    unlockPrice: 299,
     userTag: 'New User',
     contactSharing: true,
   },
 
   // ──────────────────────────────────────────────────────────
-  // 🌸 [CUSTOM 4] - SARANYA (Coimbatore, Tamil Nadu) - ₹199 - Old User
+  // 🌸 [CUSTOM 4] - SARANYA (Coimbatore, Tamil Nadu) - ₹299 - Old User
   // ──────────────────────────────────────────────────────────
   {
     id: 'custom_girl_4',
@@ -107,13 +107,13 @@ const DISCOVER_5_GIRLS_LIST = [
     interests: ['Teaching', 'Nature', 'Books', 'Western Ghats'],
     avatarUrl: '/profiles/custom_girl_4.jpg',
     shareableContact: '9840123454',
-    unlockPrice: 199,
+    unlockPrice: 299,
     userTag: 'Old User',
     contactSharing: true,
   },
 
   // ──────────────────────────────────────────────────────────
-  // 🌸 [CUSTOM 5] - GAYATHRI (Trichy, Tamil Nadu) - ₹249 - New User
+  // 🌸 [CUSTOM 5] - GAYATHRI (Trichy, Tamil Nadu) - ₹299 - New User
   // ──────────────────────────────────────────────────────────
   {
     id: 'custom_girl_5',
@@ -127,13 +127,13 @@ const DISCOVER_5_GIRLS_LIST = [
     interests: ['Coding', 'Sarees', 'Acoustics', 'Weekend Drives'],
     avatarUrl: '/profiles/custom_girl_5.jpg',
     shareableContact: '9840123455',
-    unlockPrice: 249,
+    unlockPrice: 299,
     userTag: 'New User',
     contactSharing: true,
   },
 
   // ──────────────────────────────────────────────────────────
-  // 🌸 [CUSTOM 6] - ARCHANA (Tirunelveli, Tamil Nadu) - ₹249 - Old User
+  // 🌸 [CUSTOM 6] - ARCHANA (Tirunelveli, Tamil Nadu) - ₹299 - Old User
   // ──────────────────────────────────────────────────────────
   {
     id: 'custom_girl_6',
@@ -147,7 +147,7 @@ const DISCOVER_5_GIRLS_LIST = [
     interests: ['Design', 'Art', 'Melodies', 'Sunsets'],
     avatarUrl: '/profiles/custom_girl_6.jpg',
     shareableContact: '9840123456',
-    unlockPrice: 249,
+    unlockPrice: 299,
     userTag: 'Old User',
     contactSharing: true,
   },
