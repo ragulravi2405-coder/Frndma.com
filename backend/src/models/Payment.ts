@@ -7,7 +7,7 @@ export interface IPayment extends Document {
   razorpaySignature?: string;
   amount: number;
   currency: string;
-  type: 'contact_unlock' | 'subscription';
+  type: 'contact_unlock' | 'subscription' | 'offer_999';
   targetProfileId?: Types.ObjectId;
   planId?: Types.ObjectId;
   status: 'created' | 'captured' | 'failed' | 'refunded';
@@ -48,7 +48,7 @@ const PaymentSchema = new Schema<IPayment>(
     },
     type: {
       type: String,
-      enum: ['contact_unlock', 'subscription'],
+      enum: ['contact_unlock', 'subscription', 'offer_999'],
       required: true,
     },
     targetProfileId: {

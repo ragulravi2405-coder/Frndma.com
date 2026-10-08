@@ -16,9 +16,17 @@ import {
   ShieldCheck,
   CheckCircle2,
   X,
+  Flag,
+  AlertTriangle,
+  Users,
+  Video,
+  Mail,
+  Loader2,
 } from 'lucide-react';
+import confetti from 'canvas-confetti';
 import { fetchApi } from '@/lib/api';
 import { PaymentModal } from '@/components/PaymentModal';
+import { ReportModal } from '@/components/ReportModal';
 
 /**
  * ============================================================================
@@ -33,7 +41,7 @@ import { PaymentModal } from '@/components/PaymentModal';
  */
 const DISCOVER_5_GIRLS_LIST = [
   // ──────────────────────────────────────────────────────────
-  // 🌸 [CUSTOM 1] - ABIRAMI (Madurai, Tamil Nadu) - ₹299 - New User
+  // 🌸 [CUSTOM 1] - ABIRAMI (Madurai, Tamil Nadu) - ₹399 - New User
   // ──────────────────────────────────────────────────────────
   {
     id: 'custom_girl_1',
@@ -47,13 +55,13 @@ const DISCOVER_5_GIRLS_LIST = [
     interests: ['Music', 'Long Walks', 'Cooking', 'Temple Visits'],
     avatarUrl: '/profiles/custom_girl_1.jpg',
     shareableContact: '9840123451',
-    unlockPrice: 299,
+    unlockPrice: 399,
     userTag: 'New User',
     contactSharing: true,
   },
 
   // ──────────────────────────────────────────────────────────
-  // 🌸 [CUSTOM 2] - DHARSHINI (Chennai, Tamil Nadu) - ₹299 - Old User
+  // 🌸 [CUSTOM 2] - DHARSHINI (Chennai, Tamil Nadu) - ₹399 - Old User
   // ──────────────────────────────────────────────────────────
   {
     id: 'custom_girl_2',
@@ -67,13 +75,13 @@ const DISCOVER_5_GIRLS_LIST = [
     interests: ['Coffee', 'Travel', 'Reading', 'Soulful Music'],
     avatarUrl: '/profiles/custom_girl_2.jpg',
     shareableContact: '9840123452',
-    unlockPrice: 299,
+    unlockPrice: 399,
     userTag: 'Old User',
     contactSharing: true,
   },
 
   // ──────────────────────────────────────────────────────────
-  // 🌸 [CUSTOM 3] - PRIYADHARSHINI (Salem, Tamil Nadu) - ₹299 - New User
+  // 🌸 [CUSTOM 3] - PRIYADHARSHINI (Salem, Tamil Nadu) - ₹399 - New User
   // ──────────────────────────────────────────────────────────
   {
     id: 'custom_girl_3',
@@ -87,13 +95,13 @@ const DISCOVER_5_GIRLS_LIST = [
     interests: ['Movies', 'Foodie', 'Music', 'Photography'],
     avatarUrl: '/profiles/custom_girl_3.jpg',
     shareableContact: '9840123453',
-    unlockPrice: 299,
+    unlockPrice: 399,
     userTag: 'New User',
     contactSharing: true,
   },
 
   // ──────────────────────────────────────────────────────────
-  // 🌸 [CUSTOM 4] - SARANYA (Coimbatore, Tamil Nadu) - ₹299 - Old User
+  // 🌸 [CUSTOM 4] - SARANYA (Coimbatore, Tamil Nadu) - ₹399 - Old User
   // ──────────────────────────────────────────────────────────
   {
     id: 'custom_girl_4',
@@ -107,13 +115,13 @@ const DISCOVER_5_GIRLS_LIST = [
     interests: ['Teaching', 'Nature', 'Books', 'Western Ghats'],
     avatarUrl: '/profiles/custom_girl_4.jpg',
     shareableContact: '9840123454',
-    unlockPrice: 299,
+    unlockPrice: 399,
     userTag: 'Old User',
     contactSharing: true,
   },
 
   // ──────────────────────────────────────────────────────────
-  // 🌸 [CUSTOM 5] - GAYATHRI (Trichy, Tamil Nadu) - ₹299 - New User
+  // 🌸 [CUSTOM 5] - GAYATHRI (Trichy, Tamil Nadu) - ₹399 - New User
   // ──────────────────────────────────────────────────────────
   {
     id: 'custom_girl_5',
@@ -127,13 +135,13 @@ const DISCOVER_5_GIRLS_LIST = [
     interests: ['Coding', 'Sarees', 'Acoustics', 'Weekend Drives'],
     avatarUrl: '/profiles/custom_girl_5.jpg',
     shareableContact: '9840123455',
-    unlockPrice: 299,
+    unlockPrice: 399,
     userTag: 'New User',
     contactSharing: true,
   },
 
   // ──────────────────────────────────────────────────────────
-  // 🌸 [CUSTOM 6] - ARCHANA (Tirunelveli, Tamil Nadu) - ₹299 - Old User
+  // 🌸 [CUSTOM 6] - ARCHANA (Tirunelveli, Tamil Nadu) - ₹399 - Old User
   // ──────────────────────────────────────────────────────────
   {
     id: 'custom_girl_6',
@@ -147,13 +155,13 @@ const DISCOVER_5_GIRLS_LIST = [
     interests: ['Design', 'Art', 'Melodies', 'Sunsets'],
     avatarUrl: '/profiles/custom_girl_6.jpg',
     shareableContact: '9840123456',
-    unlockPrice: 299,
+    unlockPrice: 399,
     userTag: 'Old User',
     contactSharing: true,
   },
 
   // ──────────────────────────────────────────────────────────
-  // 🌸 [CUSTOM 7] - DEEPA (Erode, Tamil Nadu) - ₹299 - New User
+  // 🌸 [CUSTOM 7] - DEEPA (Erode, Tamil Nadu) - ₹399 - New User
   // ──────────────────────────────────────────────────────────
   {
     id: 'custom_girl_7',
@@ -167,7 +175,7 @@ const DISCOVER_5_GIRLS_LIST = [
     interests: ['Literature', 'Teaching', 'Handloom', 'Cooking'],
     avatarUrl: '/profiles/custom_girl_7.jpg',
     shareableContact: '9840123457',
-    unlockPrice: 299,
+    unlockPrice: 399,
     userTag: 'New User',
     contactSharing: true,
   },
@@ -223,7 +231,7 @@ const DISCOVER_5_GIRLS_LIST = [
     occupation: 'Dental Surgeon',
     bio: 'Malayali penne with a cheerful smile! Doctor, Kathakali enthusiast, and coastal sunset admirer. 🌸',
     interests: ['Classical Dance', 'Medicine', 'Sunsets', 'Travel'],
-    avatarUrl: 'https://images.unsplash.com/photo-1761125135357-99cbe52a6271?auto=format&fit=crop&w=800&q=80',
+    avatarUrl: '/profiles/meera.jpg',
     shareableContact: '9876543213',
     unlockPrice: 499,
     contactSharing: true,
@@ -301,7 +309,7 @@ const DISCOVER_5_GIRLS_LIST = [
     interests: ['Teaching', 'Beaches', 'Novels', 'Planting'],
     avatarUrl: 'https://images.unsplash.com/photo-1710967074857-d5c6d53d926b?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543217',
-    unlockPrice: 399,
+    unlockPrice: 499,
     contactSharing: true,
   },
 
@@ -451,7 +459,7 @@ const DISCOVER_5_GIRLS_LIST = [
     occupation: 'Software Developer',
     bio: 'Madurai girl with vibrant smile! Fond of traditional wear, spicy food, classical music, and long weekend drives. ✨',
     interests: ['Classical Music', 'Foodie', 'Road Trips', 'Books'],
-    avatarUrl: '/profiles/girl_15.jpg',
+    avatarUrl: '/profiles/keerthi.jpg',
     shareableContact: '9876543225',
     unlockPrice: 599,
     contactSharing: true,
@@ -529,7 +537,7 @@ const DISCOVER_5_GIRLS_LIST = [
     interests: ['Carnatic Music', 'Heritage', 'Temples', 'Painting'],
     avatarUrl: '/profiles/girl_19.jpg',
     shareableContact: '9876543229',
-    unlockPrice: 399,
+    unlockPrice: 499,
     contactSharing: true,
   },
 
@@ -605,7 +613,7 @@ const DISCOVER_5_GIRLS_LIST = [
     interests: ['Teaching', 'Mountains', 'Nature', 'Cooking'],
     avatarUrl: '/profiles/girl_23.jpg',
     shareableContact: '9876543233',
-    unlockPrice: 399,
+    unlockPrice: 499,
     contactSharing: true,
   },
 
@@ -662,7 +670,7 @@ const DISCOVER_5_GIRLS_LIST = [
     interests: ['Travel', 'Music', 'Books', 'Food', 'Design'],
     avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543227',
-    unlockPrice: 399,
+    unlockPrice: 499,
     contactSharing: true,
   },
 
@@ -795,7 +803,7 @@ const DISCOVER_5_GIRLS_LIST = [
     interests: ['Literature', 'Cooking', 'Teaching', 'Poetry'],
     avatarUrl: 'https://images.unsplash.com/photo-1735331467260-0153c5fbd31d?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543234',
-    unlockPrice: 399,
+    unlockPrice: 499,
     contactSharing: true,
   },
 
@@ -812,47 +820,9 @@ const DISCOVER_5_GIRLS_LIST = [
     occupation: 'Fashion Designer',
     bio: 'Marina beach evening walks, fashion designer, food enthusiast and cheerful companion! 🌸',
     interests: ['Fashion', 'Foodie', 'Beaches', 'Music'],
-    avatarUrl: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80',
+    avatarUrl: '/profiles/pooja.jpg',
     shareableContact: '9876543235',
     unlockPrice: 599,
-    contactSharing: true,
-  },
-
-  // ──────────────────────────────────────────────────────────
-  // 🌸 [GIRL 35] - DR. MEERA C. (Coimbatore, Tamil Nadu) - Classic Unsplash
-  // ──────────────────────────────────────────────────────────
-  {
-    id: 'girl_35',
-    userId: 'girl_user_35',
-    displayName: 'Dr. Meera C.',
-    age: 25,
-    city: 'Coimbatore',
-    state: 'Tamil Nadu',
-    occupation: 'Physician',
-    bio: 'Doctor with passion for yoga, Western Ghats road trips, and deep friendly conversations. 🩺',
-    interests: ['Yoga', 'Healthcare', 'Road Trips', 'Reading'],
-    avatarUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=800&q=80',
-    shareableContact: '9876543236',
-    unlockPrice: 699,
-    contactSharing: true,
-  },
-
-  // ──────────────────────────────────────────────────────────
-  // 🌸 [GIRL 36] - KEERTHI K. (Madurai, Tamil Nadu) - Classic Unsplash
-  // ──────────────────────────────────────────────────────────
-  {
-    id: 'girl_36',
-    userId: 'girl_user_36',
-    displayName: 'Keerthi K.',
-    age: 24,
-    city: 'Madurai',
-    state: 'Tamil Nadu',
-    occupation: 'Software Engineer',
-    bio: 'Techie girl from temple city. Love filter coffee, listening to melody tracks and weekend chill. ☕',
-    interests: ['Music', 'Coffee', 'Movies', 'Tech'],
-    avatarUrl: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=800&q=80',
-    shareableContact: '9876543237',
-    unlockPrice: 499,
     contactSharing: true,
   },
 ];
@@ -880,15 +850,40 @@ export default function DiscoverPage() {
   // Payment Modal state
   const [paymentData, setPaymentData] = useState<{
     isOpen: boolean;
+    type?: 'contact_unlock' | 'subscription' | 'offer_999';
     targetProfileId?: string;
     targetProfileName?: string;
     amount?: number;
   }>({
     isOpen: false,
+    type: 'contact_unlock',
   });
 
   // Quick View Profile Modal
   const [selectedProfile, setSelectedProfile] = useState<any>(null);
+
+  // User Contact Credits
+  const [userCredits, setUserCredits] = useState<{
+    totalCredits: number;
+    usedCredits: number;
+    remainingCredits: number;
+  }>({
+    totalCredits: 0,
+    usedCredits: 0,
+    remainingCredits: 0,
+  });
+  const [creditUnlockingId, setCreditUnlockingId] = useState<string | null>(null);
+
+  // Report Profile Modal state
+  const [reportData, setReportData] = useState<{
+    isOpen: boolean;
+    profileId: string;
+    profileName: string;
+  }>({
+    isOpen: false,
+    profileId: '',
+    profileName: '',
+  });
 
   useEffect(() => {
     loadData();
@@ -899,9 +894,10 @@ export default function DiscoverPage() {
     let query = `?minAge=${minAge}&maxAge=${maxAge}&gender=female&limit=100`;
     if (city) query += `&city=${encodeURIComponent(city)}`;
 
-    const [profilesRes, unlocksRes] = await Promise.all([
+    const [profilesRes, unlocksRes, creditsRes] = await Promise.all([
       fetchApi(`/discover${query}`),
       fetchApi('/unlocks/my-unlocks'),
+      fetchApi('/unlocks/my-credits'),
     ]);
 
     if (profilesRes.success && profilesRes.data && profilesRes.data.length > 0) {
@@ -924,7 +920,55 @@ export default function DiscoverPage() {
       setUnlockedIds(map);
     }
 
+    if (creditsRes.success && creditsRes.data) {
+      setUserCredits(creditsRes.data);
+    }
+
     setLoading(false);
+  };
+
+  const handleCreditUnlock = async (profile: any) => {
+    const profileId = profile.userId || profile.id;
+    setCreditUnlockingId(profileId);
+
+    try {
+      const res = await fetchApi('/unlocks/use-credit', {
+        method: 'POST',
+        body: JSON.stringify({ targetProfileId: profileId }),
+      });
+
+      setCreditUnlockingId(null);
+
+      if (res.success && res.data?.contactDetails) {
+        setUnlockedIds((prev) => ({
+          ...prev,
+          [profileId]: res.data.contactDetails.contact,
+        }));
+
+        if (typeof res.data.remainingCredits === 'number') {
+          setUserCredits((prev) => ({
+            ...prev,
+            remainingCredits: res.data.remainingCredits,
+            usedCredits: (prev.usedCredits || 0) + 1,
+          }));
+        }
+
+        try {
+          confetti({
+            particleCount: 80,
+            spread: 70,
+            origin: { y: 0.6 },
+          });
+        } catch {
+          // ignore
+        }
+      } else {
+        alert(res.message || 'Unable to unlock contact using credit. Please try again.');
+      }
+    } catch (err: any) {
+      setCreditUnlockingId(null);
+      alert(err.message || 'Error unlocking contact with credit.');
+    }
   };
 
   const handleUnlockClick = (profile: any) => {
@@ -939,7 +983,7 @@ export default function DiscoverPage() {
   return (
     <div className="max-w-7xl mx-auto px-3 sm:px-6 py-6 sm:py-12">
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 sm:mb-8">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4 sm:mb-6">
         <div>
           <span className="text-xs uppercase tracking-wider text-pink-400 font-bold flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5" />
@@ -949,7 +993,7 @@ export default function DiscoverPage() {
             Discover Girls Profiles
           </h1>
           <p className="text-xs sm:text-sm text-zinc-400 mt-1">
-            Browse verified Indian profiles. Tap any card to view full pictures and details.
+            Browse verified Indian profiles. Tap any card to view pictures, bio & unlock direct contacts.
           </p>
         </div>
 
@@ -964,6 +1008,67 @@ export default function DiscoverPage() {
           <SlidersHorizontal className="w-4 h-4" />
           <span>Filter by City / Age</span>
         </button>
+      </div>
+
+      {/* Credit Balance Notice Banner / ₹999 Offer Banner */}
+      {userCredits.remainingCredits > 0 ? (
+        <div className="mb-6 p-4 rounded-2xl bg-gradient-to-r from-emerald-950/70 via-teal-950/60 to-emerald-950/70 border border-emerald-500/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs shadow-sm">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 shrink-0">
+              <Sparkles className="w-5 h-5" />
+            </div>
+            <div>
+              <p className="font-extrabold text-white text-sm">
+                You have <span className="text-emerald-400 text-base">{userCredits.remainingCredits}</span> Contact Unlock {userCredits.remainingCredits === 1 ? 'Credit' : 'Credits'} Available!
+              </p>
+              <p className="text-zinc-300 text-[11px]">
+                Click &ldquo;Unlock with 1 Credit&rdquo; on any verified profile below to reveal their WhatsApp number instantly.
+              </p>
+            </div>
+          </div>
+          <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[11px] font-bold shrink-0">
+            {userCredits.totalCredits} Purchased • {userCredits.usedCredits} Used
+          </span>
+        </div>
+      ) : (
+        <div className="mb-6 p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-[#1f0d26]/80 via-rose-950/40 to-[#120a17] border border-primary/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+          <div className="flex items-center gap-2.5">
+            <span className="text-lg">🔥</span>
+            <div>
+              <span className="font-bold text-white block">
+                Limited Time Special Offer: Unlock 3 Verified Contacts for ₹999
+              </span>
+              <span className="text-zinc-300 text-[11px]">
+                Direct meeting & video call included • No extra payment required from Frndma
+              </span>
+            </div>
+          </div>
+          <button
+            onClick={() =>
+              setPaymentData({
+                isOpen: true,
+                type: 'offer_999',
+                amount: 999,
+              })
+            }
+            className="px-4 py-2 rounded-xl bg-gradient-to-r from-primary to-rose-600 hover:from-primary-hover hover:to-rose-500 text-white text-xs font-bold shrink-0 shadow-sm transition-all"
+          >
+            Unlock 3 Contacts — ₹999
+          </button>
+        </div>
+      )}
+
+      {/* Trust & Safety Warning Notice */}
+      <div className="mb-6 p-3.5 rounded-2xl bg-black/40 border border-white/10 flex items-start gap-2.5 text-[11px] text-zinc-300">
+        <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+        <div className="leading-relaxed">
+          <strong className="text-white font-semibold">🤝 Direct Meeting & Video Call Policy: </strong>
+          Direct meetings and video calls do not require any additional payment from Frndma. If anyone asks you for extra money claiming it is required for meeting or video call, please use the{' '}
+          <strong className="text-rose-400 font-semibold">🚩 Report Profile</strong> button immediately. Support:{' '}
+          <a href="mailto:frndma.com@gmail.com" className="text-pink-400 hover:underline font-bold">
+            frndma.com@gmail.com
+          </a>
+        </div>
       </div>
 
       {/* Filter Drawer */}
@@ -1002,7 +1107,7 @@ export default function DiscoverPage() {
         </motion.div>
       )}
 
-      {/* Profiles Small-Box Grid (2 Columns on Mobile, 3-5 on Desktop) */}
+      {/* Profiles Grid */}
       {loading ? (
         <div className="min-h-[50vh] flex flex-col items-center justify-center gap-3">
           <div className="w-10 h-10 border-2 border-primary border-t-transparent rounded-full animate-spin" />
@@ -1014,6 +1119,7 @@ export default function DiscoverPage() {
             const profileId = profile.userId || profile.id;
             const isUnlocked = !!unlockedIds[profileId];
             const unlockedNumber = unlockedIds[profileId] || profile.shareableContact;
+            const isVerified = profile.isVerified !== false;
 
             return (
               <motion.div
@@ -1035,19 +1141,23 @@ export default function DiscoverPage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#120a17] via-transparent to-transparent" />
 
-                  {/* Top Status Badges */}
-                  <div className="absolute top-2 left-2 sm:top-2.5 sm:left-2.5 flex items-center gap-1 flex-wrap max-w-[70%] z-10">
-                    <div className="px-2 py-0.5 rounded-full bg-black/75 backdrop-blur-md border border-white/10 text-[9px] sm:text-[10px] font-semibold text-white flex items-center gap-1 shadow-sm">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                      <span>Verified</span>
-                    </div>
+                  {/* Top Status Badges: Verified Badge */}
+                  <div className="absolute top-2 left-2 sm:top-2.5 sm:left-2.5 flex items-center gap-1 flex-wrap max-w-[75%] z-10">
+                    {isVerified && (
+                      <div className="px-2 py-0.5 rounded-full bg-black/80 backdrop-blur-md border border-emerald-500/40 text-[9px] sm:text-[10px] font-bold text-emerald-400 flex items-center gap-1 shadow-sm">
+                        <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+                        <span>✓ Verified Profile</span>
+                      </div>
+                    )}
 
                     {profile.userTag && (
-                      <div className={`px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-extrabold shadow-sm flex items-center gap-1 backdrop-blur-md border ${
-                        profile.userTag.includes('New')
-                          ? 'bg-blue-600/90 border-blue-400/60 text-white'
-                          : 'bg-amber-600/90 border-amber-400/60 text-white'
-                      }`}>
+                      <div
+                        className={`px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-extrabold shadow-sm flex items-center gap-1 backdrop-blur-md border ${
+                          profile.userTag.includes('New')
+                            ? 'bg-blue-600/90 border-blue-400/60 text-white'
+                            : 'bg-amber-600/90 border-amber-400/60 text-white'
+                        }`}
+                      >
                         <span>{profile.userTag.includes('New') ? '🌟' : '👑'}</span>
                         <span>{profile.userTag}</span>
                       </div>
@@ -1098,7 +1208,27 @@ export default function DiscoverPage() {
                           <span>WhatsApp</span>
                         </a>
                       </div>
+                    ) : userCredits.remainingCredits > 0 ? (
+                      /* Unlock using 1 Contact Credit */
+                      <button
+                        onClick={() => handleCreditUnlock(profile)}
+                        disabled={creditUnlockingId === profileId}
+                        className="w-full py-1.5 sm:py-2 px-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-[11px] sm:text-xs font-bold flex items-center justify-center gap-1 shadow-sm transition-all disabled:opacity-50"
+                      >
+                        {creditUnlockingId === profileId ? (
+                          <>
+                            <Loader2 className="w-3 h-3 animate-spin" />
+                            <span>Unlocking...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Sparkles className="w-3 h-3 text-emerald-200" />
+                            <span>Unlock with 1 Credit</span>
+                          </>
+                        )}
+                      </button>
                     ) : (
+                      /* Standard Unlock Button */
                       <button
                         onClick={() => handleUnlockClick(profile)}
                         className="w-full py-1.5 sm:py-2 px-2 rounded-xl bg-gradient-to-r from-primary to-rose-600 hover:from-primary-hover hover:to-rose-500 text-white text-[11px] sm:text-xs font-bold flex items-center justify-center gap-1 shadow-glow-sm transition-all"
@@ -1108,13 +1238,30 @@ export default function DiscoverPage() {
                       </button>
                     )}
 
-                    <button
-                      onClick={() => setSelectedProfile(profile)}
-                      className="w-full py-1 rounded-lg sm:rounded-xl bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white text-[10px] sm:text-xs font-medium flex items-center justify-center gap-1 transition-colors"
-                    >
-                      <Eye className="w-3 h-3" />
-                      <span>Details</span>
-                    </button>
+                    {/* Secondary Actions: Details & 🚩 Report Profile */}
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() => setSelectedProfile(profile)}
+                        className="flex-1 py-1 rounded-lg sm:rounded-xl bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white text-[10px] sm:text-xs font-medium flex items-center justify-center gap-1 transition-colors"
+                      >
+                        <Eye className="w-3 h-3" />
+                        <span>Details</span>
+                      </button>
+                      <button
+                        onClick={() =>
+                          setReportData({
+                            isOpen: true,
+                            profileId: profile.userId || profile.id,
+                            profileName: profile.displayName,
+                          })
+                        }
+                        className="py-1 px-2 rounded-lg sm:rounded-xl bg-white/5 hover:bg-rose-950/40 text-zinc-400 hover:text-rose-400 border border-white/5 hover:border-rose-500/30 text-[10px] sm:text-xs font-medium flex items-center justify-center gap-1 transition-colors"
+                        title="Report this profile"
+                      >
+                        <Flag className="w-3 h-3 text-rose-400" />
+                        <span className="hidden sm:inline">Report</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -1142,21 +1289,21 @@ export default function DiscoverPage() {
       {/* Quick View Profile Modal */}
       {selectedProfile && (
         <AnimatePresence>
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="relative w-full max-w-lg p-6 sm:p-8 rounded-3xl glass-card border border-primary/30 bg-[#140b1a] text-white shadow-glow-lg max-h-[90vh] overflow-y-auto"
+              className="relative w-full max-w-lg p-6 sm:p-8 rounded-3xl glass-card border border-primary/30 bg-[#140b1a] text-white shadow-glow-lg max-h-[92vh] overflow-y-auto my-auto"
             >
               <button
                 onClick={() => setSelectedProfile(null)}
-                className="absolute top-4 right-4 p-2 rounded-full text-zinc-400 hover:text-white bg-white/5 hover:bg-white/10"
+                className="absolute top-4 right-4 p-2 rounded-full text-zinc-400 hover:text-white bg-white/5 hover:bg-white/10 z-10"
               >
                 <X className="w-5 h-5" />
               </button>
 
-              <div className="flex flex-col sm:flex-row items-center gap-6 mb-6">
+              <div className="flex flex-col sm:flex-row items-center gap-5 mb-5">
                 <div className="relative w-28 h-28 rounded-2xl overflow-hidden border-2 border-primary shadow-glow-sm shrink-0">
                   <img
                     src={selectedProfile.avatarUrl}
@@ -1164,20 +1311,17 @@ export default function DiscoverPage() {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div>
-                  <div className="flex items-center gap-2 flex-wrap">
+                <div className="text-center sm:text-left">
+                  <div className="flex items-center justify-center sm:justify-start gap-2 flex-wrap">
                     <h3 className="text-2xl font-bold font-heading">{selectedProfile.displayName}, {selectedProfile.age}</h3>
-                    {selectedProfile.userTag && (
-                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold shadow-sm flex items-center gap-1 border ${
-                        selectedProfile.userTag.includes('New')
-                          ? 'bg-blue-600/90 border-blue-400/60 text-white'
-                          : 'bg-amber-600/90 border-amber-400/60 text-white'
-                      }`}>
-                        {selectedProfile.userTag.includes('New') ? '🌟' : '👑'} {selectedProfile.userTag}
+                    {selectedProfile.isVerified !== false && (
+                      <span className="px-2.5 py-0.5 rounded-full bg-black/80 border border-emerald-500/40 text-[10px] font-bold text-emerald-400 flex items-center gap-1 shadow-sm">
+                        <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+                        <span>✓ Verified Profile</span>
                       </span>
                     )}
                   </div>
-                  <p className="text-xs text-zinc-300 mt-1 flex items-center gap-1">
+                  <p className="text-xs text-zinc-300 mt-1 flex items-center justify-center sm:justify-start gap-1">
                     <MapPin className="w-3.5 h-3.5 text-primary" />
                     <span>{selectedProfile.city}{selectedProfile.state ? `, ${selectedProfile.state}` : ''}</span>
                   </p>
@@ -1187,8 +1331,28 @@ export default function DiscoverPage() {
                 </div>
               </div>
 
+              {/* Direct Meeting & Trust Guarantee Notice */}
+              <div className="p-3.5 rounded-2xl bg-emerald-950/30 border border-emerald-500/30 text-xs text-emerald-300 space-y-1 mb-4">
+                <div className="flex items-center gap-2 font-bold text-white text-xs">
+                  <Users className="w-4 h-4 text-emerald-400" />
+                  <span>🤝 Direct Meeting & Video Call Included</span>
+                </div>
+                <p className="text-[11px] text-zinc-300 leading-relaxed">
+                  After unlocking this contact, you can freely communicate to arrange direct meetings or video calls. There is NO EXTRA PAYMENT from Frndma for these features.
+                </p>
+              </div>
+
+              {/* Anti-Scam Notice */}
+              <div className="p-3 rounded-2xl bg-rose-950/20 border border-rose-500/25 flex items-start gap-2.5 text-[11px] text-zinc-300 mb-4">
+                <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+                <div>
+                  <strong className="text-rose-300 font-semibold">⚠️ Safety Notice: </strong>
+                  Frndma never asks users to make extra payments for meetings or video calls. If anyone asks you for extra money, please report them immediately.
+                </div>
+              </div>
+
               {/* Bio */}
-              <div className="p-4 rounded-2xl bg-white/5 border border-white/10 mb-5">
+              <div className="p-4 rounded-2xl bg-white/5 border border-white/10 mb-4">
                 <h4 className="text-xs uppercase tracking-wider text-pink-400 font-bold mb-1">About Her</h4>
                 <p className="text-xs sm:text-sm text-zinc-300 italic leading-relaxed">
                   &quot;{selectedProfile.bio || 'Love meeting real people and having pleasant conversations.'}&quot;
@@ -1196,7 +1360,7 @@ export default function DiscoverPage() {
               </div>
 
               {/* Interests */}
-              <div className="mb-6">
+              <div className="mb-5">
                 <h4 className="text-xs uppercase tracking-wider text-pink-400 font-bold mb-2">Interests</h4>
                 <div className="flex flex-wrap gap-2">
                   {selectedProfile.interests?.map((item: string, i: number) => (
@@ -1217,7 +1381,7 @@ export default function DiscoverPage() {
                     <Lock className="w-4 h-4 text-primary" />
                     <span className="text-xs font-bold text-white uppercase tracking-wider">Contact Status</span>
                   </div>
-                  {unlockedIds[selectedProfile.userId] ? (
+                  {unlockedIds[selectedProfile.userId || selectedProfile.id] ? (
                     <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
                       UNLOCKED
                     </span>
@@ -1228,15 +1392,15 @@ export default function DiscoverPage() {
                   )}
                 </div>
 
-                {unlockedIds[selectedProfile.userId] ? (
+                {unlockedIds[selectedProfile.userId || selectedProfile.id] ? (
                   <div className="space-y-3">
                     <div className="p-3 bg-black/40 rounded-xl border border-emerald-500/30 flex items-center justify-between">
                       <span className="text-sm font-bold font-mono text-emerald-400">
-                        {unlockedIds[selectedProfile.userId]}
+                        {unlockedIds[selectedProfile.userId || selectedProfile.id]}
                       </span>
                       <a
                         href={getWhatsAppUrl(
-                          unlockedIds[selectedProfile.userId] || selectedProfile.shareableContact,
+                          unlockedIds[selectedProfile.userId || selectedProfile.id] || selectedProfile.shareableContact,
                           selectedProfile.displayName
                         )}
                         target="_blank"
@@ -1246,6 +1410,23 @@ export default function DiscoverPage() {
                         WhatsApp
                       </a>
                     </div>
+                  </div>
+                ) : userCredits.remainingCredits > 0 ? (
+                  <div>
+                    <p className="text-xs text-zinc-300 mb-3 leading-relaxed">
+                      You have <strong>{userCredits.remainingCredits} unlock credits</strong> remaining. Unlock direct contact for <strong>{selectedProfile.displayName}</strong> now:
+                    </p>
+                    <button
+                      onClick={() => {
+                        const target = selectedProfile;
+                        setSelectedProfile(null);
+                        handleCreditUnlock(target);
+                      }}
+                      className="w-full py-3 px-6 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold flex items-center justify-center gap-2 shadow-sm"
+                    >
+                      <Sparkles className="w-4 h-4 text-emerald-200" />
+                      <span>Unlock with 1 Credit ({userCredits.remainingCredits} Available)</span>
+                    </button>
                   </div>
                 ) : (
                   <div>
@@ -1266,6 +1447,33 @@ export default function DiscoverPage() {
                   </div>
                 )}
               </div>
+
+              {/* Report button inside modal */}
+              <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-xs">
+                <button
+                  onClick={() => {
+                    const target = selectedProfile;
+                    setSelectedProfile(null);
+                    setReportData({
+                      isOpen: true,
+                      profileId: target.userId || target.id,
+                      profileName: target.displayName,
+                    });
+                  }}
+                  className="text-rose-400 hover:text-rose-300 font-medium flex items-center gap-1.5 transition-colors"
+                >
+                  <Flag className="w-3.5 h-3.5" />
+                  <span>🚩 Report this Profile</span>
+                </button>
+
+                <a
+                  href="mailto:frndma.com@gmail.com"
+                  className="text-zinc-400 hover:text-white text-[11px] inline-flex items-center gap-1"
+                >
+                  <Mail className="w-3 h-3 text-pink-400" />
+                  <span>frndma.com@gmail.com</span>
+                </a>
+              </div>
             </motion.div>
           </div>
         </AnimatePresence>
@@ -1275,7 +1483,7 @@ export default function DiscoverPage() {
       <PaymentModal
         isOpen={paymentData.isOpen}
         onClose={() => setPaymentData({ isOpen: false })}
-        type="contact_unlock"
+        type={paymentData.type || 'contact_unlock'}
         targetProfileId={paymentData.targetProfileId}
         targetProfileName={paymentData.targetProfileName}
         amount={paymentData.amount || 399}
@@ -1283,6 +1491,15 @@ export default function DiscoverPage() {
           loadData();
         }}
       />
+
+      {/* Report Profile Modal */}
+      <ReportModal
+        isOpen={reportData.isOpen}
+        onClose={() => setReportData({ isOpen: false, profileId: '', profileName: '' })}
+        targetProfileId={reportData.profileId}
+        targetProfileName={reportData.profileName}
+      />
     </div>
   );
 }
+

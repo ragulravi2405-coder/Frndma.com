@@ -17,6 +17,7 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 import { fetchApi } from '@/lib/api';
+import { SpecialOfferBanner } from '@/components/SpecialOfferBanner';
 
 export default function HomePage() {
   const [faqs, setFaqs] = useState<any[]>([]);
@@ -202,6 +203,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ===================== ₹999 LIMITED TIME OFFER BANNER ===================== */}
+      <SpecialOfferBanner />
 
       {/* ===================== HOW IT WORKS ===================== */}
       <section className="py-20 bg-black/40 backdrop-blur-md border-y border-white/10 relative">
@@ -442,7 +446,12 @@ export default function HomePage() {
 
           <div className="pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-zinc-500 text-[11px]">
             <p>© {new Date().getFullYear()} Frndma. All rights reserved. Exclusively for adults (18+).</p>
-            <p>Designed with ❤️ for genuine human connections.</p>
+            <p>
+              Need help? Contact Frndma Support:{' '}
+              <a href="mailto:frndma.com@gmail.com" className="text-pink-400 hover:underline font-semibold">
+                frndma.com@gmail.com
+              </a>
+            </p>
           </div>
         </div>
       </footer>

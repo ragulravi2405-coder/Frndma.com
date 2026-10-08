@@ -498,7 +498,7 @@ export default function AdminDashboardPage() {
               <span className="text-3xl font-bold text-white font-heading">{stats.totalUsers}</span>
             </div>
             <div className="p-5 rounded-2xl glass-card border border-white/5 bg-[#120a17]">
-              <span className="text-zinc-400 text-xs block mb-1">Contact Unlocks (₹399)</span>
+              <span className="text-zinc-400 text-xs block mb-1">Contact Unlocks</span>
               <span className="text-3xl font-bold text-emerald-400 font-heading">{stats.contactUnlocksCount}</span>
             </div>
             <div className="p-5 rounded-2xl glass-card border border-white/5 bg-[#120a17]">

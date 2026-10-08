@@ -30,7 +30,7 @@ export interface GirlProfileConfig {
 }
 
 export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
-  // ─── CUSTOM 1: ABIRAMI (Madurai, Tamil Nadu) - ₹299 - New User ───
+  // ─── CUSTOM 1: ABIRAMI (Madurai, Tamil Nadu) - ₹399 - New User ───
   {
     username: 'abirami_23',
     displayName: 'Abirami',
@@ -44,11 +44,11 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Music', 'Long Walks', 'Cooking', 'Temple Visits'],
     avatarUrl: '/profiles/custom_girl_1.jpg',
     shareableContact: '9840123451',
-    unlockPrice: 299,
+    unlockPrice: 399,
     userTag: 'New User',
   },
 
-  // ─── CUSTOM 2: DHARSHINI (Chennai, Tamil Nadu) - ₹299 - Old User ───
+  // ─── CUSTOM 2: DHARSHINI (Chennai, Tamil Nadu) - ₹399 - Old User ───
   {
     username: 'dharshini_24',
     displayName: 'Dharshini',
@@ -62,11 +62,11 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Coffee', 'Travel', 'Reading', 'Soulful Music'],
     avatarUrl: '/profiles/custom_girl_2.jpg',
     shareableContact: '9840123452',
-    unlockPrice: 299,
+    unlockPrice: 399,
     userTag: 'Old User',
   },
 
-  // ─── CUSTOM 3: PRIYADHARSHINI (Salem, Tamil Nadu) - ₹299 - New User ───
+  // ─── CUSTOM 3: PRIYADHARSHINI (Salem, Tamil Nadu) - ₹399 - New User ───
   {
     username: 'priyadharshini_22',
     displayName: 'Priyadharshini',
@@ -80,11 +80,11 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Movies', 'Foodie', 'Music', 'Photography'],
     avatarUrl: '/profiles/custom_girl_3.jpg',
     shareableContact: '9840123453',
-    unlockPrice: 299,
+    unlockPrice: 399,
     userTag: 'New User',
   },
 
-  // ─── CUSTOM 4: SARANYA (Coimbatore, Tamil Nadu) - ₹299 - Old User ───
+  // ─── CUSTOM 4: SARANYA (Coimbatore, Tamil Nadu) - ₹399 - Old User ───
   {
     username: 'saranya_24',
     displayName: 'Saranya',
@@ -98,11 +98,11 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Teaching', 'Nature', 'Books', 'Western Ghats'],
     avatarUrl: '/profiles/custom_girl_4.jpg',
     shareableContact: '9840123454',
-    unlockPrice: 299,
+    unlockPrice: 399,
     userTag: 'Old User',
   },
 
-  // ─── CUSTOM 5: GAYATHRI (Trichy, Tamil Nadu) - ₹299 - New User ───
+  // ─── CUSTOM 5: GAYATHRI (Trichy, Tamil Nadu) - ₹399 - New User ───
   {
     username: 'gayathri_24',
     displayName: 'Gayathri',
@@ -116,11 +116,11 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Coding', 'Sarees', 'Acoustics', 'Weekend Drives'],
     avatarUrl: '/profiles/custom_girl_5.jpg',
     shareableContact: '9840123455',
-    unlockPrice: 299,
+    unlockPrice: 399,
     userTag: 'New User',
   },
 
-  // ─── CUSTOM 6: ARCHANA (Tirunelveli, Tamil Nadu) - ₹299 - Old User ───
+  // ─── CUSTOM 6: ARCHANA (Tirunelveli, Tamil Nadu) - ₹399 - Old User ───
   {
     username: 'archana_25',
     displayName: 'Archana',
@@ -134,11 +134,11 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Design', 'Art', 'Melodies', 'Sunsets'],
     avatarUrl: '/profiles/custom_girl_6.jpg',
     shareableContact: '9840123456',
-    unlockPrice: 299,
+    unlockPrice: 399,
     userTag: 'Old User',
   },
 
-  // ─── CUSTOM 7: DEEPA (Erode, Tamil Nadu) - ₹299 - New User ───
+  // ─── CUSTOM 7: DEEPA (Erode, Tamil Nadu) - ₹399 - New User ───
   {
     username: 'deepa_25',
     displayName: 'Deepa',
@@ -152,7 +152,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Literature', 'Teaching', 'Handloom', 'Cooking'],
     avatarUrl: '/profiles/custom_girl_7.jpg',
     shareableContact: '9840123457',
-    unlockPrice: 299,
+    unlockPrice: 399,
     userTag: 'New User',
   },
 
@@ -170,7 +170,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Nature', 'Music', 'Coffee', 'Travel'],
     avatarUrl: 'https://images.unsplash.com/photo-1689580298851-d4482a124290?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543211',
-    unlockPrice: 299,
+    unlockPrice: 399,
     userTag: 'Old User',
   },
 
@@ -203,7 +203,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     education: 'BDS',
     languages: ['English', 'Malayalam', 'Tamil'],
     interests: ['Classical Dance', 'Medicine', 'Sunsets', 'Travel'],
-    avatarUrl: 'https://images.unsplash.com/photo-1761125135357-99cbe52a6271?auto=format&fit=crop&w=800&q=80',
+    avatarUrl: '/profiles/meera.jpg',
     shareableContact: '9876543213',
     unlockPrice: 499,
   },
@@ -273,7 +273,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Teaching', 'Beaches', 'Novels', 'Planting'],
     avatarUrl: 'https://images.unsplash.com/photo-1710967074857-d5c6d53d926b?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543217',
-    unlockPrice: 399,
+    unlockPrice: 499,
   },
 
   // ─── 8. RITHIKA (Chennai) ───
@@ -392,7 +392,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Travel', 'Music', 'Books', 'Food', 'Design'],
     avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543227',
-    unlockPrice: 399,
+    unlockPrice: 499,
   },
 
   // ─── 15. SNEHA (Classic Unsplash) ───
@@ -511,7 +511,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Literature', 'Cooking', 'Teaching', 'Poetry'],
     avatarUrl: 'https://images.unsplash.com/photo-1735331467260-0153c5fbd31d?auto=format&fit=crop&w=800&q=80',
     shareableContact: '9876543234',
-    unlockPrice: 399,
+    unlockPrice: 499,
   },
 
   // ─── 22. POOJA (Chennai Unsplash) ───
@@ -526,44 +526,11 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     education: 'B.Des',
     languages: ['English', 'Tamil', 'Hindi'],
     interests: ['Fashion', 'Foodie', 'Beaches', 'Music'],
-    avatarUrl: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80',
-    shareableContact: '9876543235',
+    avatarUrl: '/profiles/pooja.jpg',
+    shareableContact: '9876543249',
     unlockPrice: 599,
   },
 
-  // ─── 23. DR. MEERA (Coimbatore Unsplash) ───
-  {
-    username: 'meera_cbe',
-    displayName: 'Dr. Meera C.',
-    age: 25,
-    city: 'Coimbatore',
-    state: 'Tamil Nadu',
-    bio: 'Doctor with passion for yoga, Western Ghats road trips, and deep friendly conversations. 🩺',
-    occupation: 'Physician',
-    education: 'MBBS',
-    languages: ['English', 'Tamil'],
-    interests: ['Yoga', 'Healthcare', 'Road Trips', 'Reading'],
-    avatarUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=800&q=80',
-    shareableContact: '9876543236',
-    unlockPrice: 699,
-  },
-
-  // ─── 24. KEERTHI (Madurai Unsplash) ───
-  {
-    username: 'keerthi_classic',
-    displayName: 'Keerthi K.',
-    age: 24,
-    city: 'Madurai',
-    state: 'Tamil Nadu',
-    bio: 'Techie girl from temple city. Love filter coffee, listening to melody tracks and weekend chill. ☕',
-    occupation: 'Software Engineer',
-    education: 'B.E CSE',
-    languages: ['English', 'Tamil'],
-    interests: ['Music', 'Coffee', 'Movies', 'Tech'],
-    avatarUrl: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=800&q=80',
-    shareableContact: '9876543237',
-    unlockPrice: 499,
-  },
 
   // ─── 25. NANDHINI (Salem - Verified Local Image) ───
   {
@@ -594,7 +561,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     education: 'M.A English',
     languages: ['Tamil', 'English'],
     interests: ['Writing', 'Dance', 'Books', 'Cafes'],
-    avatarUrl: '/profiles/girl_15.jpg',
+    avatarUrl: '/profiles/keerthi.jpg',
     shareableContact: '9876543225',
     unlockPrice: 599,
   },
@@ -613,7 +580,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Travel', 'Foodie', 'Road Trips', 'Music'],
     avatarUrl: '/profiles/girl_16.jpg',
     shareableContact: '9876543226',
-    unlockPrice: 399,
+    unlockPrice: 499,
   },
 
   // ─── 28. SWETHA (Chennai - Verified Local Image) ───
@@ -698,7 +665,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Painting', 'Music', 'Photography', 'Friends'],
     avatarUrl: '/profiles/girl_21.jpg',
     shareableContact: '9876543242',
-    unlockPrice: 399,
+    unlockPrice: 499,
   },
 
   // ─── 33. ABIRAMI (Vellore - Verified Local Image) ───
@@ -749,7 +716,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Ocean', 'Vlogging', 'Sunsets', 'Music'],
     avatarUrl: '/profiles/girl_24.jpg',
     shareableContact: '9876543245',
-    unlockPrice: 399,
+    unlockPrice: 499,
   },
 
   // ─── 36. MYTHILI (Kanchipuram - Verified Local Image) ───

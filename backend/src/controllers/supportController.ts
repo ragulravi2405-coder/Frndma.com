@@ -6,14 +6,16 @@ import { Report } from '../models/Report';
 import { BlockedUser } from '../models/BlockedUser';
 import { FAQ } from '../models/FAQ';
 import { Plan } from '../models/Plan';
+import { resolveTargetProfile } from './paymentController';
 
 export const getSupportInfo = async (req: Request, res: Response): Promise<void> => {
   res.status(200).json({
     success: true,
     data: {
+      email: ENV.SUPPORT_EMAIL || 'frndma.com@gmail.com',
       whatsappNumber: ENV.SUPPORT_WHATSAPP,
       whatsappLink: `https://wa.me/91${ENV.SUPPORT_WHATSAPP}?text=${encodeURIComponent('Hello Frndma Support team, I need assistance with my account.')}`,
-      message: 'Need help? Our support team is available on WhatsApp.',
+      message: 'Need help? Contact Frndma Support at frndma.com@gmail.com.',
     },
   });
 };
@@ -48,13 +50,21 @@ export const reportUser = async (req: AuthRequest, res: Response, next: NextFunc
     const { reportedUserId, reason, details } = req.body;
 
     if (!reportedUserId || !reason) {
-      res.status(400).json({ success: false, message: 'Reported user ID and reason are required' });
+      res.status(400).json({ success: false, message: 'Reported profile ID and reason are required' });
       return;
+    }
+
+    let targetUserId = reportedUserId;
+    const { targetProfile, targetUser } = await resolveTargetProfile(reportedUserId);
+    if (targetUser && targetUser._id) {
+      targetUserId = targetUser._id;
+    } else if (targetProfile && targetProfile.userId) {
+      targetUserId = targetProfile.userId;
     }
 
     const report = await Report.create({
       reportedBy: currentUserId,
-      reportedUser: reportedUserId,
+      reportedUser: targetUserId,
       reason,
       details: details || '',
       status: 'pending',
@@ -62,8 +72,12 @@ export const reportUser = async (req: AuthRequest, res: Response, next: NextFunc
 
     res.status(201).json({
       success: true,
-      message: 'Report submitted. Our moderation team reviews all reports strictly within 24 hours.',
-      data: report,
+      message: 'Thank you. Your report has been submitted to Frndma Support.',
+      data: {
+        id: report._id,
+        reason: report.reason,
+        status: report.status,
+      },
     });
   } catch (error) {
     next(error);

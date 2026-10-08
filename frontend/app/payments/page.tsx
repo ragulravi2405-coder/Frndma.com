@@ -2,12 +2,13 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { CreditCard, Unlock, MessageSquare, ArrowLeft, Phone, Compass } from 'lucide-react';
+import { CreditCard, Unlock, MessageSquare, ArrowLeft, Phone, Compass, Sparkles, ShieldCheck, Mail, AlertTriangle } from 'lucide-react';
 import { fetchApi } from '@/lib/api';
 
 export default function PaymentsHistoryPage() {
   const [payments, setPayments] = useState<any[]>([]);
   const [unlocks, setUnlocks] = useState<any[]>([]);
+  const [credits, setCredits] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -16,13 +17,15 @@ export default function PaymentsHistoryPage() {
 
   const loadData = async () => {
     setLoading(true);
-    const [pRes, uRes] = await Promise.all([
+    const [pRes, uRes, cRes] = await Promise.all([
       fetchApi('/payments/history'),
       fetchApi('/unlocks/my-unlocks'),
+      fetchApi('/unlocks/my-credits'),
     ]);
 
     if (pRes.success && pRes.data) setPayments(pRes.data);
     if (uRes.success && uRes.data) setUnlocks(uRes.data);
+    if (cRes.success && cRes.data) setCredits(cRes.data);
     setLoading(false);
   };
 
@@ -33,7 +36,7 @@ export default function PaymentsHistoryPage() {
         <span>Back to Discover</span>
       </Link>
 
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex items-center justify-between mb-6">
         <div>
           <span className="text-xs uppercase tracking-wider text-pink-400 font-bold">Access & Billing</span>
           <h1 className="text-3xl font-extrabold text-white font-heading mt-1">Unlocked Contacts & Receipts</h1>
@@ -46,6 +49,44 @@ export default function PaymentsHistoryPage() {
           <Compass className="w-4 h-4" />
           <span>Browse More</span>
         </Link>
+      </div>
+
+      {/* Credit Balance Notice */}
+      {credits && credits.remainingCredits > 0 && (
+        <div className="mb-6 p-4 rounded-2xl bg-emerald-950/40 border border-emerald-500/40 flex items-center justify-between gap-3 text-xs">
+          <div className="flex items-center gap-2.5">
+            <Sparkles className="w-5 h-5 text-emerald-400 shrink-0" />
+            <div>
+              <p className="font-bold text-white text-sm">
+                You have <span className="text-emerald-400 font-extrabold text-base">{credits.remainingCredits}</span> Contact Unlock Credits remaining!
+              </p>
+              <p className="text-[11px] text-zinc-300">
+                You can use these credits to unlock contacts on the Discover page at zero extra cost.
+              </p>
+            </div>
+          </div>
+          <Link
+            href="/discover"
+            className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shrink-0 transition-colors"
+          >
+            Use Credit
+          </Link>
+        </div>
+      )}
+
+      {/* Direct Meeting & Trust Safety Notice */}
+      <div className="mb-8 p-4 rounded-2xl bg-black/40 border border-white/10 flex items-start gap-3 text-xs text-zinc-300">
+        <ShieldCheck className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+        <div className="space-y-1">
+          <p className="font-bold text-white">🤝 Direct Meeting & Video Call Included</p>
+          <p className="text-[11px] leading-relaxed">
+            Direct meeting and video call do not require any additional payment from Frndma. If anyone asks you for extra money claiming it is required for meeting or video call, please report them immediately to Frndma Support at{' '}
+            <a href="mailto:frndma.com@gmail.com" className="text-pink-400 hover:underline font-bold inline-flex items-center gap-1">
+              <Mail className="w-3 h-3" />
+              frndma.com@gmail.com
+            </a>
+          </p>
+        </div>
       </div>
 
       <div className="space-y-8">

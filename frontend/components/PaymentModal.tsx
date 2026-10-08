@@ -23,7 +23,7 @@ import { fetchApi } from '@/lib/api';
 interface PaymentModalProps {
   isOpen: boolean;
   onClose: () => void;
-  type: 'contact_unlock' | 'subscription';
+  type: 'contact_unlock' | 'subscription' | 'offer_999';
   targetProfileId?: string;
   targetProfileName?: string;
   planId?: string;
@@ -46,12 +46,13 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
   amount,
   onSuccess,
 }) => {
-  const payableAmount = amount || LOCKED_AMOUNT;
+  const payableAmount = type === 'offer_999' ? 999 : (amount || LOCKED_AMOUNT);
 
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
   const [unlockedData, setUnlockedData] = useState<any>(null);
+  const [creditsData, setCreditsData] = useState<any>(null);
 
   // Auto-checking state
   const [hasOpenedLink, setHasOpenedLink] = useState(false);
@@ -63,7 +64,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
   useEffect(() => {
     let interval: any = null;
 
-    if (autoChecking && isOpen && status === 'idle' && targetProfileId) {
+    if (autoChecking && isOpen && status === 'idle' && (targetProfileId || type === 'offer_999')) {
       interval = setInterval(async () => {
         const ok = await checkPaymentVerification(true);
         if (ok) {
@@ -74,7 +75,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [autoChecking, isOpen, status, targetProfileId, paymentIdInput]);
+  }, [autoChecking, isOpen, status, targetProfileId, type, paymentIdInput]);
 
   if (!isOpen) return null;
 
@@ -96,7 +97,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
         method: 'POST',
         body: JSON.stringify({
           type,
-          targetProfileId,
+          targetProfileId: type === 'offer_999' ? undefined : targetProfileId,
           planId,
           amount: payableAmount,
           paymentId: paymentIdInput.trim(),
@@ -105,15 +106,16 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
 
       if (!silent) setLoading(false);
 
-      if (res.success && res.data?.unlockedDetails) {
+      if (res.success && (res.data?.unlockedDetails || res.data?.credits)) {
         setAutoChecking(false);
         setStatus('success');
-        setUnlockedData(res.data.unlockedDetails);
+        setUnlockedData(res.data.unlockedDetails || null);
+        setCreditsData(res.data.credits || null);
 
         try {
           confetti({
-            particleCount: 80,
-            spread: 70,
+            particleCount: 90,
+            spread: 75,
             origin: { y: 0.6 },
           });
         } catch {
@@ -167,15 +169,27 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
               {/* Header */}
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-11 h-11 rounded-2xl bg-primary/10 border border-primary/30 flex items-center justify-center text-primary shrink-0">
-                  {type === 'contact_unlock' ? <Lock className="w-5 h-5" /> : <Sparkles className="w-5 h-5" />}
+                  {type === 'offer_999' ? (
+                    <Sparkles className="w-5 h-5 text-pink-400" />
+                  ) : type === 'contact_unlock' ? (
+                    <Lock className="w-5 h-5" />
+                  ) : (
+                    <Sparkles className="w-5 h-5" />
+                  )}
                 </div>
                 <div>
                   <h3 className="text-lg sm:text-xl font-bold font-heading">
-                    {type === 'contact_unlock'
+                    {type === 'offer_999'
+                      ? 'Unlock 3 Verified Contacts — ₹999'
+                      : type === 'contact_unlock'
                       ? `Unlock ${targetProfileName || 'User'}'s Contact`
                       : `Upgrade to ${planName || 'Premium'}`}
                   </h3>
-                  <p className="text-xs text-zinc-400">Official Razorpay Verification • Instant Contact Reveal</p>
+                  <p className="text-xs text-zinc-400">
+                    {type === 'offer_999'
+                      ? 'Official Razorpay Verification • 3 Contact Unlock Credits'
+                      : 'Official Razorpay Verification • Instant Contact Reveal'}
+                  </p>
                 </div>
               </div>
 
@@ -194,8 +208,33 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                   <span className="text-2xl sm:text-3xl font-extrabold text-white font-heading">
                     ₹{payableAmount}
                   </span>
+                  {type === 'offer_999' && (
+                    <span className="text-[10px] text-zinc-400 block line-through">Regular ₹1,197</span>
+                  )}
                 </div>
               </div>
+
+              {/* Offer Features highlight for offer_999 */}
+              {type === 'offer_999' && (
+                <div className="grid grid-cols-2 gap-2 mb-4 text-[11px] text-zinc-300">
+                  <div className="p-2 rounded-xl bg-white/5 border border-white/10 flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                    <span>3 Contact Unlocks</span>
+                  </div>
+                  <div className="p-2 rounded-xl bg-white/5 border border-white/10 flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                    <span>Verified Profiles</span>
+                  </div>
+                  <div className="p-2 rounded-xl bg-white/5 border border-white/10 flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                    <span>Direct Meeting Allowed</span>
+                  </div>
+                  <div className="p-2 rounded-xl bg-white/5 border border-white/10 flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                    <span>Video Call Allowed</span>
+                  </div>
+                </div>
+              )}
 
               {/* Payment Instructions Card */}
               <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2.5 mb-5">
@@ -209,7 +248,9 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                       1. Click below and pay <strong className="text-emerald-400 font-bold">₹{payableAmount}</strong> via Google Pay, PhonePe, Paytm, or UPI.
                     </p>
                     <p className="text-zinc-300 text-[11px] leading-relaxed">
-                      2. Our system automatically detects your payment and unlocks the contact instantly!
+                      {type === 'offer_999'
+                        ? '2. Our system automatically detects your payment and adds 3 contact unlock credits instantly!'
+                        : '2. Our system automatically detects your payment and unlocks the contact instantly!'}
                     </p>
                     <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-black/40 border border-emerald-500/30 text-emerald-300 font-mono text-[11px] font-bold mt-1">
                       <span>razorpay.me/@ravirahul601</span>
@@ -237,7 +278,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                   </div>
                 )}
 
-                {/* 2. Check & Reveal Contact Button */}
+                {/* 2. Check & Reveal Contact / Grant Credits Button */}
                 <button
                   onClick={() => checkPaymentVerification(false)}
                   disabled={loading}
@@ -251,7 +292,11 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                   ) : (
                     <>
                       <CheckCircle2 className="w-4 h-4 text-white" />
-                      <span>✅ 2. I Have Paid ₹{payableAmount} — Reveal Contact Now</span>
+                      <span>
+                        {type === 'offer_999'
+                          ? `✅ 2. I Have Paid ₹${payableAmount} — Claim 3 Credits Now`
+                          : `✅ 2. I Have Paid ₹${payableAmount} — Reveal Contact Now`}
+                      </span>
                     </>
                   )}
                 </button>
@@ -286,7 +331,11 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
 
                 <p className="text-[11px] text-zinc-400 text-center flex items-center justify-center gap-1.5 pt-1">
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>Contact is strictly locked until ₹{payableAmount} payment is confirmed</span>
+                  <span>
+                    {type === 'offer_999'
+                      ? 'Credits are strictly granted only after verified ₹999 payment'
+                      : `Contact is strictly locked until ₹${payableAmount} payment is confirmed`}
+                  </span>
                 </p>
               </div>
             </div>
@@ -304,49 +353,87 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
               </p>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[11px] font-semibold mb-5">
                 <CheckCircle2 className="w-3.5 h-3.5" />
-                <span>Contact Unlocked & Verified</span>
+                <span>
+                  {type === 'offer_999' ? '3 Contact Unlock Credits Added' : 'Contact Unlocked & Verified'}
+                </span>
               </div>
 
-              {unlockedData && (
+              {type === 'offer_999' ? (
                 <div className="p-4 mb-6 rounded-2xl bg-white/5 border border-primary/30 text-left space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="text-[11px] uppercase tracking-wider text-pink-400 font-bold">
-                      Unlocked Contact Details
+                      Your Available Credits
                     </span>
                     <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-semibold">
-                      Verified
+                      Ready to Use
                     </span>
                   </div>
 
                   <div>
-                    <p className="text-base font-bold text-white">{unlockedData.displayName}</p>
-                    <p className="text-xs text-zinc-400 font-mono mt-0.5">
-                      Phone: <span className="text-white font-semibold text-sm">{unlockedData.contact}</span>
+                    <p className="text-2xl font-extrabold text-white font-heading">
+                      {creditsData?.remainingCredits || 3} Contact Unlocks
+                    </p>
+                    <p className="text-xs text-zinc-300 mt-1">
+                      You can now unlock 3 verified profiles of your choice on Discover without any extra charge!
                     </p>
                   </div>
 
-                  <div className="flex flex-col sm:flex-row items-center gap-2 pt-2">
-                    <a
-                      href={`https://wa.me/91${unlockedData.contact}?text=Hi%20${encodeURIComponent(
-                        unlockedData.displayName || ''
-                      )}%2C%20I%20saw%20your%20profile%20on%20Frndma!`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full sm:flex-1 py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-glow-sm"
-                    >
-                      <MessageCircle className="w-4 h-4" />
-                      <span>Chat on WhatsApp</span>
-                    </a>
+                  <div className="p-3 rounded-xl bg-black/40 border border-white/10 text-[11px] text-zinc-300">
+                    🤝 <strong>Direct Meeting & Video Call Included:</strong> Arranging direct meetings and video calls with unlocked contacts does not require any additional payment from Frndma.
+                  </div>
 
+                  <div className="pt-1">
                     <a
-                      href={`tel:${unlockedData.contact}`}
-                      className="w-full sm:flex-1 py-2.5 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold flex items-center justify-center gap-2 transition-all"
+                      href="/discover"
+                      className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-600 text-white text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-glow-sm"
                     >
-                      <Phone className="w-4 h-4" />
-                      <span>Call Now</span>
+                      <Sparkles className="w-4 h-4" />
+                      <span>Browse Verified Profiles to Unlock</span>
                     </a>
                   </div>
                 </div>
+              ) : (
+                unlockedData && (
+                  <div className="p-4 mb-6 rounded-2xl bg-white/5 border border-primary/30 text-left space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[11px] uppercase tracking-wider text-pink-400 font-bold">
+                        Unlocked Contact Details
+                      </span>
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-semibold">
+                        Verified
+                      </span>
+                    </div>
+
+                    <div>
+                      <p className="text-base font-bold text-white">{unlockedData.displayName}</p>
+                      <p className="text-xs text-zinc-400 font-mono mt-0.5">
+                        Phone: <span className="text-white font-semibold text-sm">{unlockedData.contact}</span>
+                      </p>
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row items-center gap-2 pt-2">
+                      <a
+                        href={`https://wa.me/91${unlockedData.contact}?text=Hi%20${encodeURIComponent(
+                          unlockedData.displayName || ''
+                        )}%2C%20I%20saw%20your%20profile%20on%20Frndma!`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full sm:flex-1 py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-glow-sm"
+                      >
+                        <MessageCircle className="w-4 h-4" />
+                        <span>Chat on WhatsApp</span>
+                      </a>
+
+                      <a
+                        href={`tel:${unlockedData.contact}`}
+                        className="w-full sm:flex-1 py-2.5 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold flex items-center justify-center gap-2 transition-all"
+                      >
+                        <Phone className="w-4 h-4" />
+                        <span>Call Now</span>
+                      </a>
+                    </div>
+                  </div>
+                )
               )}
 
               <button

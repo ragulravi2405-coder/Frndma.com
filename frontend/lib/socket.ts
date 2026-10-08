@@ -15,7 +15,7 @@ const getSocketUrl = (): string => {
       return window.location.origin;
     }
   }
-  return envUrl || 'http://localhost:5000';
+  return envUrl || 'http://localhost:5005';
 };
 
 let socket: Socket | null = null;

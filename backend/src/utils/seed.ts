@@ -77,13 +77,16 @@ export const seedDatabase = async () => {
     const defaultPassword = await bcrypt.hash('Frndma@2026', salt);
 
     for (const g of GIRLS_PROFILES_LIST) {
-      let user = await User.findOne({
-        $or: [{ username: g.username }, { mobileNumber: g.shareableContact }],
-      });
+      let user = await User.findOne({ username: g.username });
       if (!user) {
+        let mobile = g.shareableContact || `98765${Math.floor(10000 + Math.random() * 90000)}`;
+        const existingMobile = await User.findOne({ mobileNumber: mobile });
+        if (existingMobile) {
+          mobile = `98765${Math.floor(10000 + Math.random() * 90000)}`;
+        }
         user = await User.create({
           username: g.username,
-          mobileNumber: g.shareableContact || `98765${Math.floor(10000 + Math.random() * 90000)}`,
+          mobileNumber: mobile,
           password: defaultPassword,
           isAgeConfirmed: true,
           role: 'user',
@@ -118,13 +121,28 @@ export const seedDatabase = async () => {
     }
     console.log(`[Seed] Synced ${GIRLS_PROFILES_LIST.length} female profiles from config successfully.`);
 
-    // Migrate any profiles with unlockPrice < 299 to 299
+    // Migrate any profiles with unlockPrice < 399 to 399
     const priceUpdateResult = await Profile.updateMany(
-      { $or: [{ unlockPrice: { $lt: 299 } }, { unlockPrice: { $exists: false } }] },
-      { $set: { unlockPrice: 299 } }
+      { $or: [{ unlockPrice: { $lt: 399 } }, { unlockPrice: { $exists: false } }] },
+      { $set: { unlockPrice: 399 } }
     );
     if (priceUpdateResult.modifiedCount > 0) {
-      console.log(`[Seed] Updated ${priceUpdateResult.modifiedCount} profiles to minimum starting price ₹299.`);
+      console.log(`[Seed] Updated ${priceUpdateResult.modifiedCount} profiles to minimum starting price ₹399.`);
+    }
+
+    // Sync specific requested profile pictures
+    await Profile.updateMany({ displayName: /Pooja/i }, { $set: { avatarUrl: '/profiles/pooja.jpg', 'photos.0.url': '/profiles/pooja.jpg' } });
+    await Profile.updateMany({ displayName: /Meera/i }, { $set: { avatarUrl: '/profiles/meera.jpg', 'photos.0.url': '/profiles/meera.jpg' } });
+    await Profile.updateMany({ displayName: /Keerthi/i }, { $set: { avatarUrl: '/profiles/keerthi.jpg', 'photos.0.url': '/profiles/keerthi.jpg' } });
+
+    // Clean up any old duplicate profiles if they exist in DB
+    const duplicateUsernames = ['meera_cbe', 'keerthi_classic'];
+    const duplicateUsers = await User.find({ username: { $in: duplicateUsernames } });
+    if (duplicateUsers.length > 0) {
+      const ids = duplicateUsers.map((u) => u._id);
+      await Profile.deleteMany({ userId: { $in: ids } });
+      await User.deleteMany({ _id: { $in: ids } });
+      console.log(`[Seed] Purged duplicate profiles (${duplicateUsernames.join(', ')}) from database.`);
     }
 
     // Clean up any old foreign / other country profiles if they exist in DB

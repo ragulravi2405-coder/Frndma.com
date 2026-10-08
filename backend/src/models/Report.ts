@@ -3,7 +3,17 @@ import mongoose, { Document, Schema, Types } from 'mongoose';
 export interface IReport extends Document {
   reportedBy: Types.ObjectId;
   reportedUser: Types.ObjectId;
-  reason: 'spam' | 'fake_profile' | 'harassment' | 'scam' | 'inappropriate_content' | 'privacy_violation' | 'other';
+  reason:
+    | 'asking_extra_payment'
+    | 'fake_profile'
+    | 'scam'
+    | 'harassment'
+    | 'inappropriate_behaviour'
+    | 'inappropriate_content'
+    | 'suspicious_activity'
+    | 'privacy_violation'
+    | 'spam'
+    | 'other';
   details: string;
   status: 'pending' | 'resolved' | 'dismissed';
   adminNotes?: string;
@@ -27,7 +37,18 @@ const ReportSchema = new Schema<IReport>(
     },
     reason: {
       type: String,
-      enum: ['spam', 'fake_profile', 'harassment', 'scam', 'inappropriate_content', 'privacy_violation', 'other'],
+      enum: [
+        'asking_extra_payment',
+        'fake_profile',
+        'scam',
+        'harassment',
+        'inappropriate_behaviour',
+        'inappropriate_content',
+        'suspicious_activity',
+        'privacy_violation',
+        'spam',
+        'other',
+      ],
       required: true,
     },
     details: {

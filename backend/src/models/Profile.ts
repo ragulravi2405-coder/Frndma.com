@@ -27,6 +27,7 @@ export interface IProfile extends Document {
   unlockPrice?: number;
   userTag?: string;
   isProfileComplete: boolean;
+  isVerified?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -131,6 +132,10 @@ const ProfileSchema = new Schema<IProfile>(
     isProfileComplete: {
       type: Boolean,
       default: false,
+    },
+    isVerified: {
+      type: Boolean,
+      default: true,
     },
   },
   {

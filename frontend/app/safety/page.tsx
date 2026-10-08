@@ -53,10 +53,33 @@ export default function SafetyPage() {
           </div>
           <h3 className="text-base font-bold text-white mb-2">Use Block & Report Tools</h3>
           <p className="text-xs text-zinc-400 leading-relaxed">
-            If anyone behaves aggressively, disrespectfully, or suspiciously, block and report their profile immediately. Our team acts swiftly.
+            If anyone behaves aggressively, disrespectfully, or suspiciously, report their profile immediately. Our team acts swiftly within 24 hours.
           </p>
         </div>
+      </div>
+
+      {/* Direct Meeting & Anti-Scam Policy Box */}
+      <div className="p-6 rounded-3xl glass-card border border-emerald-500/30 bg-[#120a17] space-y-3 mb-8">
+        <h3 className="text-lg font-bold text-white flex items-center gap-2">
+          <span>🤝 Direct Meeting & Video Call Policy</span>
+        </h3>
+        <p className="text-xs text-zinc-300 leading-relaxed">
+          After unlocking a contact, members can communicate and arrange direct meetings and video calls. <strong>There is NO EXTRA PAYMENT from Frndma for direct meetings or video calls.</strong> Users should arrange meetings safely and mutually in public spaces. Frndma does not guarantee the personal outcome of any offline meeting.
+        </p>
+        <div className="p-3.5 rounded-2xl bg-rose-950/30 border border-rose-500/30 text-xs text-rose-200">
+          <strong className="text-rose-300 font-semibold block mb-0.5">⚠️ Zero Tolerance Anti-Scam Notice:</strong>
+          Frndma never asks users to make extra payments for direct meetings or video calls. If anyone contacts you requesting extra money to unlock a meeting, video call, or contact, report them immediately.
+        </div>
+      </div>
+
+      {/* Support Contact */}
+      <div className="text-center p-6 rounded-3xl glass-card border border-white/10 text-xs text-zinc-400">
+        Need assistance or want to report suspicious activity? Contact Frndma Support:{' '}
+        <a href="mailto:frndma.com@gmail.com" className="text-pink-400 hover:underline font-bold">
+          frndma.com@gmail.com
+        </a>
       </div>
     </div>
   );
 }
+

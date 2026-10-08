@@ -21,7 +21,7 @@ const getApiBaseUrl = (): string => {
   }
 
   // 3. Fallback for local development
-  return envUrl || 'http://localhost:5000/api';
+  return envUrl || 'http://localhost:5005/api';
 };
 
 export async function fetchApi<T = any>(
@@ -81,7 +81,7 @@ export async function fetchApi<T = any>(
     return {
       success: false,
       message: isLocal
-        ? 'Backend server is not running on port 5000. Please start the backend (`npm run dev` in project root).'
+        ? 'Backend server is not running on port 5005. Please start the backend (`npm run dev` in project root).'
         : 'Cannot connect to backend server. Please verify that NEXT_PUBLIC_API_URL is configured in your deployment settings or that the backend service is running.',
       error,
     };

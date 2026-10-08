@@ -4,9 +4,9 @@ import path from 'path';
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 export const ENV = {
-  PORT: process.env.PORT ? parseInt(process.env.PORT, 10) : 5000,
+  PORT: process.env.PORT ? parseInt(process.env.PORT, 10) : 5005,
   NODE_ENV: process.env.NODE_ENV || 'development',
-  CLIENT_URL: process.env.CLIENT_URL || 'http://localhost:3000',
+  CLIENT_URL: process.env.CLIENT_URL || 'http://localhost:3005',
   MONGODB_URI:
     process.env.MONGODB_URI ||
     'mongodb://rahul:Rahul12345@ac-8s2sso2-shard-00-00.juxbxq8.mongodb.net:27017,ac-8s2sso2-shard-00-01.juxbxq8.mongodb.net:27017,ac-8s2sso2-shard-00-02.juxbxq8.mongodb.net:27017/frndma?ssl=true&replicaSet=atlas-agy1iu-shard-0&authSource=admin&appName=Cluster0',
@@ -20,7 +20,7 @@ export const ENV = {
   CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY || '123456789012345',
   CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET || 'abcdefghijklmnopqrstuvwxyz12345',
   SUPPORT_WHATSAPP: process.env.SUPPORT_WHATSAPP || '',
-  SUPPORT_EMAIL: process.env.SUPPORT_EMAIL || 'webrion.studio@gmail.com',
+  SUPPORT_EMAIL: process.env.SUPPORT_EMAIL || 'frndma.com@gmail.com',
   ADMIN_USERNAME: process.env.ADMIN_USERNAME || 'rahul2005',
   ADMIN_PASSWORD: process.env.ADMIN_PASSWORD || 'Abcd@1234',
   FRONTEND_INTERNAL_URL: process.env.FRONTEND_INTERNAL_URL || '',

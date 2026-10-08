@@ -9,14 +9,15 @@ import {
   Unlock,
   LogOut,
   Menu,
-  X,
   User,
+  Sparkles,
 } from 'lucide-react';
 import { fetchApi, logoutUser } from '@/lib/api';
 
 export const Navbar: React.FC = () => {
   const pathname = usePathname();
   const [currentUser, setCurrentUser] = useState<any>(null);
+  const [userCredits, setUserCredits] = useState<number>(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -27,8 +28,13 @@ export const Navbar: React.FC = () => {
     const res = await fetchApi('/auth/me');
     if (res.success && res.data?.user) {
       setCurrentUser(res.data.user);
+      const creditsRes = await fetchApi('/unlocks/my-credits');
+      if (creditsRes.success && typeof creditsRes.data?.remainingCredits === 'number') {
+        setUserCredits(creditsRes.data.remainingCredits);
+      }
     } else {
       setCurrentUser(null);
+      setUserCredits(0);
     }
   };
 
@@ -76,6 +82,16 @@ export const Navbar: React.FC = () => {
         <div className="hidden md:flex items-center gap-4">
           {currentUser ? (
             <div className="flex items-center gap-3">
+              {userCredits > 0 && (
+                <NextLink
+                  href="/discover"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold hover:bg-emerald-500/30 transition-all shadow-sm"
+                  title="Your Available Contact Unlock Credits"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>{userCredits} {userCredits === 1 ? 'Credit' : 'Credits'}</span>
+                </NextLink>
+              )}
               <NextLink
                 href="/profile"
                 className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-light border border-white/10 hover:border-primary/40 text-sm font-medium text-white transition-colors"
@@ -156,12 +172,24 @@ export const Navbar: React.FC = () => {
                 </NextLink>
               </div>
             ) : (
-              <button
-                onClick={handleLogout}
-                className="py-2 text-center text-sm font-medium text-rose-400 bg-rose-950/20 rounded-xl"
-              >
-                Logout ({currentUser.username})
-              </button>
+              <div className="flex flex-col gap-2">
+                {userCredits > 0 && (
+                  <NextLink
+                    href="/discover"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="py-2.5 px-3 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold flex items-center justify-center gap-1.5"
+                  >
+                    <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>{userCredits} Contact Unlock Credits Available</span>
+                  </NextLink>
+                )}
+                <button
+                  onClick={handleLogout}
+                  className="py-2 text-center text-sm font-medium text-rose-400 bg-rose-950/20 rounded-xl"
+                >
+                  Logout ({currentUser.username})
+                </button>
+              </div>
             )}
           </div>
         </div>
