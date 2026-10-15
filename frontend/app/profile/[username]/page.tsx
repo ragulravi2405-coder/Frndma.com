@@ -135,11 +135,13 @@ export default function PublicProfilePage() {
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-glow-sm" title="Verified" />
                 {profile.userTag && (
                   <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold shadow-sm flex items-center gap-1 border ${
-                    profile.userTag.includes('New')
+                    profile.userTag.includes('1') || profile.userTag.includes('Offer')
+                      ? 'bg-rose-600/90 border-rose-400/60 text-white animate-pulse'
+                      : profile.userTag.includes('New')
                       ? 'bg-blue-600/90 border-blue-400/60 text-white'
                       : 'bg-amber-600/90 border-amber-400/60 text-white'
                   }`}>
-                    {profile.userTag.includes('New') ? '🌟' : '👑'} {profile.userTag}
+                    {profile.userTag.includes('1') || profile.userTag.includes('Offer') ? '🔥' : profile.userTag.includes('New') ? '🌟' : '👑'} {profile.userTag}
                   </span>
                 )}
               </div>
@@ -157,7 +159,7 @@ export default function PublicProfilePage() {
               className="w-full py-3.5 px-6 rounded-2xl text-xs font-bold text-white bg-gradient-to-r from-primary to-rose-600 hover:from-primary-hover hover:to-rose-500 shadow-glow-md transition-all flex items-center justify-center gap-2 mb-4 hover:scale-[1.02]"
             >
               <Lock className="w-4 h-4" />
-              <span>Unlock Contact Number (₹{profile.unlockPrice || 399})</span>
+              <span>Unlock Contact Number (₹{profile.unlockPrice ?? 399})</span>
             </button>
           )}
 
@@ -279,14 +281,14 @@ export default function PublicProfilePage() {
             ) : (
               <div>
                 <p className="text-xs text-zinc-300 mb-4 leading-relaxed">
-                  To view verified phone number and direct WhatsApp link for <strong>{profile.displayName}</strong>, complete the secure one-time unlock payment (₹{profile.unlockPrice || 399}) via UPI / Scanner.
+                  To view verified phone number and direct WhatsApp link for <strong>{profile.displayName}</strong>, complete the secure one-time unlock payment (₹{profile.unlockPrice ?? 399}) via UPI / Scanner.
                 </p>
                 <button
                   onClick={() => setShowPaymentModal(true)}
                   className="w-full py-3 px-6 rounded-2xl text-xs font-bold text-white bg-gradient-to-r from-primary to-rose-600 hover:from-primary-hover hover:to-rose-500 shadow-glow-sm transition-all flex items-center justify-center gap-2"
                 >
                   <Unlock className="w-4 h-4" />
-                  <span>Unlock Contact (₹{profile.unlockPrice || 399} via UPI)</span>
+                  <span>Unlock Contact (₹{profile.unlockPrice ?? 399} via UPI)</span>
                 </button>
               </div>
             )}
@@ -301,7 +303,7 @@ export default function PublicProfilePage() {
         type="contact_unlock"
         targetProfileId={profile.userId}
         targetProfileName={profile.displayName}
-        amount={profile.unlockPrice || 399}
+        amount={profile.unlockPrice ?? 399}
         onSuccess={() => {
           loadProfile();
         }}

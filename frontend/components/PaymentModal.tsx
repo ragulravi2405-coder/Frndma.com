@@ -14,8 +14,6 @@ import {
   MessageCircle,
   Phone,
   RefreshCw,
-  ChevronDown,
-  ChevronUp,
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { fetchApi } from '@/lib/api';
@@ -32,7 +30,7 @@ interface PaymentModalProps {
   onSuccess?: (details: any) => void;
 }
 
-const LOCKED_AMOUNT = 399; // Default fallback amount
+const LOCKED_AMOUNT = 499; // Default fallback amount
 const RAZORPAY_PAYMENT_LINK = 'https://razorpay.me/@ravirahul601';
 
 export const PaymentModal: React.FC<PaymentModalProps> = ({
@@ -46,7 +44,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
   amount,
   onSuccess,
 }) => {
-  const payableAmount = type === 'offer_999' ? 999 : (amount || LOCKED_AMOUNT);
+  const payableAmount = type === 'offer_999' ? 999 : (amount ?? LOCKED_AMOUNT);
 
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
@@ -57,8 +55,19 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
   // Auto-checking state
   const [hasOpenedLink, setHasOpenedLink] = useState(false);
   const [autoChecking, setAutoChecking] = useState(false);
-  const [showAdvanced, setShowAdvanced] = useState(false);
-  const [paymentIdInput, setPaymentIdInput] = useState('');
+
+  // Reset state when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      setStatus('idle');
+      setErrorMessage('');
+      setUnlockedData(null);
+      setCreditsData(null);
+      setLoading(false);
+      setAutoChecking(false);
+      setHasOpenedLink(false);
+    }
+  }, [isOpen, targetProfileId]);
 
   // Auto-poll to detect payment as soon as user pays on razorpay.me/@ravirahul601
   useEffect(() => {
@@ -70,15 +79,32 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
         if (ok) {
           clearInterval(interval);
         }
-      }, 4000);
+      }, 3000);
     }
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [autoChecking, isOpen, status, targetProfileId, type, paymentIdInput]);
+  }, [autoChecking, isOpen, status, targetProfileId, type]);
+
+  // Window Focus Detection: When user returns from razorpay.me tab, trigger instant check!
+  useEffect(() => {
+    const handleWindowFocus = () => {
+      if (hasOpenedLink && isOpen && status === 'idle') {
+        checkPaymentVerification(false);
+      }
+    };
+
+    window.addEventListener('focus', handleWindowFocus);
+    return () => {
+      window.removeEventListener('focus', handleWindowFocus);
+    };
+  }, [hasOpenedLink, isOpen, status, targetProfileId, payableAmount]);
 
   if (!isOpen) return null;
 
+  /**
+   * ⚡ Opens razorpay.me/@ravirahul601 directly for UPI / Payment
+   */
   const handleOpenPaymentLink = () => {
     window.open(RAZORPAY_PAYMENT_LINK, '_blank');
     setHasOpenedLink(true);
@@ -86,6 +112,10 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
     setErrorMessage('');
   };
 
+  /**
+   * ⚡ Automatic Payment Verification & Unlock
+   * Unlocks the contact seamlessly without requiring the user to type any transaction ID!
+   */
   const checkPaymentVerification = async (silent = false): Promise<boolean> => {
     try {
       if (!silent) {
@@ -100,7 +130,6 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
           targetProfileId: type === 'offer_999' ? undefined : targetProfileId,
           planId,
           amount: payableAmount,
-          paymentId: paymentIdInput.trim(),
         }),
       });
 
@@ -114,8 +143,8 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
 
         try {
           confetti({
-            particleCount: 90,
-            spread: 75,
+            particleCount: 100,
+            spread: 80,
             origin: { y: 0.6 },
           });
         } catch {
@@ -131,7 +160,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
           setStatus('error');
           setErrorMessage(
             res.message ||
-              `No payment of ₹${payableAmount} detected on Razorpay yet. Please complete payment of ₹${payableAmount} on razorpay.me/@ravirahul601 first.`
+              `Payment verification pending. Please complete your payment of ₹${payableAmount} on razorpay.me/@ravirahul601.`
           );
         }
         return false;
@@ -186,22 +215,20 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                       : `Upgrade to ${planName || 'Premium'}`}
                   </h3>
                   <p className="text-xs text-zinc-400">
-                    {type === 'offer_999'
-                      ? 'Official Razorpay Verification • 3 Contact Unlock Credits'
-                      : 'Official Razorpay Verification • Instant Contact Reveal'}
+                    Official Razorpay Link: <span className="text-emerald-400 font-mono font-semibold">razorpay.me/@ravirahul601</span>
                   </p>
                 </div>
               </div>
 
-              {/* Fixed Locked Amount Display */}
+              {/* Amount Display */}
               <div className="flex items-center justify-between p-4 mb-4 rounded-2xl bg-gradient-to-r from-primary/15 via-rose-500/10 to-transparent border border-primary/30">
                 <div className="flex items-center gap-2.5">
                   <div className="w-8 h-8 rounded-xl bg-primary/20 flex items-center justify-center text-primary">
                     <Lock className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="text-xs font-semibold text-zinc-300 block">Required Payment</span>
-                    <span className="text-[10px] text-emerald-400 font-medium">Exact Amount: ₹{payableAmount}</span>
+                    <span className="text-xs font-semibold text-zinc-300 block">Total Payable</span>
+                    <span className="text-[10px] text-emerald-400 font-medium">⚡ Automatic Instant Unlock</span>
                   </div>
                 </div>
                 <div className="text-right">
@@ -236,112 +263,87 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                 </div>
               )}
 
-              {/* Payment Instructions Card */}
-              <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2.5 mb-5">
+              {/* Instructions Card */}
+              <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2 mb-5">
                 <div className="flex items-start gap-2.5">
                   <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-400 shrink-0 mt-0.5">
                     <CreditCard className="w-4 h-4" />
                   </div>
                   <div className="text-xs space-y-1">
-                    <p className="font-semibold text-white">How it works:</p>
+                    <p className="font-semibold text-white">How it unlocks:</p>
                     <p className="text-zinc-300 text-[11px] leading-relaxed">
-                      1. Click below and pay <strong className="text-emerald-400 font-bold">₹{payableAmount}</strong> via Google Pay, PhonePe, Paytm, or UPI.
+                      1. Click the button below to pay <strong className="text-emerald-400 font-bold">₹{payableAmount}</strong> on <strong>razorpay.me/@ravirahul601</strong> (Google Pay, PhonePe, Paytm, or UPI).
                     </p>
                     <p className="text-zinc-300 text-[11px] leading-relaxed">
-                      {type === 'offer_999'
-                        ? '2. Our system automatically detects your payment and adds 3 contact unlock credits instantly!'
-                        : '2. Our system automatically detects your payment and unlocks the contact instantly!'}
+                      2. As soon as you complete the payment, your contact unlocks <strong className="text-pink-300">automatically</strong> without entering any transaction ID!
                     </p>
-                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-black/40 border border-emerald-500/30 text-emerald-300 font-mono text-[11px] font-bold mt-1">
-                      <span>razorpay.me/@ravirahul601</span>
-                    </div>
                   </div>
                 </div>
               </div>
 
-              {/* Main Action Buttons */}
+              {/* Error Alert */}
+              {errorMessage && (
+                <div className="p-3 mb-4 rounded-xl bg-rose-500/20 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 shrink-0" />
+                  <span>{errorMessage}</span>
+                </div>
+              )}
+
+              {/* Action Buttons */}
               <div className="space-y-3">
-                {/* 1. Open Razorpay Link */}
+                {/* 1. Main Direct Pay on razorpay.me link */}
                 <button
                   onClick={handleOpenPaymentLink}
-                  className="w-full py-3.5 px-5 rounded-2xl text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-primary via-rose-600 to-primary hover:opacity-95 shadow-glow-md hover:shadow-glow-lg transition-all flex items-center justify-center gap-2 transform active:scale-98"
+                  className="w-full py-4 px-6 rounded-2xl text-sm sm:text-base font-extrabold text-white bg-gradient-to-r from-primary via-rose-600 to-primary hover:opacity-95 shadow-glow-md hover:shadow-glow-lg transition-all flex items-center justify-center gap-2.5 transform active:scale-[0.98]"
                 >
-                  <ExternalLink className="w-4 h-4" />
+                  <ExternalLink className="w-5 h-5 text-white" />
                   <span>⚡ 1. Pay ₹{payableAmount} on razorpay.me/@ravirahul601</span>
                 </button>
 
                 {/* Auto Checking Indicator */}
                 {autoChecking && (
-                  <div className="p-2.5 rounded-xl bg-primary/10 border border-primary/30 flex items-center justify-center gap-2 text-xs text-pink-300 animate-pulse">
-                    <RefreshCw className="w-3.5 h-3.5 animate-spin text-primary" />
-                    <span>Automatically listening for your ₹{payableAmount} payment...</span>
+                  <div className="p-3 rounded-2xl bg-primary/10 border border-primary/30 flex items-center justify-center gap-2.5 text-xs text-pink-300 animate-pulse">
+                    <RefreshCw className="w-4 h-4 animate-spin text-primary" />
+                    <span>Listening for your ₹{payableAmount} payment on razorpay.me...</span>
                   </div>
                 )}
 
-                {/* 2. Check & Reveal Contact / Grant Credits Button */}
-                <button
-                  onClick={() => checkPaymentVerification(false)}
-                  disabled={loading}
-                  className="w-full py-3.5 px-6 rounded-2xl text-xs sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-500 border border-emerald-400/30 shadow-glow-sm transition-all flex items-center justify-center gap-2 disabled:opacity-50"
-                >
-                  {loading ? (
-                    <>
-                      <RefreshCw className="w-4 h-4 animate-spin" />
-                      <span>Verifying ₹{payableAmount} Payment on Razorpay...</span>
-                    </>
-                  ) : (
-                    <>
-                      <CheckCircle2 className="w-4 h-4 text-white" />
-                      <span>
-                        {type === 'offer_999'
-                          ? `✅ 2. I Have Paid ₹${payableAmount} — Claim 3 Credits Now`
-                          : `✅ 2. I Have Paid ₹${payableAmount} — Reveal Contact Now`}
-                      </span>
-                    </>
-                  )}
-                </button>
-
-                {/* Optional Expandable Payment ID */}
-                <div className="pt-1">
+                {/* 2. Instant Confirm & Unlock Button (Zero Transaction ID needed!) */}
+                {hasOpenedLink && (
                   <button
-                    onClick={() => setShowAdvanced(!showAdvanced)}
-                    className="text-[11px] text-zinc-400 hover:text-zinc-200 flex items-center justify-center gap-1 mx-auto transition-colors"
+                    onClick={() => checkPaymentVerification(false)}
+                    disabled={loading}
+                    className="w-full py-3.5 px-6 rounded-2xl text-xs sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-500 border border-emerald-400/30 shadow-glow-sm transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                   >
-                    <span>Have Razorpay Payment ID? (Optional)</span>
-                    {showAdvanced ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+                    {loading ? (
+                      <>
+                        <RefreshCw className="w-4 h-4 animate-spin" />
+                        <span>Confirming ₹{payableAmount} Payment & Unlocking...</span>
+                      </>
+                    ) : (
+                      <>
+                        <CheckCircle2 className="w-4 h-4 text-white" />
+                        <span>
+                          {type === 'offer_999'
+                            ? `✅ 2. I Have Paid ₹${payableAmount} — Claim 3 Credits Now`
+                            : `✅ 2. I Have Paid ₹${payableAmount} — Reveal Contact Now`}
+                        </span>
+                      </>
+                    )}
                   </button>
-
-                  {showAdvanced && (
-                    <div className="mt-2.5 p-3 rounded-xl bg-black/40 border border-white/10 space-y-2 text-xs">
-                      <div>
-                        <label className="text-[10px] text-zinc-400 uppercase tracking-wider block mb-1">
-                          Razorpay Payment ID (e.g. pay_...)
-                        </label>
-                        <input
-                          type="text"
-                          value={paymentIdInput}
-                          onChange={(e) => setPaymentIdInput(e.target.value)}
-                          placeholder="pay_xxxxxxxxxxxxxx"
-                          className="w-full bg-white/5 border border-white/15 rounded-lg px-2.5 py-1.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-primary font-mono"
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
+                )}
 
                 <p className="text-[11px] text-zinc-400 text-center flex items-center justify-center gap-1.5 pt-1">
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
                   <span>
-                    {type === 'offer_999'
-                      ? 'Credits are strictly granted only after verified ₹999 payment'
-                      : `Contact is strictly locked until ₹${payableAmount} payment is confirmed`}
+                    Direct settlement via razorpay.me/@ravirahul601 • No transaction ID needed
                   </span>
                 </p>
               </div>
             </div>
           )}
 
-          {/* Success State - Only shown when payment is verified on Razorpay */}
+          {/* Success State - Revealed upon payment */}
           {status === 'success' && (
             <div className="text-center py-4">
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center shadow-glow-md animate-bounce">
@@ -349,7 +351,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
               </div>
               <h3 className="text-2xl font-bold font-heading mb-1 text-white">Payment Confirmed!</h3>
               <p className="text-xs sm:text-sm text-zinc-300 mb-2">
-                Your payment of <strong className="text-emerald-400">₹{payableAmount}</strong> was verified on Razorpay.
+                Your payment of <strong className="text-emerald-400">₹{payableAmount}</strong> on razorpay.me/@ravirahul601 is confirmed!
               </p>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[11px] font-semibold mb-5">
                 <CheckCircle2 className="w-3.5 h-3.5" />
@@ -445,38 +447,31 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
             </div>
           )}
 
-          {/* Error State - When payment is not verified on Razorpay */}
+          {/* Error State */}
           {status === 'error' && (
             <div className="text-center py-4">
-              <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/30 flex items-center justify-center">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/30 flex items-center justify-center shadow-glow-md">
                 <AlertCircle className="w-8 h-8" />
               </div>
-              <h3 className="text-xl font-bold font-heading mb-1 text-white">Payment Not Detected</h3>
-              <p className="text-xs sm:text-sm text-zinc-300 mb-5 leading-relaxed">{errorMessage}</p>
-
-              <div className="space-y-2.5">
+              <h3 className="text-2xl font-bold font-heading mb-1 text-white">Payment Issue</h3>
+              <p className="text-xs sm:text-sm text-zinc-300 mb-6">
+                {errorMessage || 'Unable to confirm payment. Please try again.'}
+              </p>
+              <div className="flex gap-3">
                 <button
-                  onClick={handleOpenPaymentLink}
-                  className="w-full py-3 px-6 rounded-2xl text-xs font-bold text-white bg-gradient-to-r from-primary to-rose-600 hover:opacity-95 shadow-glow-sm flex items-center justify-center gap-2 text-center"
+                  onClick={() => {
+                    setStatus('idle');
+                    setErrorMessage('');
+                  }}
+                  className="flex-1 py-3 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-all"
                 >
-                  <ExternalLink className="w-3.5 h-3.5" />
-                  <span>⚡ Pay ₹{payableAmount} on razorpay.me/@ravirahul601</span>
+                  Try Again
                 </button>
-
                 <button
-                  onClick={() => checkPaymentVerification(false)}
-                  disabled={loading}
-                  className="w-full py-2.5 px-6 rounded-2xl text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-500 transition-all flex items-center justify-center gap-1.5 disabled:opacity-50"
+                  onClick={onClose}
+                  className="flex-1 py-3 px-4 rounded-xl bg-primary hover:bg-primary-hover text-white text-xs font-bold transition-all shadow-glow-sm"
                 >
-                  {loading ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <CheckCircle2 className="w-3.5 h-3.5" />}
-                  <span>Check Payment Again</span>
-                </button>
-
-                <button
-                  onClick={() => setStatus('idle')}
-                  className="w-full py-2 px-6 rounded-2xl text-xs font-semibold text-zinc-400 hover:text-white bg-transparent transition-all"
-                >
-                  Back
+                  Close
                 </button>
               </div>
             </div>

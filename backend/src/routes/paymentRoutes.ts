@@ -14,8 +14,8 @@ import { authenticate, optionalAuthenticate } from '../middleware/auth';
 const router = Router();
 
 router.get('/offer-status', getOfferStatus);
-router.post('/create-order', authenticate, createOrder);
-router.post('/verify', authenticate, verifyPayment);
+router.post('/create-order', optionalAuthenticate, createOrder);
+router.post('/verify', optionalAuthenticate, verifyPayment);
 router.post('/verify-upi', authenticate, verifyUpiPayment);
 router.post('/verify-link-payment', optionalAuthenticate, verifyRazorpayLinkPayment);
 router.post('/notify-success', authenticate, notifyPaymentSuccess);

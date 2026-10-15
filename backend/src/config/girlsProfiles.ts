@@ -30,7 +30,7 @@ export interface GirlProfileConfig {
 }
 
 export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
-  // ─── CUSTOM 1: ABIRAMI (Madurai, Tamil Nadu) - ₹399 - New User ───
+  // ─── CUSTOM 1: ABIRAMI (Madurai, Tamil Nadu) - ₹499 - New User ───
   {
     username: 'abirami_23',
     displayName: 'Abirami',
@@ -44,7 +44,7 @@ export const GIRLS_PROFILES_LIST: GirlProfileConfig[] = [
     interests: ['Music', 'Long Walks', 'Cooking', 'Temple Visits'],
     avatarUrl: '/profiles/custom_girl_1.jpg',
     shareableContact: '9840123451',
-    unlockPrice: 399,
+    unlockPrice: 499,
     userTag: 'New User',
   },
 

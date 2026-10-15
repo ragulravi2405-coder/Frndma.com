@@ -112,7 +112,7 @@ export const seedDatabase = async () => {
           photos: [{ url: g.avatarUrl, publicId: `seed_${g.username}`, isPrimary: true }],
           contactSharing: true,
           shareableContact: g.shareableContact,
-          unlockPrice: g.unlockPrice || 399,
+          unlockPrice: g.unlockPrice !== undefined ? g.unlockPrice : 399,
           userTag: g.userTag || '',
           isProfileComplete: true,
         },
@@ -121,14 +121,20 @@ export const seedDatabase = async () => {
     }
     console.log(`[Seed] Synced ${GIRLS_PROFILES_LIST.length} female profiles from config successfully.`);
 
-    // Migrate any profiles with unlockPrice < 399 to 399
+    // Migrate any profiles missing unlockPrice to default 399
     const priceUpdateResult = await Profile.updateMany(
-      { $or: [{ unlockPrice: { $lt: 399 } }, { unlockPrice: { $exists: false } }] },
+      { unlockPrice: { $exists: false } },
       { $set: { unlockPrice: 399 } }
     );
     if (priceUpdateResult.modifiedCount > 0) {
-      console.log(`[Seed] Updated ${priceUpdateResult.modifiedCount} profiles to minimum starting price ₹399.`);
+      console.log(`[Seed] Updated ${priceUpdateResult.modifiedCount} profiles with missing price to ₹399.`);
     }
+
+    // Explicitly sync Abirami to ₹499 in DB
+    await Profile.updateMany(
+      { displayName: /Abirami/i },
+      { $set: { unlockPrice: 499, userTag: 'New User' } }
+    );
 
     // Sync specific requested profile pictures
     await Profile.updateMany({ displayName: /Pooja/i }, { $set: { avatarUrl: '/profiles/pooja.jpg', 'photos.0.url': '/profiles/pooja.jpg' } });

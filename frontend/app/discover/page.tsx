@@ -40,9 +40,7 @@ import { ReportModal } from '@/components/ReportModal';
  * ============================================================================
  */
 const DISCOVER_5_GIRLS_LIST = [
-  // ──────────────────────────────────────────────────────────
-  // 🌸 [CUSTOM 1] - ABIRAMI (Madurai, Tamil Nadu) - ₹399 - New User
-  // ──────────────────────────────────────────────────────────
+  // ─── [CUSTOM 1] - ABIRAMI (Madurai, Tamil Nadu) - ₹499 - New User
   {
     id: 'custom_girl_1',
     userId: 'girl_user_custom_1',
@@ -55,7 +53,7 @@ const DISCOVER_5_GIRLS_LIST = [
     interests: ['Music', 'Long Walks', 'Cooking', 'Temple Visits'],
     avatarUrl: '/profiles/custom_girl_1.jpg',
     shareableContact: '9840123451',
-    unlockPrice: 399,
+    unlockPrice: 499,
     userTag: 'New User',
     contactSharing: true,
   },
@@ -976,7 +974,7 @@ export default function DiscoverPage() {
       isOpen: true,
       targetProfileId: profile.userId || profile.id,
       targetProfileName: profile.displayName,
-      amount: profile.unlockPrice || 399,
+      amount: profile.unlockPrice ?? 399,
     });
   };
 
@@ -1153,12 +1151,14 @@ export default function DiscoverPage() {
                     {profile.userTag && (
                       <div
                         className={`px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-extrabold shadow-sm flex items-center gap-1 backdrop-blur-md border ${
-                          profile.userTag.includes('New')
+                          profile.userTag.includes('1') || profile.userTag.includes('Offer')
+                            ? 'bg-rose-600/90 border-rose-400/60 text-white animate-pulse'
+                            : profile.userTag.includes('New')
                             ? 'bg-blue-600/90 border-blue-400/60 text-white'
                             : 'bg-amber-600/90 border-amber-400/60 text-white'
                         }`}
                       >
-                        <span>{profile.userTag.includes('New') ? '🌟' : '👑'}</span>
+                        <span>{profile.userTag.includes('1') || profile.userTag.includes('Offer') ? '🔥' : profile.userTag.includes('New') ? '🌟' : '👑'}</span>
                         <span>{profile.userTag}</span>
                       </div>
                     )}
@@ -1166,7 +1166,7 @@ export default function DiscoverPage() {
 
                   <div className="absolute top-2 right-2 sm:top-2.5 sm:right-2.5 flex items-center gap-1 z-10">
                     <div className="px-2 py-0.5 rounded-lg bg-gradient-to-r from-primary to-rose-600 backdrop-blur-md border border-white/20 text-[10px] sm:text-[11px] font-extrabold text-white shadow-glow-sm">
-                      ₹{profile.unlockPrice || 399}
+                      ₹{profile.unlockPrice ?? 399}
                     </div>
                   </div>
 
@@ -1234,7 +1234,7 @@ export default function DiscoverPage() {
                         className="w-full py-1.5 sm:py-2 px-2 rounded-xl bg-gradient-to-r from-primary to-rose-600 hover:from-primary-hover hover:to-rose-500 text-white text-[11px] sm:text-xs font-bold flex items-center justify-center gap-1 shadow-glow-sm transition-all"
                       >
                         <Lock className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-                        <span>Unlock ₹{profile.unlockPrice || 399}</span>
+                        <span>Unlock ₹{profile.unlockPrice ?? 399}</span>
                       </button>
                     )}
 
@@ -1442,7 +1442,7 @@ export default function DiscoverPage() {
                       className="w-full py-3 px-6 rounded-xl bg-gradient-to-r from-primary to-rose-600 text-white text-xs font-bold flex items-center justify-center gap-2 shadow-glow-sm"
                     >
                       <Lock className="w-4 h-4" />
-                      <span>Unlock Contact Details (₹{selectedProfile.unlockPrice || 399} • Razorpay / UPI)</span>
+                      <span>Unlock Contact Details (₹{selectedProfile.unlockPrice ?? 399} • Razorpay / UPI)</span>
                     </button>
                   </div>
                 )}
@@ -1486,7 +1486,7 @@ export default function DiscoverPage() {
         type={paymentData.type || 'contact_unlock'}
         targetProfileId={paymentData.targetProfileId}
         targetProfileName={paymentData.targetProfileName}
-        amount={paymentData.amount || 399}
+        amount={paymentData.amount ?? 399}
         onSuccess={() => {
           loadData();
         }}
