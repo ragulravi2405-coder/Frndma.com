@@ -204,7 +204,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===================== ₹999 LIMITED TIME OFFER BANNER ===================== */}
+      {/* ===================== ₹2,999 LIMITED TIME OFFER BANNER ===================== */}
       <SpecialOfferBanner />
 
       {/* ===================== HOW IT WORKS ===================== */}

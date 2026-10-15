@@ -136,7 +136,7 @@ export const useCreditToUnlock = async (req: AuthRequest, res: Response, next: N
     if (!credits || credits.remainingCredits <= 0) {
       res.status(400).json({
         success: false,
-        message: 'No contact unlock credits remaining. Please purchase the ₹999 offer to unlock more contacts.',
+        message: 'No contact unlock credits remaining. Please purchase the ₹2,999 offer to unlock 20 contacts.',
       });
       return;
     }

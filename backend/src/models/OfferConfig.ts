@@ -20,23 +20,23 @@ const OfferConfigSchema = new Schema<IOfferConfig>(
       required: true,
       unique: true,
       index: true,
-      default: 'special_999',
+      default: 'special_2999',
     },
     title: {
       type: String,
-      default: 'LIMITED TIME OFFER',
+      default: 'LIMITED TIME MEGA OFFER',
     },
     subtitle: {
       type: String,
-      default: 'Unlock 3 Verified Contacts for ₹999',
+      default: 'Unlock 20 Verified Contacts for ₹2,999',
     },
     price: {
       type: Number,
-      default: 999,
+      default: 2999,
     },
     credits: {
       type: Number,
-      default: 3,
+      default: 20,
     },
     expiresAt: {
       type: Date,
@@ -49,7 +49,7 @@ const OfferConfigSchema = new Schema<IOfferConfig>(
     features: {
       type: [String],
       default: [
-        '3 contact unlocks',
+        '20 contact unlocks',
         'Verified profiles',
         'Direct meeting allowed',
         'Video call allowed',

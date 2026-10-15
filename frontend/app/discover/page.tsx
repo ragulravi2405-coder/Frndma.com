@@ -848,7 +848,7 @@ export default function DiscoverPage() {
   // Payment Modal state
   const [paymentData, setPaymentData] = useState<{
     isOpen: boolean;
-    type?: 'contact_unlock' | 'subscription' | 'offer_999';
+    type?: 'contact_unlock' | 'subscription' | 'offer_999' | 'offer_2999';
     targetProfileId?: string;
     targetProfileName?: string;
     amount?: number;
@@ -1034,7 +1034,7 @@ export default function DiscoverPage() {
             <span className="text-lg">🔥</span>
             <div>
               <span className="font-bold text-white block">
-                Limited Time Special Offer: Unlock 3 Verified Contacts for ₹999
+                Limited Time Special Offer: Unlock 20 Verified Contacts for ₹2,999
               </span>
               <span className="text-zinc-300 text-[11px]">
                 Direct meeting & video call included • No extra payment required from Frndma
@@ -1045,13 +1045,13 @@ export default function DiscoverPage() {
             onClick={() =>
               setPaymentData({
                 isOpen: true,
-                type: 'offer_999',
-                amount: 999,
+                type: 'offer_2999',
+                amount: 2999,
               })
             }
             className="px-4 py-2 rounded-xl bg-gradient-to-r from-primary to-rose-600 hover:from-primary-hover hover:to-rose-500 text-white text-xs font-bold shrink-0 shadow-sm transition-all"
           >
-            Unlock 3 Contacts — ₹999
+            Unlock 20 Contacts — ₹2,999
           </button>
         </div>
       )}

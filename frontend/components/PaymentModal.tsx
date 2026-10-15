@@ -21,7 +21,7 @@ import { fetchApi } from '@/lib/api';
 interface PaymentModalProps {
   isOpen: boolean;
   onClose: () => void;
-  type: 'contact_unlock' | 'subscription' | 'offer_999';
+  type: 'contact_unlock' | 'subscription' | 'offer_999' | 'offer_2999';
   targetProfileId?: string;
   targetProfileName?: string;
   planId?: string;
@@ -44,7 +44,8 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
   amount,
   onSuccess,
 }) => {
-  const payableAmount = type === 'offer_999' ? 999 : (amount ?? LOCKED_AMOUNT);
+  const isOffer = type === 'offer_2999' || type === 'offer_999';
+  const payableAmount = isOffer ? 2999 : (amount ?? LOCKED_AMOUNT);
 
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
@@ -73,7 +74,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
   useEffect(() => {
     let interval: any = null;
 
-    if (autoChecking && isOpen && status === 'idle' && (targetProfileId || type === 'offer_999')) {
+    if (autoChecking && isOpen && status === 'idle' && (targetProfileId || isOffer)) {
       interval = setInterval(async () => {
         const ok = await checkPaymentVerification(true);
         if (ok) {
@@ -84,7 +85,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [autoChecking, isOpen, status, targetProfileId, type]);
+  }, [autoChecking, isOpen, status, targetProfileId, isOffer]);
 
   // Window Focus Detection: When user returns from razorpay.me tab, trigger instant check!
   useEffect(() => {
@@ -127,7 +128,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
         method: 'POST',
         body: JSON.stringify({
           type,
-          targetProfileId: type === 'offer_999' ? undefined : targetProfileId,
+          targetProfileId: isOffer ? undefined : targetProfileId,
           planId,
           amount: payableAmount,
         }),
@@ -198,7 +199,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
               {/* Header */}
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-11 h-11 rounded-2xl bg-primary/10 border border-primary/30 flex items-center justify-center text-primary shrink-0">
-                  {type === 'offer_999' ? (
+                  {isOffer ? (
                     <Sparkles className="w-5 h-5 text-pink-400" />
                   ) : type === 'contact_unlock' ? (
                     <Lock className="w-5 h-5" />
@@ -208,8 +209,8 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                 </div>
                 <div>
                   <h3 className="text-lg sm:text-xl font-bold font-heading">
-                    {type === 'offer_999'
-                      ? 'Unlock 3 Verified Contacts — ₹999'
+                    {isOffer
+                      ? 'Unlock 20 Verified Contacts — ₹2,999'
                       : type === 'contact_unlock'
                       ? `Unlock ${targetProfileName || 'User'}'s Contact`
                       : `Upgrade to ${planName || 'Premium'}`}
@@ -235,18 +236,18 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                   <span className="text-2xl sm:text-3xl font-extrabold text-white font-heading">
                     ₹{payableAmount}
                   </span>
-                  {type === 'offer_999' && (
-                    <span className="text-[10px] text-zinc-400 block line-through">Regular ₹1,197</span>
+                  {isOffer && (
+                    <span className="text-[10px] text-zinc-400 block line-through">Regular ₹9,980</span>
                   )}
                 </div>
               </div>
 
-              {/* Offer Features highlight for offer_999 */}
-              {type === 'offer_999' && (
+              {/* Offer Features highlight for offer */}
+              {isOffer && (
                 <div className="grid grid-cols-2 gap-2 mb-4 text-[11px] text-zinc-300">
                   <div className="p-2 rounded-xl bg-white/5 border border-white/10 flex items-center gap-1.5">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                    <span>3 Contact Unlocks</span>
+                    <span>20 Contact Unlocks</span>
                   </div>
                   <div className="p-2 rounded-xl bg-white/5 border border-white/10 flex items-center gap-1.5">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
@@ -324,8 +325,8 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                       <>
                         <CheckCircle2 className="w-4 h-4 text-white" />
                         <span>
-                          {type === 'offer_999'
-                            ? `✅ 2. I Have Paid ₹${payableAmount} — Claim 3 Credits Now`
+                          {isOffer
+                            ? `✅ 2. I Have Paid ₹${payableAmount} — Claim 20 Credits Now`
                             : `✅ 2. I Have Paid ₹${payableAmount} — Reveal Contact Now`}
                         </span>
                       </>
@@ -356,11 +357,11 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[11px] font-semibold mb-5">
                 <CheckCircle2 className="w-3.5 h-3.5" />
                 <span>
-                  {type === 'offer_999' ? '3 Contact Unlock Credits Added' : 'Contact Unlocked & Verified'}
+                  {isOffer ? '20 Contact Unlock Credits Added' : 'Contact Unlocked & Verified'}
                 </span>
               </div>
 
-              {type === 'offer_999' ? (
+              {isOffer ? (
                 <div className="p-4 mb-6 rounded-2xl bg-white/5 border border-primary/30 text-left space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="text-[11px] uppercase tracking-wider text-pink-400 font-bold">
@@ -373,10 +374,10 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
 
                   <div>
                     <p className="text-2xl font-extrabold text-white font-heading">
-                      {creditsData?.remainingCredits || 3} Contact Unlocks
+                      {creditsData?.remainingCredits || 20} Contact Unlocks
                     </p>
                     <p className="text-xs text-zinc-300 mt-1">
-                      You can now unlock 3 verified profiles of your choice on Discover without any extra charge!
+                      You can now unlock 20 verified profiles of your choice on Discover without any extra charge!
                     </p>
                   </div>
 

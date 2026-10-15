@@ -173,20 +173,20 @@ export const createOrder = async (req: AuthRequest, res: Response, next: NextFun
 
       amount = plan.price;
       notes.planId = planId;
-    } else if (type === 'offer_999') {
-      // 24-hr Limited-time offer: ₹999 for 3 contact unlocks
-      let offer = await OfferConfig.findOne({ offerKey: 'special_999' });
+    } else if (type === 'offer_2999' || type === 'offer_999') {
+      // 24-hr Limited-time offer: ₹2,999 for 20 contact unlocks
+      let offer = await OfferConfig.findOne({ offerKey: 'special_2999' }) || await OfferConfig.findOne({ offerKey: 'special_999' });
       if (offer && offer.expiresAt && new Date() >= new Date(offer.expiresAt)) {
         res.status(400).json({
           success: false,
-          message: 'The ₹999 limited-time offer has expired.',
+          message: 'The ₹2,999 limited-time offer has expired.',
         });
         return;
       }
 
-      amount = 999; // Explicitly enforced by backend - never trusting client amount
-      notes.type = 'offer_999';
-      notes.credits = 3;
+      amount = 2999; // Explicitly enforced by backend
+      notes.type = 'offer_2999';
+      notes.credits = 20;
     } else {
       res.status(400).json({ success: false, message: 'Invalid payment type' });
       return;
@@ -348,20 +348,20 @@ export const verifyPayment = async (req: AuthRequest, res: Response, next: NextF
       });
     }
 
-    // Handle ₹999 limited-time offer (Grant 3 contact unlock credits)
+    // Handle ₹2,999 limited-time offer (Grant 20 contact unlock credits)
     let creditsData: any = null;
-    if (payment.type === 'offer_999') {
+    if (payment.type === 'offer_2999' || payment.type === 'offer_999') {
       const userCredits = await UserContactCredits.findOneAndUpdate(
         { userId: currentUserId },
         {
-          $inc: { totalCredits: 3, remainingCredits: 3 },
+          $inc: { totalCredits: 20, remainingCredits: 20 },
           $set: { lastPurchasedAt: new Date() },
           $push: {
             history: {
               action: 'purchased',
-              amount: 3,
+              amount: 20,
               timestamp: new Date(),
-              notes: `Verified ₹999 Payment (Order: ${razorpayOrderId}, Payment: ${razorpayPaymentId})`,
+              notes: `Verified ₹2,999 Payment (Order: ${razorpayOrderId}, Payment: ${razorpayPaymentId})`,
             },
           },
         },
@@ -369,7 +369,7 @@ export const verifyPayment = async (req: AuthRequest, res: Response, next: NextF
       );
 
       creditsData = {
-        creditsGranted: 3,
+        creditsGranted: 20,
         totalCredits: userCredits.totalCredits,
         remainingCredits: userCredits.remainingCredits,
         usedCredits: userCredits.usedCredits,
@@ -384,19 +384,19 @@ export const verifyPayment = async (req: AuthRequest, res: Response, next: NextF
     await sendAdminWhatsAppPaymentAlert({
       userName,
       userMobile,
-      paymentStatus: `Payment Successful for ₹${payment.amount} (${payment.type === 'offer_999' ? '3 Contact Credits' : payment.type})`,
+      paymentStatus: `Payment Successful for ₹${payment.amount} (${payment.type.startsWith('offer') ? '20 Contact Credits' : payment.type})`,
       amount: payment.amount,
       paymentId: razorpayPaymentId,
       orderId: razorpayOrderId,
       paymentType: payment.type,
-      targetProfileName: unlockedDetails?.displayName || (payment.type === 'offer_999' ? '3 Contact Unlock Credits' : undefined),
+      targetProfileName: unlockedDetails?.displayName || (payment.type.startsWith('offer') ? '20 Contact Unlock Credits' : undefined),
     });
 
     res.status(200).json({
       success: true,
       message:
-        payment.type === 'offer_999'
-          ? '₹999 Payment verified successfully! 3 contact unlocks have been added to your account.'
+        payment.type.startsWith('offer')
+          ? '₹2,999 Payment verified successfully! 20 contact unlocks have been added to your account.'
           : 'Payment verified successfully and Admin notified via WhatsApp!',
       data: {
         paymentId: payment._id,
@@ -643,21 +643,21 @@ export const verifyRazorpayLinkPayment = async (req: AuthRequest, res: Response,
     let currentUserId = req.userId;
     const { targetProfileId, paymentId, phone, amount, type = 'contact_unlock' } = req.body;
 
-    const isOffer999 = type === 'offer_999' || (!targetProfileId && Number(amount) === 999);
+    const isOffer2999 = type === 'offer_2999' || type === 'offer_999' || (!targetProfileId && (Number(amount) === 2999 || Number(amount) === 999));
 
     let profileOwnerId: string | undefined = undefined;
     let targetProfile: any = null;
     let targetUser: any = null;
-    let requiredRupees = 399;
+    let requiredRupees = 499;
 
-    if (isOffer999) {
+    if (isOffer2999) {
       // Check offer config expiration
-      const offer = await OfferConfig.findOne({ offerKey: 'special_999' });
+      const offer = await OfferConfig.findOne({ offerKey: 'special_2999' }) || await OfferConfig.findOne({ offerKey: 'special_999' });
       if (offer && offer.expiresAt && new Date() > new Date(offer.expiresAt)) {
-        res.status(400).json({ success: false, message: 'This ₹999 limited-time offer has expired.' });
+        res.status(400).json({ success: false, message: 'This ₹2,999 limited-time offer has expired.' });
         return;
       }
-      requiredRupees = 999;
+      requiredRupees = 2999;
     } else {
       if (!targetProfileId) {
         res.status(400).json({ success: false, message: 'Target profile ID is required' });
@@ -694,7 +694,7 @@ export const verifyRazorpayLinkPayment = async (req: AuthRequest, res: Response,
     }
 
     // 1. Check if user already unlocked this profile (single unlock only)
-    if (!isOffer999 && currentUserId && profileOwnerId) {
+    if (!isOffer2999 && currentUserId && profileOwnerId) {
       const existingUnlock = await ContactUnlock.findOne({
         userId: currentUserId,
         profileOwnerId,
@@ -747,7 +747,7 @@ export const verifyRazorpayLinkPayment = async (req: AuthRequest, res: Response,
         const oneDayAgo = Math.floor(Date.now() / 1000) - 24 * 60 * 60;
         const eligiblePayments = capturedMatching.filter((p: any) => p.created_at >= oneDayAgo);
         for (const cand of eligiblePayments) {
-          const alreadyClaimed = isOffer999
+          const alreadyClaimed = isOffer2999
             ? await Payment.findOne({ razorpayPaymentId: cand.id, status: 'captured' })
             : await ContactUnlock.findOne({ paymentId: cand.id, profileOwnerId });
           if (!alreadyClaimed) {
@@ -783,7 +783,7 @@ export const verifyRazorpayLinkPayment = async (req: AuthRequest, res: Response,
     }
 
     // Check if this payment was already used
-    if (isOffer999) {
+    if (isOffer2999) {
       const alreadyClaimed = await Payment.findOne({
         razorpayPaymentId: matchedPayment.id,
         status: 'captured',
@@ -836,8 +836,8 @@ export const verifyRazorpayLinkPayment = async (req: AuthRequest, res: Response,
       razorpaySignature: 'rzp_link_verified',
       amount: requiredRupees,
       currency: 'INR',
-      type: isOffer999 ? 'offer_999' : 'contact_unlock',
-      targetProfileId: isOffer999 ? undefined : profileOwnerId,
+      type: isOffer2999 ? 'offer_2999' : 'contact_unlock',
+      targetProfileId: isOffer2999 ? undefined : profileOwnerId,
       status: 'captured',
       notes: {
         paymentMethod: 'razorpay_link_direct',
@@ -853,19 +853,19 @@ export const verifyRazorpayLinkPayment = async (req: AuthRequest, res: Response,
     const userName = userProfile?.displayName || user?.username || 'Frndma Member';
     const userMobile = user?.mobileNumber || matchedPayment.contact || 'Not provided';
 
-    if (isOffer999) {
-      // 4a. Save credits in UserContactCredits for offer_999
+    if (isOffer2999) {
+      // 4a. Save credits in UserContactCredits for offer_2999
       const userCredits = await UserContactCredits.findOneAndUpdate(
         { userId: currentUserId },
         {
-          $inc: { totalCredits: 3, remainingCredits: 3 },
+          $inc: { totalCredits: 20, remainingCredits: 20 },
           $set: { lastPurchasedAt: new Date() },
           $push: {
             history: {
               action: 'purchased',
-              amount: 3,
+              amount: 20,
               timestamp: new Date(),
-              notes: `Verified ₹999 Link Payment (${matchedPayment.id}) on razorpay.me/@ravirahul601`,
+              notes: `Verified ₹2,999 Link Payment (${matchedPayment.id}) on razorpay.me/@ravirahul601`,
             },
           },
         },
@@ -876,16 +876,16 @@ export const verifyRazorpayLinkPayment = async (req: AuthRequest, res: Response,
       await sendAdminWhatsAppPaymentAlert({
         userName,
         userMobile,
-        paymentStatus: `Payment Verified on Razorpay Link for ₹999 (3 Contact Credits Added)`,
-        amount: 999,
+        paymentStatus: `Payment Verified on Razorpay Link for ₹2,999 (20 Contact Credits Added)`,
+        amount: 2999,
         paymentId: matchedPayment.id,
         orderId: payment.razorpayOrderId,
-        paymentType: 'offer_999',
+        paymentType: 'offer_2999',
       });
 
       res.status(200).json({
         success: true,
-        message: '₹999 payment verified! 3 contact unlocks have been added to your account.',
+        message: '₹2,999 payment verified! 20 contact unlocks have been added to your account.',
         data: {
           paymentId: matchedPayment.id,
           status: 'captured',
@@ -965,22 +965,22 @@ export const getPaymentHistory = async (req: AuthRequest, res: Response, next: N
 
 export const getOfferStatus = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    let offer = await OfferConfig.findOne({ offerKey: 'special_999' });
+    let offer = await OfferConfig.findOne({ offerKey: 'special_2999' });
     const now = new Date();
 
     if (!offer) {
       // Initialize persistent 24-hour offer cycle in DB
       const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
       offer = await OfferConfig.create({
-        offerKey: 'special_999',
-        title: 'LIMITED TIME OFFER',
-        subtitle: 'Unlock 3 Verified Contacts for ₹999',
-        price: 999,
-        credits: 3,
+        offerKey: 'special_2999',
+        title: 'LIMITED TIME MEGA OFFER',
+        subtitle: 'Unlock 20 Verified Contacts for ₹2,999',
+        price: 2999,
+        credits: 20,
         expiresAt,
         isActive: true,
         features: [
-          '3 Contact Unlocks',
+          '20 Contact Unlocks',
           'Verified Profiles',
           'Direct Meeting Allowed',
           'Video Call Allowed',

@@ -131,7 +131,7 @@ export const SpecialOfferBanner: React.FC = () => {
     return () => clearInterval(interval);
   }, [offer?.expiresAt]);
 
-  // 3. Handle ₹999 CTA click
+  // 3. Handle ₹2,999 CTA click
   const handleUnlockOfferClick = () => {
     // A. Check authentication
     if (!user) {
@@ -142,7 +142,7 @@ export const SpecialOfferBanner: React.FC = () => {
     // B. Check expiry
     if (timeLeft.isExpired) {
       setPaymentState('error');
-      setStatusMessage('This ₹999 limited-time offer has expired.');
+      setStatusMessage('This ₹2,999 limited-time offer has expired.');
       return;
     }
 
@@ -170,10 +170,10 @@ export const SpecialOfferBanner: React.FC = () => {
             {/* Headline */}
             <div>
               <h2 className="text-3xl sm:text-5xl font-extrabold text-white font-heading tracking-tight leading-tight">
-                Unlock 3 Verified Contacts for <span className="text-gradient">₹999</span>
+                Unlock 20 Verified Contacts for <span className="text-gradient">₹2,999</span>
               </h2>
               <p className="text-xs sm:text-sm text-zinc-300 mt-2 leading-relaxed">
-                Connect directly with 3 genuine verified profiles. Enjoy direct meeting & video call without any hidden fees.
+                Connect directly with 20 genuine verified profiles. Enjoy direct meeting & video call without any hidden fees.
               </p>
             </div>
 
@@ -181,7 +181,7 @@ export const SpecialOfferBanner: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
               <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/10 text-xs">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span className="text-zinc-200 font-medium">3 Contact Unlocks</span>
+                <span className="text-zinc-200 font-medium">20 Contact Unlocks</span>
               </div>
               <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/10 text-xs">
                 <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
@@ -209,7 +209,7 @@ export const SpecialOfferBanner: React.FC = () => {
 
             {/* Anti-Scam Notice */}
             <div className="p-3.5 rounded-2xl bg-rose-950/20 border border-rose-500/25 flex items-start gap-2.5 text-[11px] text-zinc-300">
-              <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+              <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0" />
               <div>
                 <strong className="text-rose-300 font-semibold">⚠️ Safety Notice: </strong>
                 Frndma does not ask users to make additional payments for direct meetings or video calls. If anyone asks you for extra money claiming it is required to unlock a meeting, video call, or contact, please report them.
@@ -262,11 +262,11 @@ export const SpecialOfferBanner: React.FC = () => {
               <div className="py-3 px-4 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between">
                 <div className="text-left">
                   <span className="text-[11px] text-zinc-400 block">Offer Bundle</span>
-                  <span className="text-xs font-semibold text-white">3 Verified Unlocks</span>
+                  <span className="text-xs font-semibold text-white">20 Verified Unlocks</span>
                 </div>
                 <div className="text-right">
-                  <span className="text-3xl font-extrabold text-white font-heading">₹999</span>
-                  <span className="text-[10px] text-zinc-400 block line-through">Regular ₹1,197</span>
+                  <span className="text-3xl font-extrabold text-white font-heading">₹2,999</span>
+                  <span className="text-[10px] text-zinc-400 block line-through">Regular ₹9,980</span>
                 </div>
               </div>
 
@@ -308,7 +308,7 @@ export const SpecialOfferBanner: React.FC = () => {
                     ) : (
                       <>
                         <Lock className="w-4 h-4 group-hover:rotate-12 transition-transform" />
-                        <span>Unlock 3 Contacts — ₹999</span>
+                        <span>Unlock 20 Contacts — ₹2,999</span>
                       </>
                     )}
                   </button>
@@ -374,12 +374,12 @@ export const SpecialOfferBanner: React.FC = () => {
         </div>
       </div>
 
-      {/* Razorpay Verified Link Payment Modal for ₹999 Offer */}
+      {/* Razorpay Verified Link Payment Modal for ₹2,999 Offer */}
       <PaymentModal
         isOpen={isPaymentModalOpen}
         onClose={() => setIsPaymentModalOpen(false)}
-        type="offer_999"
-        amount={999}
+        type="offer_2999"
+        amount={2999}
         onSuccess={(details) => {
           setIsPaymentModalOpen(false);
           if (details?.credits) {
@@ -387,7 +387,7 @@ export const SpecialOfferBanner: React.FC = () => {
           }
           loadOfferAndUserData();
           setPaymentState('success');
-          setStatusMessage('₹999 payment verified! 3 contact unlocks have been added to your account.');
+          setStatusMessage('₹2,999 payment verified! 20 contact unlocks have been added to your account.');
           try {
             confetti({
               particleCount: 100,
@@ -402,3 +402,4 @@ export const SpecialOfferBanner: React.FC = () => {
     </section>
   );
 };
+
