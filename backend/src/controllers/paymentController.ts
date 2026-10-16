@@ -721,65 +721,58 @@ export const verifyRazorpayLinkPayment = async (req: AuthRequest, res: Response,
 
     // 2. Query Razorpay API for live captured payments of required amount
     let matchedPayment: any = null;
-    const twentyMinsAgo = Math.floor(Date.now() / 1000) - 20 * 60;
 
     try {
-      const payments = await razorpayInstance.payments.all({ count: 50 });
-      // Captured payments with amount matching required fee (in paise)
-      const capturedMatching = payments.items.filter(
-        (p: any) => p.status === 'captured' && (Number(p.amount) === requiredPaise || Number(p.amount) >= requiredPaise)
-      );
-
-      // Match by Payment ID if provided
-      if (cleanPid) {
-        matchedPayment = capturedMatching.find((p: any) => p.id.toLowerCase() === cleanPid);
-      }
-
-      // Match by phone number if provided
-      if (!matchedPayment && cleanPhone && cleanPhone.length === 10) {
-        matchedPayment = capturedMatching.find(
-          (p: any) => p.contact && p.contact.replace(/\D/g, '').includes(cleanPhone)
-        );
-      }
-
-      // Automatic matching: find any fresh unclaimed payment matching required fee
-      if (!matchedPayment) {
-        const oneDayAgo = Math.floor(Date.now() / 1000) - 24 * 60 * 60;
-        const eligiblePayments = capturedMatching.filter((p: any) => p.created_at >= oneDayAgo);
-        for (const cand of eligiblePayments) {
-          const alreadyClaimed = isOffer2999
-            ? await Payment.findOne({ razorpayPaymentId: cand.id, status: 'captured' })
-            : await ContactUnlock.findOne({ paymentId: cand.id, profileOwnerId });
-          if (!alreadyClaimed) {
-            matchedPayment = cand;
-            break;
+      // 2a. If clean Payment ID provided (e.g. pay_...), fetch directly from Razorpay
+      if (cleanPid && cleanPid.startsWith('pay_')) {
+        try {
+          const directFetch = await razorpayInstance.payments.fetch(cleanPid);
+          if (
+            directFetch &&
+            directFetch.status === 'captured' &&
+            Number(directFetch.amount) >= requiredPaise
+          ) {
+            matchedPayment = directFetch;
           }
+        } catch (fErr) {
+          console.warn('[Razorpay Live Fetch Error]:', (fErr as Error).message);
+        }
+      }
+
+      // 2b. If not matched yet, search recent captured payments on Razorpay
+      if (!matchedPayment) {
+        const payments = await razorpayInstance.payments.all({ count: 50 });
+        const thirtyMinsAgo = Math.floor(Date.now() / 1000) - 30 * 60;
+        const capturedMatching = (payments.items || []).filter(
+          (p: any) =>
+            p.status === 'captured' &&
+            (Number(p.amount) === requiredPaise || Number(p.amount) >= requiredPaise) &&
+            p.created_at >= thirtyMinsAgo
+        );
+
+        // Match by Payment ID
+        if (cleanPid) {
+          matchedPayment = capturedMatching.find((p: any) => p.id.toLowerCase() === cleanPid);
+        }
+
+        // Match by phone number if provided (user's phone used during checkout)
+        if (!matchedPayment && cleanPhone && cleanPhone.length === 10) {
+          matchedPayment = capturedMatching.find(
+            (p: any) => p.contact && p.contact.replace(/\D/g, '').endsWith(cleanPhone)
+          );
         }
       }
     } catch (rzpErr) {
       console.error('[Razorpay Link Check Error]', rzpErr);
     }
 
-    // Development/Test mock payments support
-    if (!matchedPayment && cleanPid && (cleanPid.startsWith('pay_demo_') || cleanPid.startsWith('pay_test_'))) {
-      matchedPayment = {
-        id: cleanPid,
-        amount: requiredPaise,
-        status: 'captured',
-        contact: cleanPhone || '9876543210',
-        created_at: Math.floor(Date.now() / 1000),
-      };
-    }
-
-    // Seamless settlement for razorpay.me/@ravirahul601 payments
+    // STRICT CHECK: If payment is not verified on Razorpay, REJECT and DO NOT UNLOCK!
     if (!matchedPayment) {
-      matchedPayment = {
-        id: `pay_me_${Date.now()}_${Math.floor(Math.random() * 10000)}`,
-        amount: requiredPaise,
-        status: 'captured',
-        contact: cleanPhone || req.user?.mobileNumber || '9876543210',
-        created_at: Math.floor(Date.now() / 1000),
-      };
+      res.status(400).json({
+        success: false,
+        message: `No verified payment of ₹${requiredRupees} detected on Razorpay. Please complete your payment first.`,
+      });
+      return;
     }
 
     // Check if this payment was already used
