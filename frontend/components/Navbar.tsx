@@ -9,6 +9,7 @@ import {
   Unlock,
   LogOut,
   Menu,
+  X,
   User,
   Sparkles,
 } from 'lucide-react';
